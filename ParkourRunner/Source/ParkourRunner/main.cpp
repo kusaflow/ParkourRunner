@@ -16,9 +16,10 @@ Amain::Amain()
 	cameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	cameraBoom->SetupAttachment(GetRootComponent());
 	cameraBoom->bDoCollisionTest = false;
-	cameraBoom->TargetArmLength = 700.f;
-	cameraBoom->SocketOffset = FVector(0.f, 0.f, 75.f);
-	cameraBoom->RelativeRotation = FRotator(0.f, 180.f, 0.f);
+	cameraBoom->TargetArmLength = 450.f;
+	cameraBoom->SocketOffset = FVector(0.f, 0.f, 0.f);
+	cameraBoom->RelativeRotation = (FRotator(-15.f, 300.f, 0.f));
+	//cameraBoom->RelativeRotation = FRotator(0.f, 0.f, 0.f);
 	cameraBoom->bUsePawnControlRotation = false;
 
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
