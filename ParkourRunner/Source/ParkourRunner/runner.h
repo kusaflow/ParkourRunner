@@ -4,25 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "main.generated.h"
+#include "runner.generated.h"
 
 UCLASS()
-class PARKOURRUNNER_API Amain : public ACharacter
+class PARKOURRUNNER_API Arunner : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	Amain();
-	
-	/*camera behind the player*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* cameraBoom;
-
-	/* main camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
-
+	Arunner();
 
 protected:
 	// Called when the game starts or when spawned
