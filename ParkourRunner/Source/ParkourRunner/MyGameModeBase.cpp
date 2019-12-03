@@ -2,4 +2,9 @@
 
 
 #include "MyGameModeBase.h"
+#include "UObject/ConstructorHelpers.h"
 
+AMyGameModeBase::AMyGameModeBase()
+{
+	
+}
