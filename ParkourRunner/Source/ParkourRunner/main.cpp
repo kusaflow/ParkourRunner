@@ -4,6 +4,7 @@
 #include "main.h"	
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
 
 // Sets default values
 Amain::Amain()
@@ -26,14 +27,13 @@ Amain::Amain()
 	FollowCamera->SetupAttachment(cameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
-
-
 }
 
 // Called when the game starts or when spawned
 void Amain::BeginPlay()
 {
 	Super::BeginPlay();
+	//Crouch();
 	
 }
 
