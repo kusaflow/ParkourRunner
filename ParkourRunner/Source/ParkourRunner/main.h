@@ -26,6 +26,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCapsuleComponent* CollisionCapsule;
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "movement")
+	float speed;
 
 
 
@@ -40,5 +42,8 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	/**moving forwars and backword*/
+	void moveForward(float value);
 
 };

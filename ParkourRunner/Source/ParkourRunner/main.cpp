@@ -5,6 +5,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/InputComponent.h"
 
 // Sets default values
 Amain::Amain()
@@ -27,6 +28,10 @@ Amain::Amain()
 	FollowCamera->SetupAttachment(cameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
+
+	//init values
+	speed = 20.f;
+
 }
 
 // Called when the game starts or when spawned
@@ -47,7 +52,16 @@ void Amain::Tick(float DeltaTime)
 // Called to bind functionality to input
 void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	Super::SetupPlayerInputComponent(PlayerInputComponent); 
+	check(PlayerInputComponent);
 
+	PlayerInputComponent->BindAxis("MoveForward", this, &Amain::moveForward)	;
+
+}
+
+void Amain :: moveForward(float value) {
+	if ((Controller != nullptr) && (value != 0.0f)) {
+		GetRootComponent()->AddLocalOffset(FVector(value*speed, 0 ,0));
+	}
 }
 
