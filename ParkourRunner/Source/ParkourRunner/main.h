@@ -26,7 +26,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCapsuleComponent* CollisionCapsule;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "movement")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "movement")
 	float speed;
 
 	float delta;

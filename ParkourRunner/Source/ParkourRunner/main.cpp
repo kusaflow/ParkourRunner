@@ -30,7 +30,7 @@ Amain::Amain()
 
 
 	//init values
-	speed = 20.f;
+	speed = 200.f;
 
 }
 
