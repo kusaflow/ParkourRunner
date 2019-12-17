@@ -29,6 +29,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "movement")
 	float speed;
 
+	float delta;
 
 
 

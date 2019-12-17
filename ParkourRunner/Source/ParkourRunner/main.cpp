@@ -46,6 +46,7 @@ void Amain::BeginPlay()
 void Amain::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	delta = DeltaTime;
 
 }
 
@@ -61,7 +62,7 @@ void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void Amain :: moveForward(float value) {
 	if ((Controller != nullptr) && (value != 0.0f)) {
-		GetRootComponent()->AddLocalOffset(FVector(value*speed, 0 ,0));
+		GetRootComponent()->AddLocalOffset(FVector(value*speed*delta, 0 ,0));
 	}
 }
 
