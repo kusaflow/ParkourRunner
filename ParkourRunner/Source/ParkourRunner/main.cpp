@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 Amain::Amain()
@@ -30,8 +31,10 @@ Amain::Amain()
 
 
 	//init values
-	speed = 70.0f;
+	speed = 1300.0f;
 
+	GetCharacterMovement()->MaxWalkSpeed = speed;
+	GetCharacterMovement()->GroundFriction = 2.0f;
 }
 
 // Called when the game starts or when spawned
@@ -56,7 +59,7 @@ void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent); 
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &Amain::moveForward)	;
+	PlayerInputComponent->BindAxis("MoveForward", this, &Amain::moveForward);
 
 }
 
@@ -68,6 +71,8 @@ void Amain :: moveForward(float value) {
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 
 		AddMovementInput(Direction, value);
+
+		
 	}
 }
 
