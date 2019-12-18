@@ -30,7 +30,7 @@ Amain::Amain()
 
 
 	//init values
-	speed = 200.f;
+	speed = 70.0f;
 
 }
 
@@ -62,7 +62,12 @@ void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void Amain :: moveForward(float value) {
 	if ((Controller != nullptr) && (value != 0.0f)) {
-		GetRootComponent()->AddLocalOffset(FVector(value*speed*delta, 0 ,0));
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0.0f, Rotation.Yaw, 0.0f);
+
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+
+		AddMovementInput(Direction, value);
 	}
 }
 
