@@ -65,14 +65,19 @@ void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void Amain :: moveForward(float value) {
 	if ((Controller != nullptr) && (value != 0.0f)) {
+		if (value < 0) {
+			GetRootComponent()->GetChildComponent(1)->SetWorldRotation(FRotator(0, 90, 0));
+		}
+		else {
+			GetRootComponent()->GetChildComponent(1)->SetWorldRotation(FRotator(0, -90, 0));
+		}
+		
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0.0f, Rotation.Yaw, 0.0f);
 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 
 		AddMovementInput(Direction, value);
-
-		
 	}
 }
 
