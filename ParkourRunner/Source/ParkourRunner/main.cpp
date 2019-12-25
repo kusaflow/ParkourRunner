@@ -30,10 +30,7 @@ Amain::Amain()
 	FollowCamera->bUsePawnControlRotation = false;
 
 
-	//init values
-	speed = 1300.0f;
-
-	GetCharacterMovement()->MaxWalkSpeed = speed;
+	GetCharacterMovement()->MaxWalkSpeed = 900.0f;
 	GetCharacterMovement()->GroundFriction = 2.0f;
 }
 
