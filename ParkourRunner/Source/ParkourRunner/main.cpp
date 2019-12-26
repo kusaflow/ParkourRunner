@@ -38,6 +38,7 @@ Amain::Amain()
 void Amain::BeginPlay()
 {
 	Super::BeginPlay();
+	speed = 900.f;
 	//Crouch();
 	
 }
@@ -46,7 +47,8 @@ void Amain::BeginPlay()
 void Amain::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	delta = DeltaTime;
+	GetCharacterMovement()->MaxWalkSpeed = speed;
+
 
 }
 
@@ -81,6 +83,22 @@ void Amain :: moveForward(float value) {
 }
 
 void Amain::Walk(float value) {
-	UE_LOG(LogTemp, Warning, TEXT("%f"),value);
+	if (value == 1) {
+		//setting val to 150
+		if (speed > 150.f) {
+			speed -= 5.f;
+		}
+		else {
+			speed = 150.f;
+		}
+	} else {
+		// setting val to 900
+		if (speed < 900.f) {
+			speed += 5.f;
+		}
+		else {
+			speed = 900.f;
+		}
+	}
 }
 
