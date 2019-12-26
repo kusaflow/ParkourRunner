@@ -43,5 +43,5 @@ public:
 
 	/**moving forwars and backword*/
 	void moveForward(float value);
-
+	void Walk(float value);
 };

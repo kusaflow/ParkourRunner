@@ -57,6 +57,8 @@ void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	check(PlayerInputComponent);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &Amain::moveForward);
+	PlayerInputComponent->BindAxis("Walk", this, &Amain::Walk);
+	
 
 }
 
@@ -76,5 +78,9 @@ void Amain :: moveForward(float value) {
 
 		AddMovementInput(Direction, value);
 	}
+}
+
+void Amain::Walk(float value) {
+	UE_LOG(LogTemp, Warning, TEXT("%f"),value);
 }
 
