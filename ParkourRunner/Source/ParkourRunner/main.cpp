@@ -58,6 +58,9 @@ void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent); 
 	check(PlayerInputComponent);
 
+	PlayerInputComponent->BindAction("jumping", IE_Pressed, this, &Amain::StartJump);
+	PlayerInputComponent->BindAction("jumping", IE_Released, this, &Amain::StopJump);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &Amain::moveForward);
 	PlayerInputComponent->BindAxis("Walk", this, &Amain::Walk);
 	
@@ -101,4 +104,14 @@ void Amain::Walk(float value) {
 		}
 	}
 }
+
+void Amain::StartJump() {
+	Jump();
+}
+
+void Amain::StopJump() {
+	
+}
+
+
 
