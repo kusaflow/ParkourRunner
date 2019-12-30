@@ -25,6 +25,9 @@ public:
 	float movementSpeed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
+	float VerticleVelocity;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
 	class APawn* Pawn;
 
 

@@ -21,6 +21,10 @@ void UAnimInstance_MainChar :: update () {
 		Speed.Z = 0;
 		movementSpeed = Speed.Size();
 
+		Speed = Pawn->GetVelocity();
+
+		VerticleVelocity = Speed.Z;
+
 
 	}
 }
