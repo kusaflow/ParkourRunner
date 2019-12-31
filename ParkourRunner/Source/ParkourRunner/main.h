@@ -27,7 +27,10 @@ public:
 	class UCapsuleComponent* CollisionCapsule;
 
 	float speed;
-
+	bool bJumpAnticipate = false;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Anim, meta = (AllowPrivateAccess = "true"))
+	class UAnimInstance_MainChar* anim;
 
 
 protected:
@@ -44,6 +47,6 @@ public:
 	/**moving forwars and backword*/
 	void moveForward(float value);
 	void Walk(float value);
+	void anticipateForJump();
 	void StartJump();
-	void StopJump();
 };

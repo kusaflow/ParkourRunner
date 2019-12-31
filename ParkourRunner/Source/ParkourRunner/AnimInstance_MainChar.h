@@ -28,7 +28,15 @@ public:
 	float VerticleVelocity;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
+	bool bjumpAnticipation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
 	class APawn* Pawn;
+
+	void setbJumpAnticipation(bool b);
+
+private:
+
 
 
 	

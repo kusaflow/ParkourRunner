@@ -3,6 +3,7 @@
 
 #include "AnimInstance_MainChar.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "main.h"
 
 
 void UAnimInstance_MainChar :: NativeInitializeAnimation() {
@@ -24,7 +25,9 @@ void UAnimInstance_MainChar :: update () {
 		Speed = Pawn->GetVelocity();
 
 		VerticleVelocity = Speed.Z;
-
-
 	}
+}
+
+void UAnimInstance_MainChar::setbJumpAnticipation(bool b) {
+	bjumpAnticipation = b;
 }

@@ -7,6 +7,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "AnimInstance_MainChar.h"
 
 // Sets default values
 Amain::Amain()
@@ -58,8 +59,8 @@ void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent); 
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction("jumping", IE_Pressed, this, &Amain::StartJump);
-	PlayerInputComponent->BindAction("jumping", IE_Released, this, &Amain::StopJump);
+	PlayerInputComponent->BindAction("jumping", IE_Pressed, this, &Amain::anticipateForJump);
+	PlayerInputComponent->BindAction("jumping", IE_Released, this, &Amain::StartJump);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &Amain::moveForward);
 	PlayerInputComponent->BindAxis("Walk", this, &Amain::Walk);
@@ -106,11 +107,15 @@ void Amain::Walk(float value) {
 }
 
 void Amain::StartJump() {
+	bJumpAnticipate = false;
+	//anim->setbJumpAnticipation(false);
+	anim->setbJumpAnticipation(false);
 	Jump();
 }
 
-void Amain::StopJump() {
-	
+void Amain::anticipateForJump() {
+	bJumpAnticipate = true;
+	anim->setbJumpAnticipation(true);
 }
 
 
