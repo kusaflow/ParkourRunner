@@ -27,9 +27,11 @@ public:
 	class UCapsuleComponent* CollisionCapsule;
 
 	float speed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Anim")
 	bool bJumpAnticipate = false;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Anim, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Anim")
 	class UAnimInstance_MainChar* anim;
 
 

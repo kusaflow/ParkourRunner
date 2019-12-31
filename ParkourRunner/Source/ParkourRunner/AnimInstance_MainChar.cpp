@@ -10,6 +10,7 @@ void UAnimInstance_MainChar :: NativeInitializeAnimation() {
 	if (Pawn == nullptr) {
 		Pawn = TryGetPawnOwner();
 	}
+
 }
 
 
@@ -25,6 +26,8 @@ void UAnimInstance_MainChar :: update () {
 		Speed = Pawn->GetVelocity();
 
 		VerticleVelocity = Speed.Z;
+		if(m)
+			bjumpAnticipation = m->bJumpAnticipate;
 	}
 }
 

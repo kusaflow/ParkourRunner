@@ -33,6 +33,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
 	class APawn* Pawn;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
+	class Amain* m;
+
 	void setbJumpAnticipation(bool b);
 
 private:

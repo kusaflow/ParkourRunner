@@ -8,6 +8,7 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "AnimInstance_MainChar.h"
+#include "Animation/AnimInstance.h"
 
 // Sets default values
 Amain::Amain()
@@ -33,6 +34,10 @@ Amain::Amain()
 
 	GetCharacterMovement()->MaxWalkSpeed = 900.0f;
 	GetCharacterMovement()->GroundFriction = 2.0f;
+
+	anim = Cast<UAnimInstance_MainChar>(GetMesh()->GetAnimInstance()); //(GetMesh()->GetAnimInstance());
+	if (!anim) return;
+
 }
 
 // Called when the game starts or when spawned
@@ -109,13 +114,15 @@ void Amain::Walk(float value) {
 void Amain::StartJump() {
 	bJumpAnticipate = false;
 	//anim->setbJumpAnticipation(false);
-	anim->setbJumpAnticipation(false);
+	if(anim)
+		anim->setbJumpAnticipation(false);
 	Jump();
 }
 
 void Amain::anticipateForJump() {
 	bJumpAnticipate = true;
-	anim->setbJumpAnticipation(true);
+	if(anim)
+		anim->setbJumpAnticipation(true);
 }
 
 
