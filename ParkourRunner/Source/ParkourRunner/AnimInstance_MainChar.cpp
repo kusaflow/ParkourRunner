@@ -4,12 +4,14 @@
 #include "AnimInstance_MainChar.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "main.h"
+#include "myGameInstance.h"
 
 
 void UAnimInstance_MainChar :: NativeInitializeAnimation() {
 	if (Pawn == nullptr) {
 		Pawn = TryGetPawnOwner();
 	}
+
 
 }
 
@@ -26,11 +28,13 @@ void UAnimInstance_MainChar :: update () {
 		Speed = Pawn->GetVelocity();
 
 		VerticleVelocity = Speed.Z;
-		if(m)
-			bjumpAnticipation = m->bJumpAnticipate;
-	}
-}
+		
+		gameInstance = Cast<UmyGameInstance>(Pawn->GetGameInstance());
 
-void UAnimInstance_MainChar::setbJumpAnticipation(bool b) {
-	bjumpAnticipation = b;
+		if (gameInstance) {
+			bjumpAnticipation = gameInstance->anticipateForJump;
+		}
+
+		
+	}
 }
