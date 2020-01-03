@@ -36,6 +36,8 @@ Amain::Amain()
 	GetCharacterMovement()->GroundFriction = 2.0f;
 	GetCharacterMovement()->JumpZVelocity = 820.0f;
 
+	timmerForjump = 0.0f;
+
 }
 
 // Called when the game starts or when spawned
@@ -56,6 +58,19 @@ void Amain::Tick(float DeltaTime)
 
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
 
+	if (Initiatejump) {
+		timmerForjump += 50 * DeltaTime;
+
+		if (timmerForjump>=5) {
+			if (gameInstance) {
+				gameInstance->anticipateForJump = false;
+			}
+			Jump();
+			Initiatejump = false;
+			timmerForjump = 0.0f;
+		}
+	}
+
 
 }
 
@@ -66,7 +81,7 @@ void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	check(PlayerInputComponent);
 
 	PlayerInputComponent->BindAction("jumping", IE_Pressed, this, &Amain::JumpStart);
-	PlayerInputComponent->BindAction("jumping", IE_Released, this, &Amain::StartJump);
+	//PlayerInputComponent->BindAction("jumping", IE_Released, this, &Amain::StartJump);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &Amain::moveForward);
 	PlayerInputComponent->BindAxis("Walk", this, &Amain::Walk);
@@ -112,19 +127,16 @@ void Amain::Walk(float value) {
 	}
 }
 
-void Amain::StartJump() {
-	Jump();
-	if (gameInstance) {
-		gameInstance->anticipateForJump = false;
-	}
-	speed = 900.0f;
-}
-
 void Amain::JumpStart() {
-	if (gameInstance) {
-		gameInstance->anticipateForJump = true;
+	if (!Initiatejump) {
+		if (gameInstance) {
+			gameInstance->anticipateForJump = true;
+		}
+		Initiatejump = true;
+		//speed = 0.0f;
+		//Jump();
 	}
-	speed = 0.0f;
+
 }
 
 

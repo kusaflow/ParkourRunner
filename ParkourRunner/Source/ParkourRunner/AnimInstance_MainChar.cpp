@@ -27,7 +27,7 @@ void UAnimInstance_MainChar :: update () {
 
 		Speed = Pawn->GetVelocity();
 
-		VerticleVelocity = Speed.Z;
+		Velocity = Speed;
 		
 		gameInstance = Cast<UmyGameInstance>(Pawn->GetGameInstance());
 

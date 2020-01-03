@@ -25,7 +25,7 @@ public:
 	float movementSpeed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
-	float VerticleVelocity;
+	FVector Velocity;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
 	bool bjumpAnticipation;

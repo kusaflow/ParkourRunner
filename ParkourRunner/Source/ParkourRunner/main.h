@@ -27,6 +27,8 @@ public:
 
 	bool Initiatejump = false;
 
+	float timmerForjump = 0.0f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameInstance")
 	class UmyGameInstance* gameInstance;
 
