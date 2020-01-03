@@ -23,10 +23,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCapsuleComponent* CollisionCapsule;
-
 	float speed;
+
+	bool Initiatejump = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameInstance")
 	class UmyGameInstance* gameInstance;
@@ -46,6 +45,6 @@ public:
 	/**moving forwars and backword*/
 	void moveForward(float value);
 	void Walk(float value);
-	void anticipateForJump();
+	void JumpStart();
 	void StartJump();
 };

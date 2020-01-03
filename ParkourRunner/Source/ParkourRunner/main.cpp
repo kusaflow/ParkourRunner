@@ -33,8 +33,8 @@ Amain::Amain()
 	FollowCamera->bUsePawnControlRotation = false;
 
 
-	GetCharacterMovement()->MaxWalkSpeed = 900.0f;
 	GetCharacterMovement()->GroundFriction = 2.0f;
+	GetCharacterMovement()->JumpZVelocity = 820.0f;
 
 }
 
@@ -43,6 +43,7 @@ void Amain::BeginPlay()
 {
 	Super::BeginPlay();
 	speed = 900.f;
+	
 	//Crouch();
 	
 }
@@ -64,7 +65,7 @@ void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent); 
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction("jumping", IE_Pressed, this, &Amain::anticipateForJump);
+	PlayerInputComponent->BindAction("jumping", IE_Pressed, this, &Amain::JumpStart);
 	PlayerInputComponent->BindAction("jumping", IE_Released, this, &Amain::StartJump);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &Amain::moveForward);
@@ -119,7 +120,7 @@ void Amain::StartJump() {
 	speed = 900.0f;
 }
 
-void Amain::anticipateForJump() {
+void Amain::JumpStart() {
 	if (gameInstance) {
 		gameInstance->anticipateForJump = true;
 	}
