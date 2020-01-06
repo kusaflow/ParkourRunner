@@ -34,9 +34,7 @@ void ALevelManager_01::BeginPlay()
 {
 	Super::BeginPlay();
 
-	ALevelCreationBase e(1);
-
-	if (mainLandObstacles) {
+	if (VUP_001) {
 		UWorld* world = GetWorld();
 
 		if (world) {
@@ -44,7 +42,7 @@ void ALevelManager_01::BeginPlay()
 			FActorSpawnParameters spawnPara;
 			spawnPara.Owner = this;
 
-			world->SpawnActor<ALevelCreationBase>(e.GetClass(),FVector(5000,0,0),FRotator(0),spawnPara);
+			ALevelCreationBase* s = world->SpawnActor<ALevelCreationBase>(VUP_001,FVector(5000,0,0),FRotator(0),spawnPara);
 		}
 	}
 	
@@ -54,7 +52,6 @@ void ALevelManager_01::BeginPlay()
 // Called every frame
 void ALevelManager_01::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
 
 }
 

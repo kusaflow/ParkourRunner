@@ -14,13 +14,14 @@ class PARKOURRUNNER_API ALevelCreationBase : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ALevelCreationBase();
-	ALevelCreationBase(const int t);
 
 	UPROPERTY(BlueprintReadOnly, category = "mesh")
 	int type = 1;
-
-	UPROPERTY(BlueprintReadWrite, category = "mesh")
-	class UStaticMeshComponent* block;
+	
+	enum TypeOfObstacle 
+	{
+		GroundMoveVertically = 1
+	};
 
 protected:
 	// Called when the game starts or when spawned
@@ -29,6 +30,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void setType(int type);
+
+	UFUNCTION()
+	void setType(const int t);
 
 };

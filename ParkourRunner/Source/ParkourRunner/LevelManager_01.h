@@ -15,8 +15,10 @@ public:
 	// Sets default values for this actor's properties
 	ALevelManager_01();
 
-	UPROPERTY(BlueprintReadOnly)
-	TSubclassOf<class ALevelCreationBase> mainLandObstacles;
+	//VUD = Verticle Up Down
+
+	UPROPERTY(EditDefaultsOnly, category = "meshes")
+	TSubclassOf<class ALevelCreationBase> VUP_001;
 
 	UPROPERTY(BlueprintReadOnly)
 	class UStaticMeshComponent* viewer;
