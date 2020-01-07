@@ -23,6 +23,12 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	class UStaticMeshComponent* viewer;
 
+	UPROPERTY()
+	class ALevelCreationBase* actor_01[100];
+	class ALevelCreationBase* tmp;
+
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -42,7 +42,7 @@ void ALevelManager_01::BeginPlay()
 			FActorSpawnParameters spawnPara;
 			spawnPara.Owner = this;
 
-			ALevelCreationBase* s = world->SpawnActor<ALevelCreationBase>(VUP_001,FVector(5000,0,0),FRotator(0),spawnPara);
+			tmp = world->SpawnActor<ALevelCreationBase>(VUP_001,FVector(5000,0,0),FRotator(0),spawnPara);
 		}
 	}
 	
