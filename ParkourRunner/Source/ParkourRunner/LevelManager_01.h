@@ -23,9 +23,14 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	class UStaticMeshComponent* viewer;
 
+
+	//default size of the 001 block is 200 units
+
 	UPROPERTY()
 	class ALevelCreationBase* actor_01[100];
-	class ALevelCreationBase* tmp;
+
+	UPROPERTY()
+	float locationToDrawblock;
 
 
 

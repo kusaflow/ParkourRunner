@@ -25,7 +25,7 @@ ALevelManager_01::ALevelManager_01()
 		viewer->SetWorldScale3D(FVector(1.0f));
 	}
 
-
+	locationToDrawblock = 600.0f;
 
 }
 
@@ -41,8 +41,10 @@ void ALevelManager_01::BeginPlay()
 
 			FActorSpawnParameters spawnPara;
 			spawnPara.Owner = this;
-
-			tmp = world->SpawnActor<ALevelCreationBase>(VUP_001,FVector(5000,0,0),FRotator(0),spawnPara);
+			for (int i = 0; i < 100; i++) {
+				actor_01[i] =  world->SpawnActor<ALevelCreationBase>(VUP_001, FVector(locationToDrawblock, 0, -580.0f), FRotator(0), spawnPara);
+				locationToDrawblock += 200;
+			}
 		}
 	}
 	
