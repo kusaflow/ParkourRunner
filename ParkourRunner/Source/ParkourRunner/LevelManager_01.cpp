@@ -6,6 +6,7 @@
 #include "Engine/World.h"
 #include "Components/StaticMeshComponent.h"
 #include "ConstructorHelpers.h"
+#include "myGameInstance.h"
 
 
 // Sets default values
@@ -54,6 +55,7 @@ void ALevelManager_01::BeginPlay()
 // Called every frame
 void ALevelManager_01::Tick(float DeltaTime)
 {
+	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
 
 }
 

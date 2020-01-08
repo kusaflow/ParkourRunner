@@ -23,6 +23,9 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	class UStaticMeshComponent* viewer;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameInstance")
+	class UmyGameInstance* gameInstance;
+
 
 	//default size of the 001 block is 200 units
 
