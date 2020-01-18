@@ -34,6 +34,9 @@ public:
 	UPROPERTY()
 	float locationToDrawblock_X;
 
+	UPROPERTY()
+	int initVal=0, finalVal=0, midVal=0;
+
 
 
 
@@ -44,6 +47,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	//void CreateLevel()
-
+	bool DoDrawBlocks();
+	void clearPrevBlocks();
+	void clearNewBlocks();
+	void clearCheckBlocks();
 };

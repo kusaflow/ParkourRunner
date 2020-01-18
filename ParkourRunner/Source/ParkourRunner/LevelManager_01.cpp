@@ -14,7 +14,7 @@ template<typename T>
 class LLNode {
 public:
 	T* actor;
-	LLNode* next;
+	LLNode<T>* next;
 
 	LLNode(T* node_data) {
 		this->actor = node_data;
@@ -25,7 +25,7 @@ public:
 template<typename T>
 class LinkedList {
 public:
-	LLNode* head;
+	LLNode<T>* head;
 
 	LinkedList() {
 		this->head = nullptr;
@@ -48,6 +48,13 @@ void DeleteAll(LLNode<T>* head, int &counter);
 UPROPERTY()
 int ListCount_LevelDecider = 0;
 //Linked List end
+
+//-------------------------------------------------
+//important Linked list for the level
+LinkedList<int> head_LevelDesigner;
+LinkedList<ALevelCreationBase> head_1stBlocksType;
+LinkedList<ALevelCreationBase> head_2ndBlocksType;
+//------------------------------------------------
 
 
 // Sets default values
@@ -98,10 +105,17 @@ void ALevelManager_01::Tick(float DeltaTime)
 {
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
 
+
+
+}
+
+// runs on every tick to check do we have to create new files or not
+bool ALevelManager_01 :: DoDrawBlocks() {
+	return false;
 }
 
 
-//LinkedListOperations
+//LinkedListOperations-----------------------------------------------------------
 
 template<typename T>
 LLNode<T>* insert(LLNode<T>* head, T* data, int &counter) {
@@ -145,7 +159,7 @@ LLNode<T>* deleteFromLast(LLNode<T>* head, int &counter) {
 	h2->next = nullptr;
 	delete toBeDeleted;
 
-	*counter--;
+	*counter--;   
 	return head;
 }
 

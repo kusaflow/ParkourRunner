@@ -57,6 +57,8 @@ void Amain::Tick(float DeltaTime)
 	GetCharacterMovement()->MaxWalkSpeed = speed;
 
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
+	
+	gameInstance->MainActorLocation = GetRootComponent()->GetRelativeLocation();
 
 	if (Initiatejump) {
 		timmerForjump += 50 * DeltaTime;
