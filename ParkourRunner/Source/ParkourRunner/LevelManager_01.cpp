@@ -10,17 +10,19 @@
 
 
 //Linlked list 
+template<typename T>
 class LLNode {
 public:
-	ALevelCreationBase* actor;
+	T* actor;
 	LLNode* next;
 
-	LLNode(ALevelCreationBase* node_data) {
+	LLNode(T* node_data) {
 		this->actor = node_data;
 		this->next = nullptr;
 	}
 };
 
+template<typename T>
 class LinkedList {
 public:
 	LLNode* head;
@@ -30,15 +32,21 @@ public:
 	}
 };
 
+
 UFUNCTION()
-LLNode* insert(LLNode* head, ALevelCreationBase* data);
+template<typename T>
+LLNode<T>* insert(LLNode<T>* head, ALevelCreationBase* data,int &counter);
+
 UFUNCTION()
-LLNode* deleteFromLast(LLNode* head);
+template<typename T>
+LLNode<T>* deleteFromLast(LLNode<T>* head, int &counter);
+
 UFUNCTION()
-void DeleteAll(LLNode* head);
+template<typename T>
+void DeleteAll(LLNode<T>* head, int &counter);
 
 UPROPERTY()
-int ListCount = 0;
+int ListCount_LevelDecider = 0;
 //Linked List end
 
 
@@ -95,52 +103,55 @@ void ALevelManager_01::Tick(float DeltaTime)
 
 //LinkedListOperations
 
-LLNode* insert(LLNode* head, ALevelCreationBase* data) {
+template<typename T>
+LLNode<T>* insert(LLNode<T>* head, T* data, int &counter) {
 	if (head == nullptr) {
 		//list is empty so add this at head
-		LLNode* newNode = new LLNode(data);
+		LLNode<T>* newNode = new LLNode<T>(data);
 		head = newNode;
-		ListCount++;
+		counter++;
 		return head;
 	}
-	LLNode* newNode = new LLNode(data);
-	LLNode* h2 = head;
-	for (int i = 0; i < ListCount - 1; i++) {
+	LLNode<T>* newNode = new LLNode<T>(data);
+	LLNode<T>* h2 = head;
+	for (int i = 0; i < counter - 1; i++) {
 		h2 = h2->next;
 	}
 	h2->next = newNode;
-	ListCount++;
+	counter++;
 
 	return head;
 }
 
-LLNode* deleteFromLast(LLNode* head) {
+template<typename T>
+LLNode<T>* deleteFromLast(LLNode<T>* head, int &counter) {
 	if (head == nullptr) {
 		return head;
 	}
-	if (ListCount == 0) return head;
+	if (counter == 0) return head;
 
-	if (ListCount == 1) {
+	if (counter== 1) {
 		head = nullptr;
-		ListCount--;
+		counter--;
 		return head;
 	}
 
-	LLNode* h2 = head;
+	LLNode<T>* h2 = head;
 
-	for (int i = 0; i < ListCount - 2; i++) {
+	for (int i = 0; i < counter - 2; i++) {
 		h2 = h2->next;
 	}
-	LLNode* toBeDeleted = h2->next;
+	LLNode<T>* toBeDeleted = h2->next;
 	h2->next = nullptr;
 	delete toBeDeleted;
 
-	ListCount--;
+	*counter--;
 	return head;
 }
 
-void DeleteAll(LLNode* head) {
-	LLNode* h2 = head->next;
+template<typename T>
+void DeleteAll(LLNode<T>* head, int &counter) {
+	LLNode<T>* h2 = head->next;
 	while (h2 != nullptr) {
 		delete head;
 		head = h2;
@@ -150,7 +161,7 @@ void DeleteAll(LLNode* head) {
 	delete head;
 
 
-	ListCount = 0;
+	counter=0;
 }
 
 //Linked List operation End
