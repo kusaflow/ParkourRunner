@@ -15,10 +15,9 @@ public:
 	// Sets default values for this actor's properties
 	ALevelManager_01();
 
-	//VUD = Verticle Up Down
 
 	UPROPERTY(EditDefaultsOnly, category = "meshes")
-	TSubclassOf<class ALevelCreationBase> VUP_001;
+	TSubclassOf<class ALevelCreationBase> Block_001;
 
 	UPROPERTY(BlueprintReadOnly)
 	class UStaticMeshComponent* viewer;
@@ -33,7 +32,8 @@ public:
 	class ALevelCreationBase* actor_01[100];
 
 	UPROPERTY()
-	float locationToDrawblock;
+	float locationToDrawblock_X;
+
 
 
 
@@ -44,5 +44,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	//void CreateLevel()
 
 };
