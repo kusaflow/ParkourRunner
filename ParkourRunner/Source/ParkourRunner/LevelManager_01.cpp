@@ -35,7 +35,7 @@ public:
 
 UFUNCTION()
 template<typename T>
-LLNode<T>* insert(LLNode<T>* head, ALevelCreationBase* data,int &counter);
+LLNode<T>* insert(LLNode<T>* head, T* data,int &counter);
 
 UFUNCTION()
 template<typename T>
@@ -45,15 +45,24 @@ UFUNCTION()
 template<typename T>
 void DeleteAll(LLNode<T>* head, int &counter);
 
-UPROPERTY()
-int ListCount_LevelDecider = 0;
 //Linked List end
 
 //-------------------------------------------------
 //important Linked list for the level
-LinkedList<int> head_LevelDesigner;
-LinkedList<ALevelCreationBase> head_1stBlocksType;
-LinkedList<ALevelCreationBase> head_2ndBlocksType;
+UPROPERTY()//list of number that shows the type of blocks to be created
+LinkedList<int> *head_LevelDesigner = new LinkedList<int>();
+
+//UPROPERTY()//
+//LinkedList<ALevelCreationBase> *head_1stBlocksType = new LinkedList<ALevelCreationBase>();
+//
+//UPROPERTY()//
+//LinkedList<ALevelCreationBase> *head_2ndBlocksType = new LinkedList<ALevelCreationBase>();
+
+UPROPERTY()//total individual block to be drawn at a time on screen
+LinkedList<ALevelCreationBase> *head_Total_actor_01 = new LinkedList<ALevelCreationBase>();
+
+UPROPERTY()//total individual block to be drawn at a time on screen
+LinkedList<ALevelCreationBase> *head_Total_actor_02 = new LinkedList<ALevelCreationBase>();
 //------------------------------------------------
 
 
@@ -82,6 +91,12 @@ ALevelManager_01::ALevelManager_01()
 void ALevelManager_01::BeginPlay()
 {
 	Super::BeginPlay();
+	createNewBlocks();
+	ArrayToDrawIs_1 = false;
+	
+	//init level creation of level
+	createNewBlocks();
+	
 
 	/*if (Block_001) {
 		UWorld* world = GetWorld();
@@ -111,8 +126,46 @@ void ALevelManager_01::Tick(float DeltaTime)
 
 // runs on every tick to check do we have to create new files or not
 bool ALevelManager_01 :: DoDrawBlocks() {
+
 	return false;
 }
+
+//create new blocks=======================================================================
+
+void ALevelManager_01 :: createNewBlocks() {
+	int counterOfActorsOnScreen = 0;
+	if (head_LevelDesigner->head != nullptr) {
+		DeleteAll<int>(head_LevelDesigner->head, ListCount_LevelDecider);
+	}
+
+	while (counterOfActorsOnScreen <= gameInstance->ActorsToDrawAtATime) {
+		int val = GenerateRandomLevelCreationTypes();
+		counterOfActorsOnScreen += BlockCount(val);
+		if (counterOfActorsOnScreen >= gameInstance->ActorsToDrawAtATime) {
+			//its a valid number to we can add it to the list
+			insert<int>(head_LevelDesigner->head, &val, ListCount_LevelDecider);
+		}
+		else {
+			continue;
+		}
+
+	}
+}
+
+
+int ALevelManager_01 :: GenerateRandomLevelCreationTypes() {
+	//creating this as seperate for future if i have to create a logic to make complex randomness
+	return 1;
+}
+
+int ALevelManager_01 :: BlockCount(int type) {
+	if (type == 1) {
+		return 2;
+	}
+	return 0;
+}
+//----------------------------------------------------------------------------------------
+
 
 
 //LinkedListOperations-----------------------------------------------------------
@@ -159,7 +212,7 @@ LLNode<T>* deleteFromLast(LLNode<T>* head, int &counter) {
 	h2->next = nullptr;
 	delete toBeDeleted;
 
-	*counter--;   
+	counter--;   
 	return head;
 }
 

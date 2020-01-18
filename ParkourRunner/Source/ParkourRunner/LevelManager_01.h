@@ -29,15 +29,28 @@ public:
 	//default size of the 001 block is 200 units
 
 	UPROPERTY()
-	class ALevelCreationBase* actor_01[100];
-
-	UPROPERTY()
 	float locationToDrawblock_X;
 
 	UPROPERTY()
 	int initVal=0, finalVal=0, midVal=0;
 
+	UPROPERTY()
+	bool ArrayToDrawIs_1 = true;
 
+	UPROPERTY()
+	int ListCount_LevelDecider = 0;
+
+	UPROPERTY()
+	int ListCount_1stBlockType = 0;
+
+	UPROPERTY()
+	int ListCount_2ndBlockType = 0;
+
+	UPROPERTY()
+	int ListCount_Total_actor_01 = 0;
+
+	UPROPERTY()
+	int ListCount_Total_actor_02 = 0;
 
 
 protected:
@@ -49,6 +62,15 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	bool DoDrawBlocks();
 	void clearPrevBlocks();
-	void clearNewBlocks();
-	void clearCheckBlocks();
+	void createNewBlocks();
+	void createCheckBlocks();
+
+	//functions for creation of blocks------------------------------------
+	//creating random function
+	int GenerateRandomLevelCreationTypes();
+	int BlockCount(int type);
+
+
+	
+
 };
