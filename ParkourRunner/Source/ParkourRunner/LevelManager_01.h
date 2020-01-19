@@ -40,17 +40,26 @@ public:
 	UPROPERTY()
 	int ListCount_LevelDecider = 0;
 
-	UPROPERTY()
+	/*UPROPERTY()
 	int ListCount_1stBlockType = 0;
 
 	UPROPERTY()
 	int ListCount_2ndBlockType = 0;
-
+	*/
 	UPROPERTY()
 	int ListCount_Total_actor_01 = 0;
 
 	UPROPERTY()
 	int ListCount_Total_actor_02 = 0;
+
+	/*
+	it stores data from the last block data so that when new block chaun is created
+	we have referance it ot make it seemless
+	*/
+	UPROPERTY()
+	int LastBlockTypeData = 0;
+
+
 
 
 protected:
