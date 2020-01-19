@@ -72,7 +72,7 @@ void DeleteAll(T* head, int &counter);
 //-------------------------------------------------
 //important Linked list for the level
 UPROPERTY()//list of number that shows the type of blocks to be created
-LinkedList_INT *head_LevelDesigner = new LinkedList_INT();
+LinkedList_INT* head_LevelDesigner = new LinkedList_INT();
 
 //UPROPERTY()//
 //LinkedList<ALevelCreationBase> *head_1stBlocksType = new LinkedList<ALevelCreationBase>();
@@ -81,10 +81,10 @@ LinkedList_INT *head_LevelDesigner = new LinkedList_INT();
 //LinkedList<ALevelCreationBase> *head_2ndBlocksType = new LinkedList<ALevelCreationBase>();
 
 UPROPERTY()//total individual block to be drawn at a time on screen
-LinkedList_Actor *head_Total_actor_01 = new LinkedList_Actor();
+LinkedList_Actor* head_Total_actor_01 = new LinkedList_Actor();
 
 UPROPERTY()//total individual block to be drawn at a time on screen
-LinkedList_Actor*head_Total_actor_02 = new LinkedList_Actor();
+LinkedList_Actor* head_Total_actor_02 = new LinkedList_Actor();
 //------------------------------------------------
 
 
@@ -115,7 +115,8 @@ void ALevelManager_01::BeginPlay()
 	Super::BeginPlay();
 	ArrayToDrawIs_1 = false;
 	
-	UE_LOG(LogTemp, Warning, TEXT("==========================================kusaflow=========================================="));
+	//UE_LOG(LogTemp, Warning, TEXT("==========================================kusaflow=========================================="));
+	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
 
 
 	try {
@@ -165,29 +166,36 @@ void ALevelManager_01 :: createNewBlocks() {
 	if (head_LevelDesigner->head != nullptr) {
 		DeleteAll<LL_INT_Node>(head_LevelDesigner->head, ListCount_LevelDecider);
 	}
-
+	//return;
 	while (counterOfActorsOnScreen <= gameInstance->ActorsToDrawAtATime) {
 		int val = GenerateRandomLevelCreationTypes();
 		counterOfActorsOnScreen += BlockCount(val);
 		if (counterOfActorsOnScreen <= gameInstance->ActorsToDrawAtATime) {
 			//its a valid number to we can add it to the list
-			insertInt(head_LevelDesigner->head, val, ListCount_LevelDecider);
+			LL_INT_Node* head = insertInt(head_LevelDesigner->head, val, ListCount_LevelDecider);
+			head_LevelDesigner->head = head;
 		}
 		else {
 			continue;
 		}
 	}
 
-	return;
+	UE_LOG(LogTemp, Warning, TEXT("==========================================kusaflow=========================================="));
+
+	//return;
 
 	//now generating the levels
 	LL_INT_Node* h2 = head_LevelDesigner->head;
 	int prevData = LastBlockTypeData;
 	while (h2 != nullptr) {
 		createTheBlock(h2->data, prevData);
+		//UE_LOG(LogTemp, Warning, TEXT("%d"), h2->data);
 		prevData = h2->data;
 		h2 = h2->next;
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("==========================================kusaflow22=========================================="));
+
 	 
 	ArrayToDrawIs_1 = !ArrayToDrawIs_1;
 }
@@ -197,11 +205,13 @@ void ALevelManager_01 :: createTheBlock(const int type, int Prevtype) {
 	ALevelCreationBase* actor;
 	FActorSpawnParameters spawnPara;
 	spawnPara.Owner = this;
+	//UE_LOG(LogTemp, Warning, TEXT("==========================================Block is clear=========================================="));
 
 	if (Block_001) {
+		UE_LOG(LogTemp, Warning, TEXT("==========================================Block is clear=========================================="));
+
 		UWorld* world = GetWorld();
 		if (world) {
-
 			//----------------selection--------------
 			if (type == 1) {
 				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
