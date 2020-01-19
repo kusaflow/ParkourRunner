@@ -10,47 +10,69 @@
 
 
 //Linlked list 
-template<typename T>
-class LLNode {
+class LL_INT_Node {
 public:
-	T* actor;
-	LLNode<T>* next;
+	int data;
+	LL_INT_Node* next;
 
-	LLNode(T* node_data) {
+	LL_INT_Node(int node_data) {
+		this->data = node_data;
+		this->next = nullptr;
+	}
+};
+
+class LL_Actor_Node {
+public:
+	ALevelCreationBase* actor;
+	LL_Actor_Node* next;
+
+	LL_Actor_Node(ALevelCreationBase* node_data) {	
 		this->actor = node_data;
 		this->next = nullptr;
 	}
 };
 
-template<typename T>
-class LinkedList {
-public:
-	LLNode<T>* head;
 
-	LinkedList() {
+class LinkedList_INT {
+public:
+	LL_INT_Node* head;
+
+	LinkedList_INT() {
 		this->head = nullptr;
 	}
 };
 
 
+class LinkedList_Actor {
+public:
+	LL_Actor_Node* head;
+
+	LinkedList_Actor() {
+		this->head = nullptr;
+	}
+};
+//end of class definaton
+
 UFUNCTION()
-template<typename T>
-LLNode<T>* insert(LLNode<T>* head, T* data,int &counter);
+LL_INT_Node* insertInt(LL_INT_Node* head, int data, int& counter);
+
+UFUNCTION()
+LL_Actor_Node* insertActor(LL_INT_Node* head, ALevelCreationBase* data, int& counter);
 
 UFUNCTION()
 template<typename T>
-LLNode<T>* deleteFromLast(LLNode<T>* head, int &counter);
+T* deleteFromLast(T* head, int &counter);
 
 UFUNCTION()
 template<typename T>
-void DeleteAll(LLNode<T>* head, int &counter);
+void DeleteAll(T* head, int &counter);
 
 //Linked List end
 
 //-------------------------------------------------
 //important Linked list for the level
 UPROPERTY()//list of number that shows the type of blocks to be created
-LinkedList<int> *head_LevelDesigner = new LinkedList<int>();
+LinkedList_INT *head_LevelDesigner = new LinkedList_INT();
 
 //UPROPERTY()//
 //LinkedList<ALevelCreationBase> *head_1stBlocksType = new LinkedList<ALevelCreationBase>();
@@ -59,10 +81,10 @@ LinkedList<int> *head_LevelDesigner = new LinkedList<int>();
 //LinkedList<ALevelCreationBase> *head_2ndBlocksType = new LinkedList<ALevelCreationBase>();
 
 UPROPERTY()//total individual block to be drawn at a time on screen
-LinkedList<ALevelCreationBase> *head_Total_actor_01 = new LinkedList<ALevelCreationBase>();
+LinkedList_Actor *head_Total_actor_01 = new LinkedList_Actor();
 
 UPROPERTY()//total individual block to be drawn at a time on screen
-LinkedList<ALevelCreationBase> *head_Total_actor_02 = new LinkedList<ALevelCreationBase>();
+LinkedList_Actor*head_Total_actor_02 = new LinkedList_Actor();
 //------------------------------------------------
 
 
@@ -143,13 +165,26 @@ void ALevelManager_01 :: createNewBlocks() {
 		counterOfActorsOnScreen += BlockCount(val);
 		if (counterOfActorsOnScreen >= gameInstance->ActorsToDrawAtATime) {
 			//its a valid number to we can add it to the list
-			insert<int>(head_LevelDesigner->head, &val, ListCount_LevelDecider);
+			insert<int>(head_LevelDesigner->head, &val, true, ListCount_LevelDecider);
 		}
 		else {
 			continue;
 		}
-
 	}
+
+	//now generating the levels
+	LLNode<int>* h2 = head_LevelDesigner->head;
+	int prevData;
+	while (h2 != nullptr) {
+		createTheBlock(*h2->actor, prevData);
+		h2 = h2->next;
+	}
+	 
+	ArrayToDrawIs_1 = !ArrayToDrawIs_1;
+}
+
+void ALevelManager_01 :: createTheBlock(const int type, int Prevtype) {
+
 }
 
 
@@ -170,17 +205,16 @@ int ALevelManager_01 :: BlockCount(int type) {
 
 //LinkedListOperations-----------------------------------------------------------
 
-template<typename T>
-LLNode<T>* insert(LLNode<T>* head, T* data, int &counter) {
+LL_INT_Node* insertInt(LL_INT_Node* head, int data, int& counter) {
 	if (head == nullptr) {
 		//list is empty so add this at head
-		LLNode<T>* newNode = new LLNode<T>(data);
+		LL_INT_Node* newNode = new LL_INT_Node(data);
 		head = newNode;
 		counter++;
 		return head;
 	}
-	LLNode<T>* newNode = new LLNode<T>(data);
-	LLNode<T>* h2 = head;
+	LL_INT_Node* newNode = new LL_INT_Node(data);
+	LL_INT_Node* h2 = head;
 	for (int i = 0; i < counter - 1; i++) {
 		h2 = h2->next;
 	}
@@ -190,8 +224,28 @@ LLNode<T>* insert(LLNode<T>* head, T* data, int &counter) {
 	return head;
 }
 
+LL_Actor_Node* insertActor(LL_Actor_Node* head, ALevelCreationBase* data, int& counter) {
+	if (head == nullptr) {
+		//list is empty so add this at head
+		LL_Actor_Node* newNode = new LL_Actor_Node(data);
+		head = newNode;
+		counter++;
+		return head;
+	}
+	LL_Actor_Node* newNode = new LL_Actor_Node(data);
+	LL_Actor_Node* h2 = head;
+	for (int i = 0; i < counter - 1; i++) {
+		h2 = h2->next;
+	}
+	h2->next = newNode;
+	counter++;
+
+	return head;
+}
+
+
 template<typename T>
-LLNode<T>* deleteFromLast(LLNode<T>* head, int &counter) {
+T* deleteFromLast(T* head, int &counter) {
 	if (head == nullptr) {
 		return head;
 	}
@@ -203,12 +257,12 @@ LLNode<T>* deleteFromLast(LLNode<T>* head, int &counter) {
 		return head;
 	}
 
-	LLNode<T>* h2 = head;
+	T* h2 = head;
 
 	for (int i = 0; i < counter - 2; i++) {
 		h2 = h2->next;
 	}
-	LLNode<T>* toBeDeleted = h2->next;
+	T* toBeDeleted = h2->next;
 	h2->next = nullptr;
 	delete toBeDeleted;
 
@@ -217,8 +271,8 @@ LLNode<T>* deleteFromLast(LLNode<T>* head, int &counter) {
 }
 
 template<typename T>
-void DeleteAll(LLNode<T>* head, int &counter) {
-	LLNode<T>* h2 = head->next;
+void DeleteAll(T* head, int &counter) {
+	T* h2 = head->next;
 	while (h2 != nullptr) {
 		delete head;
 		head = h2;
@@ -226,7 +280,6 @@ void DeleteAll(LLNode<T>* head, int &counter) {
 	}
 
 	delete head;
-
 
 	counter=0;
 }

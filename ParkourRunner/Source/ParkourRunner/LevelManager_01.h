@@ -68,9 +68,8 @@ public:
 	//functions for creation of blocks------------------------------------
 	//creating random function
 	int GenerateRandomLevelCreationTypes();
-	int BlockCount(int type);
-
-
+	int BlockCount(int type); 
+	void createTheBlock(const int type, int Prevtype);
 	
 
 };
