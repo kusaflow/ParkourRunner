@@ -152,7 +152,7 @@ void ALevelManager_01::Tick(float DeltaTime)
 {
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
 
-	/*if (DoDrawBlocks()) {
+	if (DoDrawBlocks()) {
 		if (ArrayToDrawIs_1) {
 			RemoveDataForNew(head_Total_actor_01->head,ListCount_Total_actor_01);
 		}
@@ -160,13 +160,14 @@ void ALevelManager_01::Tick(float DeltaTime)
 			RemoveDataForNew(head_Total_actor_02->head,ListCount_Total_actor_02);
 		}
 
+		locationToDrawblock_X += 200;
 		//creating new blocks
-		createNewBlocks();
+		//createNewBlocks();
 
-	}*/
+	}
 
 
-	UE_LOG(LogTemp, Warning, TEXT("%d"), midVal);
+	//UE_LOG(LogTemp, Warning, TEXT("%d ---------------- %d" ), *gameInstance->MainActorLocation.X,midVal);
 
 
 

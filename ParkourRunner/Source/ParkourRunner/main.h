@@ -29,7 +29,7 @@ public:
 
 	float timmerForjump = 0.0f;
 
-UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameInstance")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameInstance")
 	class UmyGameInstance* gameInstance;
 
 

@@ -19,7 +19,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Jump")
 	bool anticipateForJump;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Jump")
 	FVector MainActorLocation;
 
 	UPROPERTY()
