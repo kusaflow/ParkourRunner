@@ -78,7 +78,7 @@ public:
 	//creating random function
 	int GenerateRandomLevelCreationTypes();
 	int BlockCount(int type); 
-	void createTheBlock(const int type, int Prevtype);
+	void createTheBlock(class LL_Actor_Node* head, int &counter,const int type, int Prevtype);
 	
 
 };

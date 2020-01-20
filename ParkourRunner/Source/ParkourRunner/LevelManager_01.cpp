@@ -26,7 +26,7 @@ public:
 	ALevelCreationBase* actor;
 	LL_Actor_Node* next;
 
-	LL_Actor_Node(ALevelCreationBase* node_data) {	
+	LL_Actor_Node(ALevelCreationBase* node_data) {
 		this->actor = node_data;
 		this->next = nullptr;
 	}
@@ -61,11 +61,11 @@ LL_Actor_Node* insertActor(LL_Actor_Node* head, ALevelCreationBase* data, int& c
 
 UFUNCTION()
 template<typename T>
-T* deleteFromLast(T* head, int &counter);
+T* deleteFromLast(T* head, int& counter);
 
 UFUNCTION()
 template<typename T>
-void DeleteAll(T* head, int &counter);
+void DeleteAll(T* head, int& counter);
 
 //Linked List end
 
@@ -91,7 +91,7 @@ LinkedList_Actor* head_Total_actor_02 = new LinkedList_Actor();
 // Sets default values
 ALevelManager_01::ALevelManager_01()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	viewer = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LEVEL_BLOCK"));
@@ -114,7 +114,7 @@ void ALevelManager_01::BeginPlay()
 {
 	Super::BeginPlay();
 	ArrayToDrawIs_1 = false;
-	
+
 	//UE_LOG(LogTemp, Warning, TEXT("==========================================kusaflow=========================================="));
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
 
@@ -140,7 +140,7 @@ void ALevelManager_01::BeginPlay()
 			}
 		}
 	}*/
-	
+
 
 }
 
@@ -154,14 +154,14 @@ void ALevelManager_01::Tick(float DeltaTime)
 }
 
 // runs on every tick to check do we have to create new files or not
-bool ALevelManager_01 :: DoDrawBlocks() {
+bool ALevelManager_01::DoDrawBlocks() {
 
 	return false;
 }
 
 //create new blocks=======================================================================
 
-void ALevelManager_01 :: createNewBlocks() {
+void ALevelManager_01::createNewBlocks() {
 	int counterOfActorsOnScreen = 0;
 	if (head_LevelDesigner->head != nullptr) {
 		DeleteAll<LL_INT_Node>(head_LevelDesigner->head, ListCount_LevelDecider);
@@ -180,27 +180,34 @@ void ALevelManager_01 :: createNewBlocks() {
 		}
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("==========================================kusaflow=========================================="));
-
 	//return;
+
+	initVal = locationToDrawblock_X;
 
 	//now generating the levels
 	LL_INT_Node* h2 = head_LevelDesigner->head;
 	int prevData = LastBlockTypeData;
 	while (h2 != nullptr) {
-		createTheBlock(h2->data, prevData);
+		if (ArrayToDrawIs_1) {
+			createTheBlock(head_Total_actor_01->head, ListCount_Total_actor_01,h2->data, prevData);
+		}
+		else {
+			createTheBlock(head_Total_actor_02->head, ListCount_Total_actor_02, h2->data, prevData);
+		}
+
 		//UE_LOG(LogTemp, Warning, TEXT("%d"), h2->data);
 		prevData = h2->data;
 		h2 = h2->next;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("==========================================kusaflow22=========================================="));
 
-	 
+	midVal = (finalVal - initVal)/2;
+
+
 	ArrayToDrawIs_1 = !ArrayToDrawIs_1;
 }
 
-void ALevelManager_01 :: createTheBlock(const int type, int Prevtype) {
+void ALevelManager_01::createTheBlock(LL_Actor_Node* head,int &counter, const int type, int Prevtype) {
 	//here we create the block type
 	ALevelCreationBase* actor;
 	FActorSpawnParameters spawnPara;
@@ -208,7 +215,6 @@ void ALevelManager_01 :: createTheBlock(const int type, int Prevtype) {
 	//UE_LOG(LogTemp, Warning, TEXT("==========================================Block is clear=========================================="));
 
 	if (Block_001) {
-		UE_LOG(LogTemp, Warning, TEXT("==========================================Block is clear=========================================="));
 
 		UWorld* world = GetWorld();
 		if (world) {
@@ -216,25 +222,26 @@ void ALevelManager_01 :: createTheBlock(const int type, int Prevtype) {
 			if (type == 1) {
 				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
 				locationToDrawblock_X += 200;
+
+				insertActor(head_Total_actor_01->head, actor, counter);
 				
-				if (ArrayToDrawIs_1) {
-					insertActor(head_Total_actor_01->head, actor, ListCount_Total_actor_01);
-				}
-				else {
-					insertActor(head_Total_actor_01->head, actor, ListCount_Total_actor_02);
-				}
+				
+
+				//check if its last node then init the final val
+				if (head->next == nullptr)
+					finalVal = locationToDrawblock_X;
 			}
 		}
 	}
 }
 
 
-int ALevelManager_01 :: GenerateRandomLevelCreationTypes() {
+int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//creating this as seperate for future if i have to create a logic to make complex randomness
 	return 1;
 }
 
-int ALevelManager_01 :: BlockCount(int type) {
+int ALevelManager_01::BlockCount(int type) {
 	if (type == 1) {
 		return 2;
 	}
@@ -286,13 +293,13 @@ LL_Actor_Node* insertActor(LL_Actor_Node* head, ALevelCreationBase* data, int& c
 
 
 template<typename T>
-T* deleteFromLast(T* head, int &counter) {
+T* deleteFromLast(T* head, int& counter) {
 	if (head == nullptr) {
 		return head;
 	}
 	if (counter == 0) return head;
 
-	if (counter== 1) {
+	if (counter == 1) {
 		head = nullptr;
 		counter--;
 		return head;
@@ -307,12 +314,12 @@ T* deleteFromLast(T* head, int &counter) {
 	h2->next = nullptr;
 	delete toBeDeleted;
 
-	counter--;   
+	counter--;
 	return head;
 }
 
 template<typename T>
-void DeleteAll(T* head, int &counter) {
+void DeleteAll(T* head, int& counter) {
 	T* h2 = head->next;
 	while (h2 != nullptr) {
 		delete head;
@@ -322,7 +329,7 @@ void DeleteAll(T* head, int &counter) {
 
 	delete head;
 
-	counter=0;
+	counter = 0;
 }
 
 //Linked List operation End
