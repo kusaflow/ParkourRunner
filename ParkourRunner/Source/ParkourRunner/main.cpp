@@ -73,7 +73,7 @@ void Amain::Tick(float DeltaTime)
 		}
 	}
 
-//	UE_LOG(LogTemp, Warning, TEXT("%d"), GetRootComponent()->GetRela);
+	//UE_LOG(LogTemp, Warning, TEXT("%d"), GetRootComponent()->GetRelativeLocation().X);
 
 
 

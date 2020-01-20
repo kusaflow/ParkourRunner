@@ -153,6 +153,8 @@ void ALevelManager_01::Tick(float DeltaTime)
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
 
 	if (DoDrawBlocks()) {
+		UE_LOG(LogTemp, Warning, TEXT("=========remove=================="));
+		//return;
 		if (ArrayToDrawIs_1) {
 			RemoveDataForNew(head_Total_actor_01->head,ListCount_Total_actor_01);
 		}
