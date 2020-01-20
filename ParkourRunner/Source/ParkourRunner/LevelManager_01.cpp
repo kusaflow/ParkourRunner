@@ -8,6 +8,8 @@
 #include "ConstructorHelpers.h"
 #include "myGameInstance.h"
 
+//UE_LOG(LogTemp, Warning, TEXT("%d"), h2->data);
+
 
 //Linlked list 
 class LL_INT_Node {
@@ -107,6 +109,7 @@ ALevelManager_01::ALevelManager_01()
 
 	locationToDrawblock_X = 600.0f;
 
+
 }
 
 // Called when the game starts or when spawned
@@ -149,13 +152,31 @@ void ALevelManager_01::Tick(float DeltaTime)
 {
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
 
+	/*if (DoDrawBlocks()) {
+		if (ArrayToDrawIs_1) {
+			RemoveDataForNew(head_Total_actor_01->head,ListCount_Total_actor_01);
+		}
+		else {
+			RemoveDataForNew(head_Total_actor_02->head,ListCount_Total_actor_02);
+		}
+
+		//creating new blocks
+		createNewBlocks();
+
+	}*/
+
+
+	UE_LOG(LogTemp, Warning, TEXT("%d"), midVal);
+
+
 
 
 }
 
 // runs on every tick to check do we have to create new files or not
 bool ALevelManager_01::DoDrawBlocks() {
-
+	if (gameInstance->MainActorLocation.X >= midVal)
+		return true;
 	return false;
 }
 
@@ -180,8 +201,6 @@ void ALevelManager_01::createNewBlocks() {
 		}
 	}
 
-	//return;
-
 	initVal = locationToDrawblock_X;
 
 	//now generating the levels
@@ -200,8 +219,10 @@ void ALevelManager_01::createNewBlocks() {
 		h2 = h2->next;
 	}
 
+	finalVal = locationToDrawblock_X;
 
 	midVal = (finalVal - initVal)/2;
+	midVal += initVal;
 
 
 	ArrayToDrawIs_1 = !ArrayToDrawIs_1;
@@ -222,18 +243,40 @@ void ALevelManager_01::createTheBlock(LL_Actor_Node* head,int &counter, const in
 			if (type == 1) {
 				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
 				locationToDrawblock_X += 200;
-
-				insertActor(head_Total_actor_01->head, actor, counter);
-				
-				
-
-				//check if its last node then init the final val
-				if (head->next == nullptr)
-					finalVal = locationToDrawblock_X;
+				LL_Actor_Node* headOut = insertActor(head, actor, counter);
+				head = headOut;
 			}
 		}
 	}
 }
+
+//---------------------------
+
+//======================================================================================================================
+//remove the actors from the screen ........clearing memory
+
+
+void ALevelManager_01 :: RemoveDataForNew(LL_Actor_Node* head,int &counter) {
+	removeActorsFromGame(head);
+	DeleteAll<LL_Actor_Node>(head, counter);
+}
+
+LL_Actor_Node* ALevelManager_01 :: removeActorsFromGame(LL_Actor_Node* head) {
+	if (head == nullptr) {
+		return head;
+	}
+
+	LL_Actor_Node* h2 = head;
+
+	while (h2) {
+		h2->actor->Destroy();
+		h2 = h2->next;
+	}
+
+	return head;
+
+}
+//-----------------------------------------
 
 
 int ALevelManager_01::GenerateRandomLevelCreationTypes() {
