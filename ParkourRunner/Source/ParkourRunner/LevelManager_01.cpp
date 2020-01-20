@@ -90,6 +90,21 @@ LinkedList_Actor* head_Total_actor_02 = new LinkedList_Actor();
 //------------------------------------------------
 
 
+//-----------Testing============================
+void kusa(LL_Actor_Node* head) {
+	int x = 0;
+	while (head != nullptr) {
+		if (x % 2 == 0) {
+			head->actor->SetActorScale3D(FVector(1.0f, 2.0f, 3.0f));
+		}
+		
+		x++;
+		head = head->next;
+	}
+}
+//==============================================
+
+
 // Sets default values
 ALevelManager_01::ALevelManager_01()
 {
@@ -116,11 +131,10 @@ ALevelManager_01::ALevelManager_01()
 void ALevelManager_01::BeginPlay()
 {
 	Super::BeginPlay();
-	ArrayToDrawIs_1 = false;
+	ArrayToDrawIs_1 = true;
 
-	//UE_LOG(LogTemp, Warning, TEXT("==========================================kusaflow=========================================="));
+	UE_LOG(LogTemp, Warning, TEXT("==========================================kusaflow=========================================="));
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
-
 
 	try {
 		//init level creation of level
@@ -129,6 +143,8 @@ void ALevelManager_01::BeginPlay()
 	catch (...) {
 
 	}
+
+	//kusa(head_Total_actor_01->head);
 
 	/*if (Block_001) {
 		UWorld* world = GetWorld();
@@ -151,16 +167,19 @@ void ALevelManager_01::BeginPlay()
 void ALevelManager_01::Tick(float DeltaTime)
 {
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
+	//return;
 
 	if (DoDrawBlocks()) {
-		UE_LOG(LogTemp, Warning, TEXT("=========remove=================="));
-		//return;
 		if (ArrayToDrawIs_1) {
-			RemoveDataForNew(head_Total_actor_01->head,ListCount_Total_actor_01);
+			LL_Actor_Node* headout = RemoveDataForNew(head_Total_actor_01->head,ListCount_Total_actor_01);
+			head_Total_actor_01->head = headout;
 		}
 		else {
-			RemoveDataForNew(head_Total_actor_02->head,ListCount_Total_actor_02);
+			LL_Actor_Node* headout = RemoveDataForNew(head_Total_actor_02->head, ListCount_Total_actor_02);
+			head_Total_actor_01->head = headout;
 		}
+
+		UE_LOG(LogTemp, Warning, TEXT("=========remove=================="));
 
 		locationToDrawblock_X += 200;
 		//creating new blocks
@@ -191,8 +210,9 @@ void ALevelManager_01::createNewBlocks() {
 		DeleteAll<LL_INT_Node>(head_LevelDesigner->head, ListCount_LevelDecider);
 	}
 	//return;
+	int val;
 	while (counterOfActorsOnScreen <= gameInstance->ActorsToDrawAtATime) {
-		int val = GenerateRandomLevelCreationTypes();
+		val = GenerateRandomLevelCreationTypes();
 		counterOfActorsOnScreen += BlockCount(val);
 		if (counterOfActorsOnScreen <= gameInstance->ActorsToDrawAtATime) {
 			//its a valid number to we can add it to the list
@@ -211,10 +231,12 @@ void ALevelManager_01::createNewBlocks() {
 	int prevData = LastBlockTypeData;
 	while (h2 != nullptr) {
 		if (ArrayToDrawIs_1) {
-			createTheBlock(head_Total_actor_01->head, ListCount_Total_actor_01,h2->data, prevData);
+			LL_Actor_Node* headout = createTheBlock(head_Total_actor_01->head, ListCount_Total_actor_01,h2->data, prevData);
+			head_Total_actor_01->head = headout;
 		}
 		else {
-			createTheBlock(head_Total_actor_02->head, ListCount_Total_actor_02, h2->data, prevData);
+			LL_Actor_Node* headout = createTheBlock(head_Total_actor_02->head, ListCount_Total_actor_02, h2->data, prevData);
+			head_Total_actor_01->head = headout;
 		}
 
 		//UE_LOG(LogTemp, Warning, TEXT("%d"), h2->data);
@@ -231,7 +253,7 @@ void ALevelManager_01::createNewBlocks() {
 	ArrayToDrawIs_1 = !ArrayToDrawIs_1;
 }
 
-void ALevelManager_01::createTheBlock(LL_Actor_Node* head,int &counter, const int type, int Prevtype) {
+LL_Actor_Node* ALevelManager_01::createTheBlock(LL_Actor_Node* head,int &counter, const int type, int Prevtype) {
 	//here we create the block type
 	ALevelCreationBase* actor;
 	FActorSpawnParameters spawnPara;
@@ -251,6 +273,8 @@ void ALevelManager_01::createTheBlock(LL_Actor_Node* head,int &counter, const in
 			}
 		}
 	}
+
+	return head;
 }
 
 //---------------------------
@@ -259,9 +283,12 @@ void ALevelManager_01::createTheBlock(LL_Actor_Node* head,int &counter, const in
 //remove the actors from the screen ........clearing memory
 
 
-void ALevelManager_01 :: RemoveDataForNew(LL_Actor_Node* head,int &counter) {
-	removeActorsFromGame(head);
+LL_Actor_Node* ALevelManager_01 :: RemoveDataForNew(LL_Actor_Node* head,int &counter) {
+	LL_Actor_Node* headout = removeActorsFromGame(head);
+	head = headout;
 	DeleteAll<LL_Actor_Node>(head, counter);
+
+	return nullptr;
 }
 
 LL_Actor_Node* ALevelManager_01 :: removeActorsFromGame(LL_Actor_Node* head) {
@@ -271,8 +298,9 @@ LL_Actor_Node* ALevelManager_01 :: removeActorsFromGame(LL_Actor_Node* head) {
 
 	LL_Actor_Node* h2 = head;
 
-	while (h2) {
+	while (h2 != nullptr) {
 		h2->actor->Destroy();
+		h2->actor = nullptr;
 		h2 = h2->next;
 	}
 

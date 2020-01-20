@@ -78,11 +78,11 @@ public:
 	//creating random function
 	int GenerateRandomLevelCreationTypes();
 	int BlockCount(int type); 
-	void createTheBlock(class LL_Actor_Node* head, int &counter,const int type, int Prevtype);
+	class LL_Actor_Node* createTheBlock(class LL_Actor_Node* head, int &counter,const int type, int Prevtype);
 
 	//removelFunctions
 	class LL_Actor_Node* removeActorsFromGame(class LL_Actor_Node* head);
-	void RemoveDataForNew(class LL_Actor_Node* head,int &counter);
+	class LL_Actor_Node* RemoveDataForNew(class LL_Actor_Node* head,int &counter);
 	
 
 };
