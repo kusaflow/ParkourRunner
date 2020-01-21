@@ -172,14 +172,16 @@ void ALevelManager_01::Tick(float DeltaTime)
 	if (DoDrawBlocks()) {
 		if (ArrayToDrawIs_1) {
 			LL_Actor_Node* headout = RemoveDataForNew(head_Total_actor_01->head,ListCount_Total_actor_01);
-			head_Total_actor_01->head = headout;
+			head_Total_actor_01->head = nullptr;
 		}
 		else {
-			LL_Actor_Node* headout = RemoveDataForNew(head_Total_actor_02->head, ListCount_Total_actor_02);
-			head_Total_actor_01->head = headout;
+			LL_Actor_Node* headout = RemoveDataForNew(head_Total_actor_01->head, ListCount_Total_actor_01);
+			head_Total_actor_01->head = nullptr;
 		}
 
 		UE_LOG(LogTemp, Warning, TEXT("=========remove=================="));
+
+		midVal += 500000;
 
 		locationToDrawblock_X += 200;
 		//creating new blocks
@@ -286,8 +288,8 @@ LL_Actor_Node* ALevelManager_01::createTheBlock(LL_Actor_Node* head,int &counter
 LL_Actor_Node* ALevelManager_01 :: RemoveDataForNew(LL_Actor_Node* head,int &counter) {
 	LL_Actor_Node* headout = removeActorsFromGame(head);
 	head = headout;
-	DeleteAll<LL_Actor_Node>(head, counter);
-
+	//DeleteAll<LL_Actor_Node>(head, counter);
+	
 	return nullptr;
 }
 
@@ -301,6 +303,7 @@ LL_Actor_Node* ALevelManager_01 :: removeActorsFromGame(LL_Actor_Node* head) {
 	while (h2 != nullptr) {
 		h2->actor->Destroy();
 		h2->actor = nullptr;
+		//h2->actor->SetActorScale3D(FVector(1.0f, 2.0f, 3.0f));
 		h2 = h2->next;
 	}
 
