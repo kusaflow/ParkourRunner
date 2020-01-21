@@ -71,7 +71,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	bool DoDrawBlocks();
 	void clearPrevBlocks();
-	void createNewBlocks();
+	void createNewBlocksMngr();
 	void createCheckBlocks();
 
 	//functions for creation of blocks------------------------------------

@@ -138,11 +138,13 @@ void ALevelManager_01::BeginPlay()
 
 	try {
 		//init level creation of level
-		createNewBlocks();
+		createNewBlocksMngr();
 	}
 	catch (...) {
 
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("%d" ),midVal);
 
 	//kusa(head_Total_actor_01->head);
 
@@ -175,17 +177,15 @@ void ALevelManager_01::Tick(float DeltaTime)
 			head_Total_actor_01->head = nullptr;
 		}
 		else {
-			LL_Actor_Node* headout = RemoveDataForNew(head_Total_actor_01->head, ListCount_Total_actor_01);
-			head_Total_actor_01->head = nullptr;
+			LL_Actor_Node* headout = RemoveDataForNew(head_Total_actor_02->head, ListCount_Total_actor_02);
+			head_Total_actor_02->head = nullptr;
 		}
 
-		UE_LOG(LogTemp, Warning, TEXT("=========remove=================="));
 
-		midVal += 500000;
-
-		locationToDrawblock_X += 200;
+		//midVal += 5000;
+		//locationToDrawblock_X += 200;
 		//creating new blocks
-		//createNewBlocks();
+		createNewBlocksMngr();
 
 	}
 
@@ -206,13 +206,13 @@ bool ALevelManager_01::DoDrawBlocks() {
 
 //create new blocks=======================================================================
 
-void ALevelManager_01::createNewBlocks() {
+void ALevelManager_01::createNewBlocksMngr() {
 	int counterOfActorsOnScreen = 0;
 	if (head_LevelDesigner->head != nullptr) {
 		DeleteAll<LL_INT_Node>(head_LevelDesigner->head, ListCount_LevelDecider);
 	}
 	//return;
-	int val;
+	int val = 0;
 	while (counterOfActorsOnScreen <= gameInstance->ActorsToDrawAtATime) {
 		val = GenerateRandomLevelCreationTypes();
 		counterOfActorsOnScreen += BlockCount(val);
@@ -241,7 +241,8 @@ void ALevelManager_01::createNewBlocks() {
 			head_Total_actor_01->head = headout;
 		}
 
-		//UE_LOG(LogTemp, Warning, TEXT("%d"), h2->data);
+		//UE_LOG(LogTemp, Warning, TEXT("%d"), x);
+
 		prevData = h2->data;
 		h2 = h2->next;
 	}
@@ -288,13 +289,14 @@ LL_Actor_Node* ALevelManager_01::createTheBlock(LL_Actor_Node* head,int &counter
 LL_Actor_Node* ALevelManager_01 :: RemoveDataForNew(LL_Actor_Node* head,int &counter) {
 	LL_Actor_Node* headout = removeActorsFromGame(head);
 	head = headout;
-	//DeleteAll<LL_Actor_Node>(head, counter);
-	
+	DeleteAll<LL_Actor_Node>(head, counter);
+	//return head;
 	return nullptr;
 }
 
 LL_Actor_Node* ALevelManager_01 :: removeActorsFromGame(LL_Actor_Node* head) {
 	if (head == nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("=================================errrooorrrrrrrrrrrrrrr==============================="));
 		return head;
 	}
 
@@ -397,6 +399,8 @@ T* deleteFromLast(T* head, int& counter) {
 
 template<typename T>
 void DeleteAll(T* head, int& counter) {
+	if (head == nullptr)
+		return;
 	T* h2 = head->next;
 	while (h2 != nullptr) {
 		delete head;
