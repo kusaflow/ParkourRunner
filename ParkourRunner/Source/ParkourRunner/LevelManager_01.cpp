@@ -123,8 +123,12 @@ ALevelManager_01::ALevelManager_01()
 	}
 
 	locationToDrawblock_X = 600.0f;
+	
+	if (head_LevelDesigner->head != nullptr || head_Total_actor_01->head != nullptr || head_Total_actor_02->head != nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("---------------something wrong-----------------------"));
+	}
 
-
+	
 }
 
 // Called when the game starts or when spawned
@@ -195,6 +199,10 @@ void ALevelManager_01::Tick(float DeltaTime)
 
 
 
+}
+
+void ALevelManager_01::EndPlay(const EEndPlayReason::Type EndPlayReason) {
+	//DeleteAll<int>
 }
 
 // runs on every tick to check do we have to create new files or not
@@ -296,7 +304,7 @@ LL_Actor_Node* ALevelManager_01 :: RemoveDataForNew(LL_Actor_Node* head,int &cou
 
 LL_Actor_Node* ALevelManager_01 :: removeActorsFromGame(LL_Actor_Node* head) {
 	if (head == nullptr) {
-		UE_LOG(LogTemp, Warning, TEXT("=================================errrooorrrrrrrrrrrrrrr==============================="));
+		UE_LOG(LogTemp, Warning, TEXT("=================================errrooorrrrrrrrrrrrrrr===============================") );
 		return head;
 	}
 
