@@ -292,7 +292,7 @@ LL_Actor_Node* ALevelManager_01::createTheBlock(LL_Actor_Node* head,int &counter
 
 //======================================================================================================================
 //remove the actors from the screen ........clearing memory
-
+ 
 
 LL_Actor_Node* ALevelManager_01 :: RemoveDataForNew(LL_Actor_Node* head,int &counter) {
 	LL_Actor_Node* headout = removeActorsFromGame(head);
