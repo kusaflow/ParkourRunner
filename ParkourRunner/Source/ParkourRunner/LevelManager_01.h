@@ -35,10 +35,10 @@ public:
 	int initVal=0, finalVal=0, midVal=0;
 
 	UPROPERTY()
-	bool ArrayToDrawIs_1 = true;
+	int ListCount_LevelDecider = 0;
 
 	UPROPERTY()
-	int ListCount_LevelDecider = 0;
+	bool FirstRun = true;
 
 	/*UPROPERTY()
 	int ListCount_1stBlockType = 0;
@@ -46,11 +46,7 @@ public:
 	UPROPERTY()
 	int ListCount_2ndBlockType = 0;
 	*/
-	UPROPERTY()
-	int ListCount_Total_actor_01 = 0;
-
-	UPROPERTY()
-	int ListCount_Total_actor_02 = 0;
+	
 
 	/*
 	it stores data from the last block data so that when new block chaun is created
@@ -72,18 +68,35 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	bool DoDrawBlocks();
 	void clearPrevBlocks();
-	void createNewBlocksMngr();
 	void createCheckBlocks();
 
 	//functions for creation of blocks------------------------------------
 	//creating random function
 	int GenerateRandomLevelCreationTypes();
-	int BlockCount(int type); 
-	class LL_Actor_Node* createTheBlock(class LL_Actor_Node* head, int &counter,const int type, int Prevtype);
+	int BlockCount(int type);
+	void createNewBlocksMngr();
+	void createTheBlock(const int type, int Prevtype);
 
 	//removelFunctions
-	class LL_Actor_Node* removeActorsFromGame(class LL_Actor_Node* head);
-	class LL_Actor_Node* RemoveDataForNew(class LL_Actor_Node* head,int &counter);
+	void removeActorsFromGame();
+	void RemoveDataForNew();
+
+	//----------------Linked List------------------------
+
+	UFUNCTION()
+	void insertInt(int data);
+
+	UFUNCTION()
+	void insertActor(class ALevelCreationBase* data);
+
+	UFUNCTION()
+	void DeleteLast50Actors();
+
+	UFUNCTION()
+	void DeleteAllInts();
+
+
+	//===================================================
 	
 
 };

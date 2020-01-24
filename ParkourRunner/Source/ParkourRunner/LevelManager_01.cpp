@@ -55,19 +55,6 @@ public:
 };
 //end of class definaton
 
-UFUNCTION()
-LL_INT_Node* insertInt(LL_INT_Node* head, int data, int& counter);
-
-UFUNCTION()
-LL_Actor_Node* insertActor(LL_Actor_Node* head, ALevelCreationBase* data, int& counter);
-
-UFUNCTION()
-template<typename T>
-T* deleteFromLast(T* head, int& counter);
-
-UFUNCTION()
-template<typename T>
-void DeleteAll(T* head, int& counter);
 
 //Linked List end
 
@@ -83,10 +70,7 @@ LinkedList_INT* head_LevelDesigner = new LinkedList_INT();
 //LinkedList<ALevelCreationBase> *head_2ndBlocksType = new LinkedList<ALevelCreationBase>();
 
 UPROPERTY()//total individual block to be drawn at a time on screen
-LinkedList_Actor* head_Total_actor_01 = new LinkedList_Actor();
-
-UPROPERTY()//total individual block to be drawn at a time on screen
-LinkedList_Actor* head_Total_actor_02 = new LinkedList_Actor();
+LinkedList_Actor* head_Total_Blocks = new LinkedList_Actor();
 //------------------------------------------------
 
 
@@ -123,10 +107,6 @@ ALevelManager_01::ALevelManager_01()
 	}
 
 	locationToDrawblock_X = 600.0f;
-	
-	if (head_LevelDesigner->head != nullptr || head_Total_actor_01->head != nullptr || head_Total_actor_02->head != nullptr) {
-		UE_LOG(LogTemp, Warning, TEXT("---------------something wrong-----------------------"));
-	}
 
 	
 }
@@ -176,14 +156,8 @@ void ALevelManager_01::Tick(float DeltaTime)
 	//return;
 
 	if (DoDrawBlocks()) {
-		if (ArrayToDrawIs_1) {
-			LL_Actor_Node* headout = RemoveDataForNew(head_Total_actor_01->head,ListCount_Total_actor_01);
-			head_Total_actor_01->head = nullptr;
-		}
-		else {
-			LL_Actor_Node* headout = RemoveDataForNew(head_Total_actor_02->head, ListCount_Total_actor_02);
-			head_Total_actor_02->head = nullptr;
-		}
+		LL_Actor_Node* headout = RemoveDataForNew(head_Total_Blocks->head,ListCount_Total_actor_01);
+		head_Total_actor_01->head = nullptr;
 
 
 		//midVal += 5000;
@@ -264,7 +238,7 @@ void ALevelManager_01::createNewBlocksMngr() {
 	ArrayToDrawIs_1 = !ArrayToDrawIs_1;
 }
 
-LL_Actor_Node* ALevelManager_01::createTheBlock(LL_Actor_Node* head,int &counter, const int type, int Prevtype) {
+void ALevelManager_01::createTheBlock(const int type, int Prevtype) {
 	//here we create the block type
 	ALevelCreationBase* actor;
 	FActorSpawnParameters spawnPara;
@@ -294,31 +268,26 @@ LL_Actor_Node* ALevelManager_01::createTheBlock(LL_Actor_Node* head,int &counter
 //remove the actors from the screen ........clearing memory
  
 
-LL_Actor_Node* ALevelManager_01 :: RemoveDataForNew(LL_Actor_Node* head,int &counter) {
-	LL_Actor_Node* headout = removeActorsFromGame(head);
-	head = headout;
-	DeleteAll<LL_Actor_Node>(head, counter);
-	//return head;
-	return nullptr;
+void ALevelManager_01 :: RemoveDataForNew() {
+	removeActorsFromGame();
+	DeleteLast50Actors();
 }
 
-LL_Actor_Node* ALevelManager_01 :: removeActorsFromGame(LL_Actor_Node* head) {
-	if (head == nullptr) {
-		UE_LOG(LogTemp, Warning, TEXT("=================================errrooorrrrrrrrrrrrrrr===============================") );
-		return head;
+void ALevelManager_01 :: removeActorsFromGame() {
+	if (head_Total_Blocks->head == nullptr) {
+		return;
 	}
 
-	LL_Actor_Node* h2 = head;
+	LL_Actor_Node* h2 = head_Total_Blocks->head;
 
-	while (h2 != nullptr) {
+	for (int i = 0; i < gameInstance->ActorsToDrawAtATime; i++) {
+		if (h2 == nullptr) {
+			head_Total_Blocks->head = nullptr;
+			return;
+		}
 		h2->actor->Destroy();
-		h2->actor = nullptr;
-		//h2->actor->SetActorScale3D(FVector(1.0f, 2.0f, 3.0f));
 		h2 = h2->next;
 	}
-
-	return head;
-
 }
 //-----------------------------------------
 
@@ -340,85 +309,71 @@ int ALevelManager_01::BlockCount(int type) {
 
 //LinkedListOperations-----------------------------------------------------------
 
-LL_INT_Node* insertInt(LL_INT_Node* head, int data, int& counter) {
-	if (head == nullptr) {
+void ALevelManager_01 :: insertInt(int data) {
+	if (head_LevelDesigner->head == nullptr) {
 		//list is empty so add this at head
 		LL_INT_Node* newNode = new LL_INT_Node(data);
-		head = newNode;
-		counter++;
-		return head;
+		head_LevelDesigner->head = newNode;
+		return;
 	}
+
 	LL_INT_Node* newNode = new LL_INT_Node(data);
-	LL_INT_Node* h2 = head;
-	for (int i = 0; i < counter - 1; i++) {
+	LL_INT_Node* h2 = head_LevelDesigner->head;
+	while (h2->next == nullptr) {
 		h2 = h2->next;
 	}
 	h2->next = newNode;
-	counter++;
-
-	return head;
 }
 
-LL_Actor_Node* insertActor(LL_Actor_Node* head, ALevelCreationBase* data, int& counter) {
-	if (head == nullptr) {
+void ALevelManager_01 :: insertActor(ALevelCreationBase* data) {
+	if (head_Total_Blocks->head == nullptr) {
 		//list is empty so add this at head
 		LL_Actor_Node* newNode = new LL_Actor_Node(data);
-		head = newNode;
-		counter++;
-		return head;
+		head_Total_Blocks->head = newNode;
+		return;
 	}
+
 	LL_Actor_Node* newNode = new LL_Actor_Node(data);
-	LL_Actor_Node* h2 = head;
-	for (int i = 0; i < counter - 1; i++) {
+	LL_Actor_Node* h2 = head_Total_Blocks->head;
+	while (h2->next ==  nullptr) {
 		h2 = h2->next;
 	}
 	h2->next = newNode;
-	counter++;
-
-	return head;
 }
 
-
-template<typename T>
-T* deleteFromLast(T* head, int& counter) {
-	if (head == nullptr) {
-		return head;
-	}
-	if (counter == 0) return head;
-
-	if (counter == 1) {
-		head = nullptr;
-		counter--;
-		return head;
-	}
-
-	T* h2 = head;
-
-	for (int i = 0; i < counter - 2; i++) {
-		h2 = h2->next;
-	}
-	T* toBeDeleted = h2->next;
-	h2->next = nullptr;
-	delete toBeDeleted;
-
-	counter--;
-	return head;
-}
-
-template<typename T>
-void DeleteAll(T* head, int& counter) {
-	if (head == nullptr)
+void ALevelManager_01 :: DeleteLast50Actors() {
+	if (head_Total_Blocks->head == nullptr) {
 		return;
-	T* h2 = head->next;
+	}
+
+	LL_Actor_Node* h2 = head_Total_Blocks->head;
+
+	for (int i = 0; i < gameInstance->ActorsToDrawAtATime; i++) {
+		if (h2 == nullptr) {
+			head_Total_Blocks->head = nullptr;
+			return;
+		}
+
+		delete head_LevelDesigner->head;
+		head_Total_Blocks->head = h2;
+		h2 = h2->next;
+	}
+}
+
+void ALevelManager_01 :: DeleteAllInts() {
+	if (head_LevelDesigner->head == nullptr)
+		return;
+
+	LL_INT_Node* h2 = head_LevelDesigner->head->next;
 	while (h2 != nullptr) {
-		delete head;
-		head = h2;
+		delete head_LevelDesigner->head;
+		head_LevelDesigner->head = h2;
 		h2 = h2->next;
 	}
 
-	delete head;
+	delete head_LevelDesigner->head;
 
-	counter = 0;
+	head_LevelDesigner->head = nullptr;
 }
 
 //Linked List operation End
