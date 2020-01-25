@@ -107,9 +107,17 @@ ALevelManager_01::ALevelManager_01()
 	}
 
 	locationToDrawblock_X = 600.0f;
-
-	
 }
+
+ALevelManager_01 :: ~ALevelManager_01() {
+	LL_Actor_Node* h2;
+	while (head_Total_Blocks->head != nullptr) {
+		h2 = head_Total_Blocks->head;
+		head_Total_Blocks->head = head_Total_Blocks->head->next;
+		delete h2;
+	}
+}
+
 
 // Called when the game starts or when spawned
 void ALevelManager_01::BeginPlay()
@@ -142,6 +150,17 @@ void ALevelManager_01::BeginPlay()
 
 }
 
+int CountList() {
+	int x=0;
+	LL_Actor_Node* h2 = head_Total_Blocks->head;
+	while (h2 != nullptr) {
+		x++;
+		h2 = h2->next;
+	}
+
+	return x;
+}
+
 // Called every frame
 void ALevelManager_01::Tick(float DeltaTime)
 {
@@ -149,15 +168,19 @@ void ALevelManager_01::Tick(float DeltaTime)
 	//return;
 
 	if (DoDrawBlocks()) {
+
+		UE_LOG(LogTemp, Warning, TEXT("%d"), CountList())
 		RemoveDataForNew();
-		
+
+		UE_LOG(LogTemp, Warning, TEXT("%d"), CountList())
+
 		//creating new blocks
 		createNewBlocksMngr();
 
+		UE_LOG(LogTemp, Warning, TEXT("%d"), CountList())
+
 		//clear the integer list
-		DeleteAllInts();
-
-
+		DeleteAllInts();		
 	}
 
 
@@ -200,7 +223,18 @@ void ALevelManager_01::createNewBlocksMngr() {
 		}
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("==========================Clear 1ithar tk ================================"));
+	if (FirstRun) {
+		BlocksOnFront = counterOfActorsOnScreen;
+		goto ForFirstRunCheckPoint;
+	}
+
+	BlocksOnBack = BlocksOnFront;
+	BlocksOnFront = counterOfActorsOnScreen;
+
+
+	//UE_LOG(LogTemp, Warning, TEXT("==========================Clear 1ithar tk ================================"));
+
+	ForFirstRunCheckPoint:
 
 	initVal = locationToDrawblock_X;
 
@@ -255,7 +289,7 @@ void ALevelManager_01 :: RemoveDataForNew() {
 		return;
 	}
 	removeActorsFromGame();
-	DeleteLast50Actors();
+	//DeleteLast50Actors();
 }
 
 void ALevelManager_01 :: removeActorsFromGame() {
@@ -264,15 +298,21 @@ void ALevelManager_01 :: removeActorsFromGame() {
 	}
 
 	LL_Actor_Node* h2 = head_Total_Blocks->head;
+	LL_Actor_Node* h3 = h2;
 
-	for (int i = 0; i < gameInstance->ActorsToDrawAtATime; i++) {
+	for (int i = 0; i < BlocksOnBack-1; i++) {
 		if (h2 == nullptr) {
-			head_Total_Blocks->head = nullptr;
 			return;
 		}
-		h2->actor->Destroy();
-		h2 = h2->next;
+		h3 = h2;
+		if (h2) {
+			h2->actor->Destroy();
+			h2 = h2->next;
+			head_Total_Blocks->head = h2;
+			delete h3;
+		}
 	}
+
 }
 //-----------------------------------------
 
@@ -284,7 +324,7 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 
 int ALevelManager_01::BlockCount(int type) {
 	if (type == 1) {
-		return 2;
+		return 1;
 	}
 	return 0;
 }
@@ -333,7 +373,7 @@ void ALevelManager_01 :: DeleteLast50Actors() {
 
 	LL_Actor_Node* h2 = head_Total_Blocks->head;
 
-	for (int i = 0; i < gameInstance->ActorsToDrawAtATime; i++) {
+	for (int i = 0; i < BlocksOnBack; i++) {
 		if (h2 == nullptr) {
 			head_Total_Blocks->head = nullptr;
 			return;

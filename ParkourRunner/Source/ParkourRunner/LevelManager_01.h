@@ -14,7 +14,7 @@ class PARKOURRUNNER_API ALevelManager_01 : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ALevelManager_01();
-
+	~ALevelManager_01();
 
 	UPROPERTY(EditDefaultsOnly, category = "meshes")
 	TSubclassOf<class ALevelCreationBase> Block_001;
@@ -25,8 +25,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameInstance")
 	class UmyGameInstance* gameInstance;
 
-
 	//default size of the 001 block is 200 units
+
+	//===Variable to clear the previous blocks
+	short BlocksOnBack = 0, BlocksOnFront = 0;
+
 
 	UPROPERTY()
 	float locationToDrawblock_X;
