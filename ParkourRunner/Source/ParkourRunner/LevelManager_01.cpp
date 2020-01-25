@@ -115,20 +115,13 @@ ALevelManager_01::ALevelManager_01()
 void ALevelManager_01::BeginPlay()
 {
 	Super::BeginPlay();
-	ArrayToDrawIs_1 = true;
 
 	UE_LOG(LogTemp, Warning, TEXT("==========================================kusaflow=========================================="));
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
 
-	try {
-		//init level creation of level
-		createNewBlocksMngr();
-	}
-	catch (...) {
-
-	}
-
-	UE_LOG(LogTemp, Warning, TEXT("%d" ),midVal);
+	//init level creation of level
+	createNewBlocksMngr();
+	FirstRun = true;
 
 	//kusa(head_Total_actor_01->head);
 
@@ -156,14 +149,14 @@ void ALevelManager_01::Tick(float DeltaTime)
 	//return;
 
 	if (DoDrawBlocks()) {
-		LL_Actor_Node* headout = RemoveDataForNew(head_Total_Blocks->head,ListCount_Total_actor_01);
-		head_Total_actor_01->head = nullptr;
-
-
-		//midVal += 5000;
-		//locationToDrawblock_X += 200;
+		RemoveDataForNew();
+		
 		//creating new blocks
 		createNewBlocksMngr();
+
+		//clear the integer list
+		DeleteAllInts();
+
 
 	}
 
@@ -191,22 +184,23 @@ bool ALevelManager_01::DoDrawBlocks() {
 void ALevelManager_01::createNewBlocksMngr() {
 	int counterOfActorsOnScreen = 0;
 	if (head_LevelDesigner->head != nullptr) {
-		DeleteAll<LL_INT_Node>(head_LevelDesigner->head, ListCount_LevelDecider);
+		DeleteAllInts();
 	}
-	//return;
+	
 	int val = 0;
 	while (counterOfActorsOnScreen <= gameInstance->ActorsToDrawAtATime) {
 		val = GenerateRandomLevelCreationTypes();
 		counterOfActorsOnScreen += BlockCount(val);
 		if (counterOfActorsOnScreen <= gameInstance->ActorsToDrawAtATime) {
 			//its a valid number to we can add it to the list
-			LL_INT_Node* head = insertInt(head_LevelDesigner->head, val, ListCount_LevelDecider);
-			head_LevelDesigner->head = head;
+			insertInt(val);
 		}
 		else {
 			continue;
 		}
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("==========================Clear 1ithar tk ================================"));
 
 	initVal = locationToDrawblock_X;
 
@@ -214,14 +208,7 @@ void ALevelManager_01::createNewBlocksMngr() {
 	LL_INT_Node* h2 = head_LevelDesigner->head;
 	int prevData = LastBlockTypeData;
 	while (h2 != nullptr) {
-		if (ArrayToDrawIs_1) {
-			LL_Actor_Node* headout = createTheBlock(head_Total_actor_01->head, ListCount_Total_actor_01,h2->data, prevData);
-			head_Total_actor_01->head = headout;
-		}
-		else {
-			LL_Actor_Node* headout = createTheBlock(head_Total_actor_02->head, ListCount_Total_actor_02, h2->data, prevData);
-			head_Total_actor_01->head = headout;
-		}
+		createTheBlock(h2->data, prevData);
 
 		//UE_LOG(LogTemp, Warning, TEXT("%d"), x);
 
@@ -229,13 +216,11 @@ void ALevelManager_01::createNewBlocksMngr() {
 		h2 = h2->next;
 	}
 
-	finalVal = locationToDrawblock_X;
+	finalVal = locationToDrawblock_X;				
 
 	midVal = (finalVal - initVal)/2;
 	midVal += initVal;
 
-
-	ArrayToDrawIs_1 = !ArrayToDrawIs_1;
 }
 
 void ALevelManager_01::createTheBlock(const int type, int Prevtype) {
@@ -246,20 +231,16 @@ void ALevelManager_01::createTheBlock(const int type, int Prevtype) {
 	//UE_LOG(LogTemp, Warning, TEXT("==========================================Block is clear=========================================="));
 
 	if (Block_001) {
-
 		UWorld* world = GetWorld();
 		if (world) {
 			//----------------selection--------------
 			if (type == 1) {
 				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
 				locationToDrawblock_X += 200;
-				LL_Actor_Node* headOut = insertActor(head, actor, counter);
-				head = headOut;
+				insertActor(actor);
 			}
 		}
 	}
-
-	return head;
 }
 
 //---------------------------
@@ -269,6 +250,10 @@ void ALevelManager_01::createTheBlock(const int type, int Prevtype) {
  
 
 void ALevelManager_01 :: RemoveDataForNew() {
+	if (FirstRun) {
+		FirstRun = false;
+		return;
+	}
 	removeActorsFromGame();
 	DeleteLast50Actors();
 }
@@ -319,7 +304,7 @@ void ALevelManager_01 :: insertInt(int data) {
 
 	LL_INT_Node* newNode = new LL_INT_Node(data);
 	LL_INT_Node* h2 = head_LevelDesigner->head;
-	while (h2->next == nullptr) {
+	while (h2->next != nullptr) {
 		h2 = h2->next;
 	}
 	h2->next = newNode;
@@ -335,7 +320,7 @@ void ALevelManager_01 :: insertActor(ALevelCreationBase* data) {
 
 	LL_Actor_Node* newNode = new LL_Actor_Node(data);
 	LL_Actor_Node* h2 = head_Total_Blocks->head;
-	while (h2->next ==  nullptr) {
+	while (h2->next !=  nullptr) {
 		h2 = h2->next;
 	}
 	h2->next = newNode;
