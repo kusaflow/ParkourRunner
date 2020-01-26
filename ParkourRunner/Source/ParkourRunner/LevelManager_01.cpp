@@ -106,7 +106,7 @@ ALevelManager_01::ALevelManager_01()
 		viewer->SetWorldScale3D(FVector(1.0f));
 	}
 
-	locationToDrawblock_X = 600.0f;
+	locationToDrawblock_X = 500.0f;
 }
 
 ALevelManager_01 :: ~ALevelManager_01() {
@@ -116,6 +116,8 @@ ALevelManager_01 :: ~ALevelManager_01() {
 		head_Total_Blocks->head = head_Total_Blocks->head->next;
 		delete h2;
 	}
+
+	DeleteAllInts();
 }
 
 
@@ -240,13 +242,11 @@ void ALevelManager_01::createNewBlocksMngr() {
 
 	//now generating the levels
 	LL_INT_Node* h2 = head_LevelDesigner->head;
-	int prevData = LastBlockTypeData;
 	while (h2 != nullptr) {
-		createTheBlock(h2->data, prevData);
+		createTheBlock(h2->data);
 
 		//UE_LOG(LogTemp, Warning, TEXT("%d"), x);
 
-		prevData = h2->data;
 		h2 = h2->next;
 	}
 
@@ -257,7 +257,7 @@ void ALevelManager_01::createNewBlocksMngr() {
 
 }
 
-void ALevelManager_01::createTheBlock(const int type, int Prevtype) {
+void ALevelManager_01::createTheBlock(const int type) {
 	//here we create the block type
 	ALevelCreationBase* actor;
 	FActorSpawnParameters spawnPara;

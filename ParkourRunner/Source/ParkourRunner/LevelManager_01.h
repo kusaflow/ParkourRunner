@@ -55,10 +55,6 @@ public:
 	it stores data from the last block data so that when new block chaun is created
 	we have referance it ot make it seemless
 	*/
-	UPROPERTY()
-	int LastBlockTypeData = 0;
-
-
 
 
 protected:
@@ -78,7 +74,7 @@ public:
 	int GenerateRandomLevelCreationTypes();
 	int BlockCount(int type);
 	void createNewBlocksMngr();
-	void createTheBlock(const int type, int Prevtype);
+	void createTheBlock(const int type);
 
 	//removelFunctions
 	void removeActorsFromGame();

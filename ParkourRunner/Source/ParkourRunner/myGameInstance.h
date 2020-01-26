@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include <queue>
 #include "myGameInstance.generated.h"
 
 /**
@@ -23,6 +24,6 @@ public:
 	FVector MainActorLocation;
 
 	UPROPERTY()
-	int ActorsToDrawAtATime = 15;
+	int ActorsToDrawAtATime = 16;
 	
 };
