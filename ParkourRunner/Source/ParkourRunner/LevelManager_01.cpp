@@ -213,7 +213,7 @@ void ALevelManager_01::createNewBlocksMngr() {
 	}
 	
 	int val = 0;
-	while (counterOfActorsOnScreen <= gameInstance->ActorsToDrawAtATime) {
+	while (counterOfActorsOnScreen < gameInstance->ActorsToDrawAtATime) {
 		val = GenerateRandomLevelCreationTypes();
 		counterOfActorsOnScreen += BlockCount(val);
 		if (counterOfActorsOnScreen <= gameInstance->ActorsToDrawAtATime) {
@@ -221,6 +221,7 @@ void ALevelManager_01::createNewBlocksMngr() {
 			insertInt(val);
 		}
 		else {
+			counterOfActorsOnScreen -= BlockCount(val);
 			continue;
 		}
 	}
@@ -268,10 +269,32 @@ void ALevelManager_01::createTheBlock(const int type) {
 		UWorld* world = GetWorld();
 		if (world) {
 			//----------------selection--------------
-			if (type == 1) {
+			if (type == 2) {
+				//block 1
+				locationToDrawblock_X += 800;
 				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
-				locationToDrawblock_X += 200;
+				actor->SetActorScale3D(FVector(8,1.4f,1));
 				insertActor(actor);
+				locationToDrawblock_X += 800;
+				//block2
+				locationToDrawblock_X += 1030;
+				locationToDrawblock_X += 50;
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -980.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(0.5f, 1.4f, 1.15f));
+				insertActor(actor);
+				locationToDrawblock_X += 50;
+				//block3
+				locationToDrawblock_X += 400;
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -980.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(4, 1.4f, 1));
+				insertActor(actor);
+				locationToDrawblock_X +=400;
+				//block 4
+				locationToDrawblock_X += 1210;
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -980.0f), FRotator(10,0,0), spawnPara);
+				actor->SetActorScale3D(FVector(12, 1.4f, 1.35));
+				insertActor(actor);
+				locationToDrawblock_X += 1000;
 			}
 		}
 	}
@@ -300,7 +323,7 @@ void ALevelManager_01 :: removeActorsFromGame() {
 	LL_Actor_Node* h2 = head_Total_Blocks->head;
 	LL_Actor_Node* h3 = h2;
 
-	for (int i = 0; i < BlocksOnBack-1; i++) {
+	for (int i = 0; i < BlocksOnBack; i++) {
 		if (h2 == nullptr) {
 			return;
 		}
@@ -319,12 +342,15 @@ void ALevelManager_01 :: removeActorsFromGame() {
 
 int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//creating this as seperate for future if i have to create a logic to make complex randomness
+	//type 2
+	return 2;
+
 	return 1;
 }
 
 int ALevelManager_01::BlockCount(int type) {
-	if (type == 1) {
-		return 1;
+	if (type == 2) {
+		return 4;
 	}
 	return 0;
 }
