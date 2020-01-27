@@ -43,6 +43,11 @@ public:
 	UPROPERTY()
 	bool FirstRun = true;
 
+
+
+	//--------------------------
+	int temp = 0;
+
 	/*UPROPERTY()
 	int ListCount_1stBlockType = 0;
 

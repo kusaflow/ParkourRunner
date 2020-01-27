@@ -292,11 +292,33 @@ void ALevelManager_01::createTheBlock(const int type) {
 				//block 4
 				locationToDrawblock_X += 1210;
 				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -980.0f), FRotator(10,0,0), spawnPara);
-				actor->SetActorScale3D(FVector(12, 1.4f, 1.35));
+				actor->SetActorScale3D(FVector(12, 1.4f, 1.34f));
 				insertActor(actor);
 				locationToDrawblock_X += 1000;
 			}
+			else if (type == 3) {
+				//block 1
+				locationToDrawblock_X += 300;
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(3, 1.4f, 1));
+				insertActor(actor);
+				locationToDrawblock_X += 300;
+				//block2
+				locationToDrawblock_X += 150;
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(1.5f, 1.4f, 1.235f));
+				insertActor(actor);
+				locationToDrawblock_X += 150;
+				//block3
+				locationToDrawblock_X += 640;
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(-10, 0, 0), spawnPara);
+				actor->SetActorScale3D(FVector(8.0f, 1.4f, 1.235f));
+				insertActor(actor);
+				locationToDrawblock_X += 640;
+
+			}
 		}
+
 	}
 }
 
@@ -343,14 +365,28 @@ void ALevelManager_01 :: removeActorsFromGame() {
 int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//creating this as seperate for future if i have to create a logic to make complex randomness
 	//type 2
-	return 2;
+	//return 2;
+	//return 3;
 
-	return 1;
+	if (temp % 2 == 0) {
+		temp++;
+		return 2;
+	}
+	else {
+		temp++;
+		return 3;
+	}
+	
+
+	//return 1;
 }
 
 int ALevelManager_01::BlockCount(int type) {
 	if (type == 2) {
 		return 4;
+	}
+	if (type == 3) {
+		return 3;
 	}
 	return 0;
 }

@@ -24,6 +24,6 @@ public:
 	FVector MainActorLocation;
 
 	UPROPERTY()
-	int ActorsToDrawAtATime = 4;
+	int ActorsToDrawAtATime = 20;
 	
 };
