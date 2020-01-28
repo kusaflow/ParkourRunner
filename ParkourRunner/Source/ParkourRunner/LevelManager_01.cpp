@@ -7,6 +7,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "ConstructorHelpers.h"
 #include "myGameInstance.h"
+#include "Math/UnrealMathUtility.h"
 
 //UE_LOG(LogTemp, Warning, TEXT("%d"), h2->data);
 
@@ -216,13 +217,13 @@ void ALevelManager_01::createNewBlocksMngr() {
 	while (counterOfActorsOnScreen < gameInstance->ActorsToDrawAtATime) {
 		val = GenerateRandomLevelCreationTypes();
 		counterOfActorsOnScreen += BlockCount(val);
-		if (counterOfActorsOnScreen <= gameInstance->ActorsToDrawAtATime) {
+		if (counterOfActorsOnScreen < gameInstance->ActorsToDrawAtATime) {
 			//its a valid number to we can add it to the list
 			insertInt(val);
 		}
 		else {
-			counterOfActorsOnScreen -= BlockCount(val);
-			continue;
+			//counterOfActorsOnScreen -= BlockCount(val);
+			//continue;
 		}
 	}
 
@@ -306,7 +307,7 @@ void ALevelManager_01::createTheBlock(const int type) {
 				//block2
 				locationToDrawblock_X += 150;
 				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
-				actor->SetActorScale3D(FVector(1.5f, 1.4f, 1.235f));
+				actor->SetActorScale3D(FVector(1.5f, 1.4f, 1.45f));
 				insertActor(actor);
 				locationToDrawblock_X += 150;
 				//block3
@@ -315,7 +316,6 @@ void ALevelManager_01::createTheBlock(const int type) {
 				actor->SetActorScale3D(FVector(8.0f, 1.4f, 1.235f));
 				insertActor(actor);
 				locationToDrawblock_X += 640;
-
 			}
 		}
 
@@ -368,15 +368,16 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 2;
 	//return 3;
 
-	if (temp % 2 == 0) {
-		temp++;
+	return 4;
+
+	if (tmp % 2 == 0) {
+		tmp++;
 		return 2;
 	}
 	else {
-		temp++;
+		tmp++;
 		return 3;
 	}
-	
 
 	//return 1;
 }
