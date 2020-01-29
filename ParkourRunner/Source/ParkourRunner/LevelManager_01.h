@@ -43,7 +43,6 @@ public:
 	UPROPERTY()
 	bool FirstRun = true;
 
-	int tmp = 0;
 
 
 
