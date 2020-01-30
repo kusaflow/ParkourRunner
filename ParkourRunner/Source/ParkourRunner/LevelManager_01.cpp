@@ -186,7 +186,7 @@ void ALevelManager_01::Tick(float DeltaTime)
 		DeleteAllInts();		
 	}
 
-
+	
 	//UE_LOG(LogTemp, Warning, TEXT("%d ---------------- %d" ), *gameInstance->MainActorLocation.X,midVal);
 
 
@@ -438,7 +438,10 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 2;
 	//return 3;
 	//return 4;
-	return 6;
+
+	int x = (int)FMath::FRandRange(2, 7);
+
+	return x;
 	//return 1;
 }
 
