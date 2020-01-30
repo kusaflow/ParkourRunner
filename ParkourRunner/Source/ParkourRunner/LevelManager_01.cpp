@@ -274,7 +274,7 @@ void ALevelManager_01::createTheBlock(const int type) {
 				//block 1
 				locationToDrawblock_X += 800;
 				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
-				actor->SetActorScale3D(FVector(8,1.4f,1));
+				actor->SetActorScale3D(FVector(8, 1.4f, 1));
 				insertActor(actor);
 				locationToDrawblock_X += 800;
 				//block2
@@ -289,10 +289,10 @@ void ALevelManager_01::createTheBlock(const int type) {
 				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -980.0f), FRotator(0), spawnPara);
 				actor->SetActorScale3D(FVector(4, 1.4f, 1));
 				insertActor(actor);
-				locationToDrawblock_X +=400;
+				locationToDrawblock_X += 400;
 				//block 4
 				locationToDrawblock_X += 1210;
-				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -980.0f), FRotator(10,0,0), spawnPara);
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -980.0f), FRotator(10, 0, 0), spawnPara);
 				actor->SetActorScale3D(FVector(12, 1.4f, 1.34f));
 				insertActor(actor);
 				locationToDrawblock_X += 1000;
@@ -317,6 +317,76 @@ void ALevelManager_01::createTheBlock(const int type) {
 				insertActor(actor);
 				locationToDrawblock_X += 640;
 			}
+			else if (type == 4) {
+				//block 1
+				locationToDrawblock_X += 200;
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(2, 1.4f, 1));
+				insertActor(actor);
+				locationToDrawblock_X += 200;
+				//block2
+				locationToDrawblock_X += 470;
+				locationToDrawblock_X += 200;
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(2, 1.4f, 1.5f));
+				insertActor(actor);
+				locationToDrawblock_X += 200;
+			}
+			else if (type == 5) {
+				//block 1
+				locationToDrawblock_X += 200;
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(2, 1.4f, 1));
+				insertActor(actor);
+				locationToDrawblock_X += 200;
+				//block2
+				locationToDrawblock_X += 470;
+				locationToDrawblock_X += 200;
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(2, 1.4f, 1.5f));
+				insertActor(actor);
+				locationToDrawblock_X += 200;
+				//block3
+				locationToDrawblock_X += 200;
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(2, 1.4f, 1));
+				insertActor(actor);
+				locationToDrawblock_X += 200;
+			}
+			else if (type == 6){
+				unsigned int orgPos = locationToDrawblock_X;
+				//block 1
+				locationToDrawblock_X += 400;
+				locationToDrawblock_X += 100;
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, 80.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(1, 0.5f, 0.1f));
+				insertActor(actor);
+				locationToDrawblock_X += 400;
+				//block2
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, 80.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(1, 0.5f, 0.1f));
+				insertActor(actor);
+				locationToDrawblock_X += 400;
+				//block 3
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, 80.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(1, 0.5f, 0.1f));
+				insertActor(actor);
+				locationToDrawblock_X += 400;
+				//block 4
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, 80.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(1, 0.5f, 0.1f));
+				insertActor(actor);
+
+				//main block
+				locationToDrawblock_X = orgPos;
+				locationToDrawblock_X += 1200;
+				actor = world->SpawnActor<ALevelCreationBase>(Block_001, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(12, 1.4f, 1));
+				insertActor(actor);
+				locationToDrawblock_X += 1200;
+			}
+
+
 		}
 
 	}
@@ -367,18 +437,8 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//type 2
 	//return 2;
 	//return 3;
-
-	return 4;
-
-	if (tmp % 2 == 0) {
-		tmp++;
-		return 2;
-	}
-	else {
-		tmp++;
-		return 3;
-	}
-
+	//return 4;
+	return 6;
 	//return 1;
 }
 
@@ -389,6 +449,16 @@ int ALevelManager_01::BlockCount(int type) {
 	if (type == 3) {
 		return 3;
 	}
+	if (type == 4) {
+		return 2;
+	}
+	if (type == 5) {
+		return 3;
+	}
+	if (type == 6) {
+		return 5;
+	}
+
 	return 0;
 }
 //----------------------------------------------------------------------------------------

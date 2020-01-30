@@ -32,7 +32,7 @@ public:
 
 
 	UPROPERTY()
-	float locationToDrawblock_X;
+	unsigned int locationToDrawblock_X;
 
 	UPROPERTY()
 	int initVal=0, finalVal=0, midVal=0;
