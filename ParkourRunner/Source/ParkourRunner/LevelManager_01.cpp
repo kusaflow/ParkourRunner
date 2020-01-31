@@ -455,6 +455,33 @@ void ALevelManager_01::createTheBlock(const int type) {
 				insertActor(actor);
 				locationToDrawblock_X += 200;
 			}
+			else if (type == 9) {
+				//3 blocks where the middle one is a bit lower than others
+				//block 1
+				RandomBlock();
+				locationToDrawblock_X += 200;
+				actor = world->SpawnActor<ALevelCreationBase>(Block, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(2, 1.4f, 1));
+				insertActor(actor);
+				locationToDrawblock_X += 200;
+				//block2
+				RandomBlock();
+				locationToDrawblock_X += 400;
+				locationToDrawblock_X += 200;
+				actor = world->SpawnActor<ALevelCreationBase>(Block, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(2, 1.4f, 0.8f));
+				insertActor(actor);
+				locationToDrawblock_X += 200;
+				//block3
+				RandomBlock();
+				locationToDrawblock_X += 400;
+				locationToDrawblock_X += 200;
+				actor = world->SpawnActor<ALevelCreationBase>(Block, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(2, 1.4f, 1));
+				insertActor(actor);
+				locationToDrawblock_X += 200;
+
+			}
 			
 
 
@@ -510,7 +537,7 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 3;
 	//return 4;
 
-	//return 8;
+	return 9;
 	
 	int x = (int)FMath::FRandRange(2, 9);
 
@@ -541,7 +568,7 @@ int ALevelManager_01::BlockCount(int type) {
 		return 4;
 	}
 	if (type == 9) {
-		return 5;
+		return 3;
 	}
 
 	return 0;
