@@ -18,6 +18,20 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, category = "meshes")
 	TSubclassOf<class ALevelCreationBase> Block_001;
+	
+	UPROPERTY(EditDefaultsOnly, category = "meshes")
+	TSubclassOf<class ALevelCreationBase> Block_002;
+	
+	UPROPERTY(EditDefaultsOnly, category = "meshes")
+	TSubclassOf<class ALevelCreationBase> Block_003;
+
+	UPROPERTY(EditDefaultsOnly, category = "meshes")
+	TSubclassOf<class ALevelCreationBase> Block_004;
+
+	UPROPERTY(EditDefaultsOnly, category = "meshes")
+	TSubclassOf<class ALevelCreationBase> Block_005;
+
+	TSubclassOf<class ALevelCreationBase> Block;
 
 	UPROPERTY(BlueprintReadOnly)
 	class UStaticMeshComponent* viewer;
@@ -83,6 +97,10 @@ public:
 	//removelFunctions
 	void removeActorsFromGame();
 	void RemoveDataForNew();
+
+
+	//random block for different color
+	void RandomBlock();
 
 	//----------------Linked List------------------------
 
