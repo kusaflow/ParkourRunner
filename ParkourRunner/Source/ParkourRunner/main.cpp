@@ -60,21 +60,20 @@ void Amain::Tick(float DeltaTime)
 	
 	gameInstance->MainActorLocation = GetRootComponent()->GetRelativeLocation();
 
-	if (Initiatejump) {
-		timmerForjump += 50 * DeltaTime;
-
-		if (timmerForjump>=5) {
-			if (gameInstance) {
-				gameInstance->anticipateForJump = false;
-			}
-			Jump();
-			Initiatejump = false;
-			timmerForjump = 0.0f;
-		}
-	}
 
 	//UE_LOG(LogTemp, Warning, TEXT("%d"), GetRootComponent()->GetRelativeLocation().X);
 
+
+	//run constantly
+	if ((Controller != nullptr) && !PerformingAction) {
+		GetRootComponent()->GetChildComponent(1)->SetWorldRotation(FRotator(0, -90, 0));
+
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0.0f, Rotation.Yaw, 0.0f);
+
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		AddMovementInput(Direction, 1);
+	}
 
 
 }
@@ -85,15 +84,16 @@ void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent); 
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction("jumping", IE_Pressed, this, &Amain::JumpStart);
+	PlayerInputComponent->BindAction("jumping", IE_Pressed, this, &Amain::ActionPerformed);
 	//PlayerInputComponent->BindAction("jumping", IE_Released, this, &Amain::StartJump);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &Amain::moveForward);
+	//PlayerInputComponent->BindAxis("MoveForward", this, &Amain::moveForward);
 	PlayerInputComponent->BindAxis("Walk", this, &Amain::Walk);
 	
 
 }
 
+/*
 void Amain :: moveForward(float value) {
 	if ((Controller != nullptr) && (value != 0.0f)) {
 		if (value < 0) {
@@ -107,10 +107,10 @@ void Amain :: moveForward(float value) {
 		const FRotator YawRotation(0.0f, Rotation.Yaw, 0.0f);
 
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-
 		AddMovementInput(Direction, value);
 	}
 }
+*/
 
 void Amain::Walk(float value) {
 	if (value == 1) {
@@ -132,15 +132,8 @@ void Amain::Walk(float value) {
 	}
 }
 
-void Amain::JumpStart() {
-	if (!Initiatejump) {
-		if (gameInstance) {
-			gameInstance->anticipateForJump = true;
-		}
-		Initiatejump = true;
-		//speed = 0.0f;
-		//Jump();
-	}
+void Amain::ActionPerformed() {
+	
 
 }
 

@@ -217,14 +217,8 @@ void ALevelManager_01::createNewBlocksMngr() {
 	while (counterOfActorsOnScreen < gameInstance->ActorsToDrawAtATime) {
 		val = GenerateRandomLevelCreationTypes();
 		counterOfActorsOnScreen += BlockCount(val);
-		if (counterOfActorsOnScreen < gameInstance->ActorsToDrawAtATime) {
-			//its a valid number to we can add it to the list
-			insertInt(val);
-		}
-		else {
-			//counterOfActorsOnScreen -= BlockCount(val);
-			//continue;
-		}
+		insertInt(val);
+		
 	}
 
 	if (FirstRun) {
@@ -270,7 +264,16 @@ void ALevelManager_01::createTheBlock(const int type) {
 		UWorld* world = GetWorld();
 		if (world) {
 			//----------------selection--------------
-			if (type == 2) {
+			if (type == 1) {
+				//block 1
+				RandomBlock();
+				locationToDrawblock_X += 400;
+				actor = world->SpawnActor<ALevelCreationBase>(Block, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(4, 1.4f, 1));
+				insertActor(actor);
+				locationToDrawblock_X += 400;
+			}
+			else if (type == 2) {
 				//block 1
 				RandomBlock();
 				locationToDrawblock_X += 800;
@@ -537,7 +540,7 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 3;
 	//return 4;
 
-	return 9;
+	return 1;
 	
 	int x = (int)FMath::FRandRange(2, 9);
 
@@ -546,6 +549,9 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 }
 
 int ALevelManager_01::BlockCount(int type) {
+	if (type == 1) {
+		return 1;
+	}
 	if (type == 2) {
 		return 4;
 	}

@@ -33,6 +33,9 @@ public:
 	class UmyGameInstance* gameInstance;
 
 
+	//Action For Parkour
+	bool PerformingAction = false;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -47,6 +50,7 @@ public:
 	/**moving forwars and backword*/
 	void moveForward(float value);
 	void Walk(float value);
-	void JumpStart();
-	void StartJump();
+
+	//action
+	void ActionPerformed();
 };
