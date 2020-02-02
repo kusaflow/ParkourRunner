@@ -65,6 +65,7 @@ void Amain::Tick(float DeltaTime)
 
 
 	//run constantly
+	
 	if ((Controller != nullptr) && !PerformingAction) {
 		GetRootComponent()->GetChildComponent(1)->SetWorldRotation(FRotator(0, -90, 0));
 
@@ -74,6 +75,10 @@ void Amain::Tick(float DeltaTime)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, 1);
 	}
+	else {
+
+	}
+	
 
 
 }
@@ -84,7 +89,9 @@ void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent); 
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction("jumping", IE_Pressed, this, &Amain::ActionPerformed);
+	PlayerInputComponent->BindAction("Action", IE_Pressed, this, &Amain::ActionPerformed);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &Amain::NormalJump);
+
 	//PlayerInputComponent->BindAction("jumping", IE_Released, this, &Amain::StartJump);
 
 	//PlayerInputComponent->BindAxis("MoveForward", this, &Amain::moveForward);
@@ -133,9 +140,17 @@ void Amain::Walk(float value) {
 }
 
 void Amain::ActionPerformed() {
-	
+	PerformingAction = !PerformingAction;
+	speed = 0;
+	GetCharacterMovement()->MaxWalkSpeed = speed;
+	GetCharacterMovement()->GravityScale = 0;	
+	GetCharacterMovement()->Launch(FVector(0, 0, 220));
 
 }
 
 
+void Amain::NormalJump() {
+	speed = 0;
+	Jump();
+}
 

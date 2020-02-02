@@ -21,7 +21,7 @@ public:
 
 	/* main camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
+	class UCameraComponent* FollowCamera; 
 
 	float speed;
 
@@ -35,6 +35,9 @@ public:
 
 	//Action For Parkour
 	bool PerformingAction = false;
+	unsigned int ActionIndex = 0;
+	//init the imp vals to perform action
+	bool init_tvals = false;
 
 protected:
 	// Called when the game starts or when spawned
@@ -53,4 +56,8 @@ public:
 
 	//action
 	void ActionPerformed();
+
+
+	void NormalJump();
+
 };

@@ -274,6 +274,7 @@ void ALevelManager_01::createTheBlock(const int type) {
 				locationToDrawblock_X += 400;
 			}
 			else if (type == 2) {
+				//0:17
 				//block 1
 				RandomBlock();
 				locationToDrawblock_X += 800;
@@ -540,7 +541,7 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 3;
 	//return 4;
 
-	return 1;
+	return 2;
 	
 	int x = (int)FMath::FRandRange(2, 9);
 
