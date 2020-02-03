@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Containers/Queue.h"
 #include "LevelManager_01.generated.h"
 
 UCLASS()
@@ -31,6 +32,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, category = "meshes")
 	TSubclassOf<class ALevelCreationBase> Block_005;
 
+	UPROPERTY(EditDefaultsOnly, category = "meshes")
+	TSubclassOf<AActor> sensorMesh;
+
 	TSubclassOf<class ALevelCreationBase> Block;
 
 	UPROPERTY(BlueprintReadOnly)
@@ -57,6 +61,7 @@ public:
 	UPROPERTY()
 	bool FirstRun = true;
 
+	TQueue <AActor*> sensorQueue;
 
 
 
@@ -119,5 +124,7 @@ public:
 
 	//===================================================
 	
+	UFUNCTION()
+	void AddSensors(int type, unsigned int posX, UWorld* world);
 
 };

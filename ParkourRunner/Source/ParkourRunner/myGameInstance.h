@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "Containers/Queue.h"
 #include "myGameInstance.generated.h"
 
 /**
@@ -25,5 +26,6 @@ public:
 	UPROPERTY()
 	int ActorsToDrawAtATime = 40;
 
+	TQueue<int> actionsQueue;
 	
 };

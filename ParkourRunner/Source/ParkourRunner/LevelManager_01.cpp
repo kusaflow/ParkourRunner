@@ -263,6 +263,8 @@ void ALevelManager_01::createTheBlock(const int type) {
 	if (Block_001 && Block_002 && Block_003 && Block_004 && Block_005) {
 		UWorld* world = GetWorld();
 		if (world) {
+			//AddSensor
+			AddSensors(type, locationToDrawblock_X, world);
 			//----------------selection--------------
 			if (type == 1) {
 				//block 1
@@ -676,4 +678,22 @@ void ALevelManager_01 :: DeleteAllInts() {
 }
 
 //Linked List operation End
+
+
+void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) {
+	AActor* actor;
+	FActorSpawnParameters spawnPara;
+	spawnPara.Owner = this;
+
+	if (world && sensorMesh) {
+		if (type == 2) {
+
+			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX+1500, 0, 70), FRotator(0), spawnPara);
+			sensorQueue.Enqueue(actor);
+		}
+
+	
+	}
+
+}
 
