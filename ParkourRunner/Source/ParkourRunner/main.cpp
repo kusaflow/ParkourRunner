@@ -38,9 +38,6 @@ Amain::Amain()
 
 	timmerForjump = 0.0f;
 
-	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
-	gameInstance->actionsQueue.Enqueue(1);
-
 }
 
 // Called when the game starts or when spawned
@@ -65,8 +62,6 @@ void Amain::Tick(float DeltaTime)
 
 
 	//UE_LOG(LogTemp, Warning, TEXT("%d"), GetRootComponent()->GetRelativeLocation().X);
-
-	UE_LOG(LogTemp, Warning, TEXT("%d"), gameInstance->actionsQueue.Peek)
 
 	//run constantly
 	if ((Controller != nullptr) && !PerformingAction) {
