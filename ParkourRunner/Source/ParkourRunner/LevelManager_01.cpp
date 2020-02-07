@@ -687,8 +687,8 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 
 	if (world && sensorMesh) {
 		if (type == 2) {
-
 			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX+1500, 0, 70), FRotator(0), spawnPara);	
+			taskSensors.push(actor);
 		}
 
 	

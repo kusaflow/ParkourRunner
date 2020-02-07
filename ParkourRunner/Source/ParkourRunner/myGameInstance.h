@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include <iostream>
+#include <queue>
 #include "Engine/GameInstance.h"
 #include "myGameInstance.generated.h"
 
@@ -24,4 +26,8 @@ public:
 
 	UPROPERTY()
 	int ActorsToDrawAtATime = 40;
+
+	//UPROPERTY()
+	std::queue<int> tasks;
+	
 };

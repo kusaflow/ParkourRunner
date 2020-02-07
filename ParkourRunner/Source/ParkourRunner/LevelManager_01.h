@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include <queue>
 #include "LevelManager_01.generated.h"
 
 UCLASS()
@@ -59,6 +60,8 @@ public:
 
 	UPROPERTY()
 	bool FirstRun = true;
+
+	std::queue<AActor*> taskSensors;
 
 
 
