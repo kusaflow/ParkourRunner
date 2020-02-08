@@ -47,6 +47,9 @@ void Amain::BeginPlay()
 	speed = 900.f;
 	
 	//Crouch();
+
+	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
+	gameInstance->tasks.push(1);
 	
 }
 
@@ -57,11 +60,11 @@ void Amain::Tick(float DeltaTime)
 	GetCharacterMovement()->MaxWalkSpeed = speed;
 
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
-	
+
 	gameInstance->MainActorLocation = GetRootComponent()->GetRelativeLocation();
 
-
-	//UE_LOG(LogTemp, Warning, TEXT("%d"), GetRootComponent()->GetRelativeLocation().X);
+	//int x = gameInstance->tasks.front();
+	//UE_LOG(LogTemp, Warning, TEXT("%d"),x);
 
 	//run constantly
 	if ((Controller != nullptr) && !PerformingAction) {
@@ -76,8 +79,13 @@ void Amain::Tick(float DeltaTime)
 	else {
 
 	}
-	
 
+	//checking for the collision
+	if (sensorFromBP) {
+		if (IsOverlappingActor(sensorFromBP.GetDefaultObject())) {
+			UE_LOG(LogTemp, Warning, TEXT("overlapping kids"));
+		}
+	}
 
 }
 

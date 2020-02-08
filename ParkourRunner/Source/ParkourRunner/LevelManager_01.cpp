@@ -543,7 +543,7 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 3;
 	//return 4;
 
-	return 2;
+	return 1;
 	
 	int x = (int)FMath::FRandRange(2, 9);
 
@@ -686,11 +686,16 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 	spawnPara.Owner = this;
 
 	if (world && sensorMesh) {
-		if (type == 2) {
-			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX+1500, 0, 70), FRotator(0), spawnPara);	
+		if (type == 1) {
+			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX+400, 0, 90), FRotator(0), spawnPara);	
 			taskSensors.push(actor);
+			return;
 		}
-
+		else if (type == 2) {
+			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + 1500, 0, 70), FRotator(0), spawnPara);
+			taskSensors.push(actor);
+			return;
+		}
 	
 	}
 

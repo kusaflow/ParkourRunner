@@ -15,6 +15,10 @@ public:
 	// Sets default values for this character's properties
 	Amain();
 	
+	//actor of Sensor
+	UPROPERTY(EditDefaultsOnly, category = "meshes")
+	TSubclassOf<class AActor> sensorFromBP;
+
 	/*camera behind the player*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* cameraBoom;
