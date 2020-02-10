@@ -16,7 +16,7 @@ public:
 	Amain();
 	
 	//actor of Sensor
-	UPROPERTY(EditDefaultsOnly, category = "meshes")
+	UPROPERTY(EditAnywhere, category = "meshes")
 	TSubclassOf<class AActor> sensorFromBP;
 
 	/*camera behind the player*/
@@ -63,5 +63,10 @@ public:
 
 
 	void NormalJump();
+
+	//overlapping events
+	//UFUNCTION()
+	//void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+		//int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 };

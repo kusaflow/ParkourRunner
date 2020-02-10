@@ -27,7 +27,18 @@ public:
 	UPROPERTY()
 	int ActorsToDrawAtATime = 40;
 
+	//classes
+	UCLASS()
+	class sensorClass {
+	public:
+		unsigned int x, y, sizeX, sizeY;
+	};
+
 	//UPROPERTY()
+	std::queue<class sensorClass> sensorsClassQueue;
 	std::queue<int> tasks;
+
+
+	
 	
 };

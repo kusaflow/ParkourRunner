@@ -61,7 +61,7 @@ public:
 	UPROPERTY()
 	bool FirstRun = true;
 
-	std::queue<AActor*> taskSensors;
+	std::queue<AActor*> taskSensorsActor;
 
 
 

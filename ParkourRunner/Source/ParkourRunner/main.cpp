@@ -45,8 +45,11 @@ void Amain::BeginPlay()
 {
 	Super::BeginPlay();
 	speed = 900.f;
+
 	
 	//Crouch();
+
+	
 
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
 	gameInstance->tasks.push(1);
@@ -146,11 +149,14 @@ void Amain::Walk(float value) {
 }
 
 void Amain::ActionPerformed() {
-	PerformingAction = !PerformingAction;
-	speed = 0;
-	GetCharacterMovement()->MaxWalkSpeed = speed;
-	GetCharacterMovement()->GravityScale = 0;	
-	GetCharacterMovement()->Launch(FVector(0, 0, 220));
+	//PerformingAction = !PerformingAction;
+	//speed = 0;
+	//GetCharacterMovement()->MaxWalkSpeed = speed;
+	//GetCharacterMovement()->GravityScale = 0;	
+	//GetCharacterMovement()->Launch(FVector(0, 0, 220));
+
+	UE_LOG(LogTemp, Warning, TEXT("==========================Chal raha h================================"));
+
 
 }
 
@@ -159,4 +165,10 @@ void Amain::NormalJump() {
 	speed = 0;
 	Jump();
 }
+
+////onoverlap begin
+//void Amain :: OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+//	UPrimitiveComponent* OtherComp,int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+//
+//}
 

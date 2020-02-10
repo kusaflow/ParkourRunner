@@ -685,19 +685,29 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 	FActorSpawnParameters spawnPara;
 	spawnPara.Owner = this;
 
+	//SIZE of sensor for now is 200x200x200
+	UmyGameInstance::sensorClass sensorClassObj;
+
 	if (world && sensorMesh) {
 		if (type == 1) {
 			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX+400, 0, 90), FRotator(0), spawnPara);	
-			taskSensors.push(actor);
+			taskSensorsActor.push(actor);
+			sensorClassObj.x = posX + 400;
+			sensorClassObj.y = 90;
+			sensorClassObj.y = 200;
+			sensorClassObj.y = 200;
 			return;
 		}
 		else if (type == 2) {
 			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + 1500, 0, 70), FRotator(0), spawnPara);
-			taskSensors.push(actor);
+			taskSensorsActor.push(actor);
 			return;
 		}
-	
+
+
 	}
+
+	gameInstance->sensorsClassQueue.push(sensorClassObj);
 
 }
 
