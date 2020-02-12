@@ -86,18 +86,14 @@ void Amain::Tick(float DeltaTime)
 
 	//UE_LOG(LogTemp, Warning, TEXT("%d"), gameInstance->sensorsClassQueue.front().x);
 	
-	//checking for the collision
-	if (!gameInstance->sensorsClassQueue.empty()) {
-		if (
-			(float)(gameInstance->sensorsClassQueue.front().x - gameInstance->sensorsClassQueue.front().sizeX) <= GetRootComponent()->GetRelativeLocation().X &&
-			(float)(gameInstance->sensorsClassQueue.front().x + gameInstance->sensorsClassQueue.front().sizeX) >= GetRootComponent()->GetRelativeLocation().X 
-			) {
-			//========================
-			UE_LOG(LogTemp, Warning, TEXT("overlapping kids"));
-			gameInstance->sensorsClassQueue.pop();
-			
-		}
+
+	if ((float)(gameInstance->sensorsClassQueue.front().x + gameInstance->sensorsClassQueue.front().sizeX)+10 <=
+		GetRootComponent()->GetRelativeLocation().X) {
+		gameInstance->sensorsClassQueue.pop();
 	}
+	
+
+
 }
 
 // Called to bind functionality to input
@@ -162,8 +158,19 @@ void Amain::ActionPerformed() {
 	//GetCharacterMovement()->MaxWalkSpeed = speed;
 	//GetCharacterMovement()->GravityScale = 0;	
 	//GetCharacterMovement()->Launch(FVector(0, 0, 220));
+	//checking for the collision
+	if (!gameInstance->sensorsClassQueue.empty()) {
+		if (
+			(float)(gameInstance->sensorsClassQueue.front().x - gameInstance->sensorsClassQueue.front().sizeX) <= GetRootComponent()->GetRelativeLocation().X &&
+			(float)(gameInstance->sensorsClassQueue.front().x + gameInstance->sensorsClassQueue.front().sizeX) >= GetRootComponent()->GetRelativeLocation().X
+			) {
+			//========================
+			UE_LOG(LogTemp, Warning, TEXT("overlapping kids"));
+			//gameInstance->sensorsClassQueue.pop();
+		}
+	}
 
-	UE_LOG(LogTemp, Warning, TEXT("==========================Chal raha h================================"));
+	//UE_LOG(LogTemp, Warning, TEXT("==========================Chal raha h================================"));
 
 
 }
