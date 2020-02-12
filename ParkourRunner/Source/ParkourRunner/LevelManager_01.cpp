@@ -694,19 +694,17 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 			taskSensorsActor.push(actor);
 			sensorClassObj.x = posX + 400;
 			sensorClassObj.y = 90;
-			sensorClassObj.y = 200;
-			sensorClassObj.y = 200;
-			return;
+			sensorClassObj.sizeX = 100;
+			sensorClassObj.sizeY = 100;
 		}
 		else if (type == 2) {
 			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + 1500, 0, 70), FRotator(0), spawnPara);
 			taskSensorsActor.push(actor);
-			return;
 		}
 
 
 	}
-
+	
 	gameInstance->sensorsClassQueue.push(sensorClassObj);
 
 }

@@ -28,7 +28,6 @@ public:
 	int ActorsToDrawAtATime = 40;
 
 	//classes
-	UCLASS()
 	class sensorClass {
 	public:
 		unsigned int x, y, sizeX, sizeY;

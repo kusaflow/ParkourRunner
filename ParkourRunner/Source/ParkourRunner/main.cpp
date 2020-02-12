@@ -83,13 +83,21 @@ void Amain::Tick(float DeltaTime)
 
 	}
 
+
+	//UE_LOG(LogTemp, Warning, TEXT("%d"), gameInstance->sensorsClassQueue.front().x);
+	
 	//checking for the collision
-	if (sensorFromBP) {
-		if (IsOverlappingActor(sensorFromBP.GetDefaultObject())) {
+	if (!gameInstance->sensorsClassQueue.empty()) {
+		if (
+			(float)(gameInstance->sensorsClassQueue.front().x - gameInstance->sensorsClassQueue.front().sizeX) <= GetRootComponent()->GetRelativeLocation().X &&
+			(float)(gameInstance->sensorsClassQueue.front().x + gameInstance->sensorsClassQueue.front().sizeX) >= GetRootComponent()->GetRelativeLocation().X 
+			) {
+			//========================
 			UE_LOG(LogTemp, Warning, TEXT("overlapping kids"));
+			gameInstance->sensorsClassQueue.pop();
+			
 		}
 	}
-
 }
 
 // Called to bind functionality to input
