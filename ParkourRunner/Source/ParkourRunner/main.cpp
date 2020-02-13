@@ -50,10 +50,7 @@ void Amain::BeginPlay()
 	//Crouch();
 
 	
-
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
-	gameInstance->tasks.push(1);
-	
 }
 
 // Called every frame
@@ -85,12 +82,6 @@ void Amain::Tick(float DeltaTime)
 
 
 	//UE_LOG(LogTemp, Warning, TEXT("%d"), gameInstance->sensorsClassQueue.front().x);
-	
-
-	if ((float)(gameInstance->sensorsClassQueue.front().x + gameInstance->sensorsClassQueue.front().sizeX)+10 <=
-		GetRootComponent()->GetRelativeLocation().X) {
-		gameInstance->sensorsClassQueue.pop();
-	}
 	
 
 
@@ -159,14 +150,22 @@ void Amain::ActionPerformed() {
 	//GetCharacterMovement()->GravityScale = 0;	
 	//GetCharacterMovement()->Launch(FVector(0, 0, 220));
 	//checking for the collision
+
 	if (!gameInstance->sensorsClassQueue.empty()) {
 		if (
 			(float)(gameInstance->sensorsClassQueue.front().x - gameInstance->sensorsClassQueue.front().sizeX) <= GetRootComponent()->GetRelativeLocation().X &&
 			(float)(gameInstance->sensorsClassQueue.front().x + gameInstance->sensorsClassQueue.front().sizeX) >= GetRootComponent()->GetRelativeLocation().X
 			) {
-			//========================
-			UE_LOG(LogTemp, Warning, TEXT("overlapping kids"));
-			//gameInstance->sensorsClassQueue.pop();
+			//======================== long if for tasks===========================
+			if (gameInstance->sensorsClassQueue.front().task) {
+				PerformingAction = true;
+				speed = 0;
+				GetCharacterMovement()->MaxWalkSpeed = speed;
+				GetCharacterMovement()->GravityScale = 0;	
+				GetCharacterMovement()->Launch(FVector(0, 0, 220));
+			}
+
+			///==================================lonf if end here======================================
 		}
 	}
 

@@ -30,13 +30,11 @@ public:
 	//classes
 	class sensorClass {
 	public:
-		unsigned int x, y, sizeX, sizeY;
+		unsigned int x, y, sizeX, sizeY, task;
 	};
 
 	//UPROPERTY()
 	std::queue<class sensorClass> sensorsClassQueue;
-	std::queue<int> tasks;
-
 
 	
 	

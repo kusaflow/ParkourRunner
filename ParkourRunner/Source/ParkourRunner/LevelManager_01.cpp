@@ -186,6 +186,18 @@ void ALevelManager_01::Tick(float DeltaTime)
 		DeleteAllInts();		
 	}
 
+	//removing actor that has no need in the scene
+	if ((float)(gameInstance->sensorsClassQueue.front().x + gameInstance->sensorsClassQueue.front().sizeX) + 10 <=
+		gameInstance->MainActorLocation.X) {
+		//--------------------------------------
+		if (!gameInstance->sensorsClassQueue.empty() && !taskSensorsActor.empty()) {
+			gameInstance->sensorsClassQueue.pop();
+			taskSensorsActor.front()->Destroy();
+			taskSensorsActor.pop();
+		}
+	}
+
+
 	
 	//UE_LOG(LogTemp, Warning, TEXT("%d ---------------- %d" ), *gameInstance->MainActorLocation.X,midVal);
 
@@ -704,6 +716,12 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 
 
 	}
+
+	//pushing the task or action here--------------
+	if (type == 1) {
+		sensorClassObj.task = 1;
+	}
+	//=============================================
 	
 	gameInstance->sensorsClassQueue.push(sensorClassObj);
 

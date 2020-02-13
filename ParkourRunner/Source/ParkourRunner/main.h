@@ -37,11 +37,12 @@ public:
 	class UmyGameInstance* gameInstance;
 
 
-	//Action For Parkour
+	//Action For Parkour========================================================
 	bool PerformingAction = false;
 	unsigned int ActionIndex = 0;
 	//init the imp vals to perform action
 	bool init_tvals = false;
+
 
 protected:
 	// Called when the game starts or when spawned
