@@ -157,17 +157,28 @@ void Amain::ActionPerformed() {
 			(float)(gameInstance->sensorsClassQueue.front().x + gameInstance->sensorsClassQueue.front().sizeX) >= GetRootComponent()->GetRelativeLocation().X
 			) {
 			//======================== long if for tasks===========================
-			if (gameInstance->sensorsClassQueue.front().task) {
-				PerformingAction = true;
+			if (gameInstance->sensorsClassQueue.front().task == 21) {
+				PerformingAction = !PerformingAction;
 				speed = 0;
 				GetCharacterMovement()->MaxWalkSpeed = speed;
 				GetCharacterMovement()->GravityScale = 0;	
-				GetCharacterMovement()->Launch(FVector(0, 0, 220));
+				//GetCharacterMovement()->Launch(FVector(0, 0, 220));
+			
 			}
 
 			///==================================lonf if end here======================================
 		}
 	}
+	/*
+	task encyclopedia 
+		block		|		tasks
+		=====		|		=====
+		  1			|		 11
+		  2			|		 21
+		  2
+
+	*/
+
 
 	//UE_LOG(LogTemp, Warning, TEXT("==========================Chal raha h================================"));
 

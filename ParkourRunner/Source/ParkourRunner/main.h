@@ -44,6 +44,7 @@ public:
 	bool init_tvals = false;
 
 
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

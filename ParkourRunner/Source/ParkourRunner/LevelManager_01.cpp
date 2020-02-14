@@ -555,9 +555,10 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 3;
 	//return 4;
 
-	return 1;
 	
-	int x = (int)FMath::FRandRange(2, 9);
+	return 2 ;
+	
+	int x = (int)FMath::FRandRange(1, 9);
 
 	return x;
 	//return 1;
@@ -706,24 +707,31 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 			taskSensorsActor.push(actor);
 			sensorClassObj.x = posX + 400;
 			sensorClassObj.y = 90;
-			sensorClassObj.sizeX = 100;
-			sensorClassObj.sizeY = 100;
 		}
 		else if (type == 2) {
 			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + 1500, 0, 70), FRotator(0), spawnPara);
 			taskSensorsActor.push(actor);
+			sensorClassObj.x = posX + 1500;
+			sensorClassObj.y = 70;
 		}
 
 
 	}
 
+	if (type == 1 || type == 2) {
+		sensorClassObj.sizeX = 100;
+		sensorClassObj.sizeY = 100;
+	}
+
 	//pushing the task or action here--------------
 	if (type == 1) {
-		sensorClassObj.task = 1;
+		sensorClassObj.task = 11;
+	}
+	else if (type == 2) {
+		sensorClassObj.task = 21;
 	}
 	//=============================================
 	
 	gameInstance->sensorsClassQueue.push(sensorClassObj);
-
 }
 
