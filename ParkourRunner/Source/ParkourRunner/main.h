@@ -38,10 +38,11 @@ public:
 
 
 	//Action For Parkour========================================================
-	bool PerformingAction = false;
+	bool PerformingAction = false,actionTrigger = false;
+	//action trigger will be true whwn space bar is pressed a the sensoes so that
+	//when the collition ends the block will set action perform true and the action is called
 	unsigned int ActionIndex = 0;
-	//init the imp vals to perform action
-	bool init_tvals = false;
+
 
 
 
@@ -65,6 +66,12 @@ public:
 
 
 	void NormalJump();
+
+	//reset all values to running state
+	void resetRunningState();
+
+	//action manager
+	void ManageAction();
 
 	//overlapping events
 	//UFUNCTION()

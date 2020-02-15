@@ -66,6 +66,25 @@ void Amain::Tick(float DeltaTime)
 	//int x = gameInstance->tasks.front();
 	//UE_LOG(LogTemp, Warning, TEXT("%d"),x);
 
+
+	//here we check for action trigger and if its true theh the perform action 
+	//is true and then action should be called
+	if (actionTrigger) {
+		if (
+			(float)(gameInstance->sensorsClassQueue.front().x - gameInstance->sensorsClassQueue.front().sizeX) <= GetRootComponent()->GetRelativeLocation().X &&
+			(float)(gameInstance->sensorsClassQueue.front().x + gameInstance->sensorsClassQueue.front().sizeX) >= GetRootComponent()->GetRelativeLocation().X
+			) {
+			///oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+		}
+		else {
+			actionTrigger = false;
+			PerformingAction = true;
+			speed = 0;
+			GetCharacterMovement()->MaxWalkSpeed = speed;
+			GetCharacterMovement()->GravityScale = 0;
+		}
+	}
+
 	//run constantly
 	if ((Controller != nullptr) && !PerformingAction) {
 		GetRootComponent()->GetChildComponent(1)->SetWorldRotation(FRotator(0, -90, 0));
@@ -77,15 +96,24 @@ void Amain::Tick(float DeltaTime)
 		AddMovementInput(Direction, 1);
 	}
 	else {
-
+		ManageAction();
 	}
-
 
 	//UE_LOG(LogTemp, Warning, TEXT("%d"), gameInstance->sensorsClassQueue.front().x);
 	
 
 
 }
+
+
+
+void Amain :: ManageAction() {
+	if (ActionIndex == 21) {
+		Jump();
+		resetRunningState();
+	}
+}
+
 
 // Called to bind functionality to input
 void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -157,16 +185,15 @@ void Amain::ActionPerformed() {
 			(float)(gameInstance->sensorsClassQueue.front().x + gameInstance->sensorsClassQueue.front().sizeX) >= GetRootComponent()->GetRelativeLocation().X
 			) {
 			//======================== long if for tasks===========================
+			actionTrigger = true;
+			ActionIndex = gameInstance->sensorsClassQueue.front().task;
+			
 			if (gameInstance->sensorsClassQueue.front().task == 21) {
-				PerformingAction = !PerformingAction;
-				speed = 0;
-				GetCharacterMovement()->MaxWalkSpeed = speed;
-				GetCharacterMovement()->GravityScale = 0;	
 				//GetCharacterMovement()->Launch(FVector(0, 0, 220));
 			
 			}
 
-			///==================================lonf if end here======================================
+			///==================================long if end here======================================
 		}
 	}
 	/*
@@ -187,8 +214,16 @@ void Amain::ActionPerformed() {
 
 
 void Amain::NormalJump() {
-	speed = 0;
 	Jump();
+}
+
+void Amain :: resetRunningState() {
+	PerformingAction = false;
+	speed = 700;
+	GetCharacterMovement()->MaxWalkSpeed = speed;
+	GetCharacterMovement()->GravityScale = 1;
+	ActionIndex = 0;
+
 }
 
 ////onoverlap begin
