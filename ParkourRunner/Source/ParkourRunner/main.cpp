@@ -49,6 +49,7 @@ void Amain::BeginPlay()
 	
 	//Crouch();
 
+	//GetRootComponent()->SetRelativeLocation()
 	
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
 }
@@ -82,6 +83,12 @@ void Amain::Tick(float DeltaTime)
 			speed = 0;
 			GetCharacterMovement()->MaxWalkSpeed = speed;
 			GetCharacterMovement()->GravityScale = 0;
+			actionState = 1;
+
+			if (gameInstance->sensorsClassQueue.front().task == 21) {
+				LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 200,
+					GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
+			}
 		}
 	}
 
@@ -108,9 +115,30 @@ void Amain::Tick(float DeltaTime)
 
 
 void Amain :: ManageAction() {
+	//----------------------------------------------------------------
 	if (ActionIndex == 21) {
-		Jump();
-		resetRunningState();
+		if (actionState == 1) {
+			GetCharacterMovement()->Launch(FVector(900, 0, 0));
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 900,
+					GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
+				actionState = 2;
+				//GetCharacterMovement()->GravityScale = 1;
+			}
+		}
+		if (actionState == 2) {
+			GetCharacterMovement()->Launch(FVector(900, 0, -350));
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 100,
+					GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
+				actionState = 3;
+			}
+		}
+		if (actionState == 3) {
+			//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
+			resetRunningState();
+		}
+		//resetRunningState();
 	}
 }
 
@@ -190,6 +218,7 @@ void Amain::ActionPerformed() {
 			
 			if (gameInstance->sensorsClassQueue.front().task == 21) {
 				//GetCharacterMovement()->Launch(FVector(0, 0, 220));
+				LocToDoMoves = FVector();
 			
 			}
 
@@ -219,11 +248,12 @@ void Amain::NormalJump() {
 
 void Amain :: resetRunningState() {
 	PerformingAction = false;
+	actionTrigger = false;
 	speed = 700;
 	GetCharacterMovement()->MaxWalkSpeed = speed;
 	GetCharacterMovement()->GravityScale = 1;
 	ActionIndex = 0;
-
+	actionState = 0;
 }
 
 ////onoverlap begin

@@ -26,11 +26,14 @@ public:
 	/* main camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera; 
-
+	
+	UPROPERTY()
 	float speed;
 
+	UPROPERTY()
 	bool Initiatejump = false;
 
+	UPROPERTY()
 	float timmerForjump = 0.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameInstance")
@@ -38,11 +41,15 @@ public:
 
 
 	//Action For Parkour========================================================
+	UPROPERTY()
 	bool PerformingAction = false,actionTrigger = false;
 	//action trigger will be true whwn space bar is pressed a the sensoes so that
 	//when the collition ends the block will set action perform true and the action is called
-	unsigned int ActionIndex = 0;
-
+	UPROPERTY()
+	unsigned int ActionIndex = 0,actionState = 0;
+	//fVector to the location of the actor to perform all the moves
+	UPROPERTY()
+	FVector LocToDoMoves;
 
 
 
