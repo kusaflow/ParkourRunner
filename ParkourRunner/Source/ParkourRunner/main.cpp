@@ -58,7 +58,8 @@ void Amain::BeginPlay()
 void Amain::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	GetCharacterMovement()->MaxWalkSpeed = speed;
+	if (!PerformingAction)
+		GetCharacterMovement()->MaxWalkSpeed = speed;
 
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
 
@@ -85,10 +86,25 @@ void Amain::Tick(float DeltaTime)
 			GetCharacterMovement()->GravityScale = 0;
 			actionState = 1;
 
+			//action 21================================================================
 			if (gameInstance->sensorsClassQueue.front().task == 21) {
 				LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 200,
 					GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
 			}
+			//action 22================================================================
+			if (gameInstance->sensorsClassQueue.front().task == 22) {
+				LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 300,
+					GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
+			}
+			//action 23================================================================
+			if (gameInstance->sensorsClassQueue.front().task == 23) {
+				GetCharacterMovement()->GravityScale = 1;
+				GetCharacterMovement()->JumpZVelocity = 300;
+				Jump();
+				LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 1030,
+					GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
+			}
+			//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 		}
 	}
 
@@ -106,7 +122,7 @@ void Amain::Tick(float DeltaTime)
 		ManageAction();
 	}
 
-	//UE_LOG(LogTemp, Warning, TEXT("%d"), gameInstance->sensorsClassQueue.front().x);
+	//UE_LOG(LogTemp, Warning, TEXT("%d"), LocToDoMoves.X);
 	
 
 
@@ -126,20 +142,67 @@ void Amain :: ManageAction() {
 				//GetCharacterMovement()->GravityScale = 1;
 			}
 		}
-		if (actionState == 2) {
-			GetCharacterMovement()->Launch(FVector(900, 0, -350));
+		else if (actionState == 2) {
+			GetCharacterMovement()->Launch(FVector(900, 0, -320));
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
 				LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 100,
 					GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
 				actionState = 3;
 			}
 		}
-		if (actionState == 3) {
+		else if (actionState == 3) {
 			//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
 			resetRunningState();
 		}
 		//resetRunningState();
 	}
+	//action 22==============================================================================
+    else if (ActionIndex == 22) {
+		if (actionState == 1) {
+			GetCharacterMovement()->Launch(FVector(900, 0, 500));
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				LocToDoMoves.X += 130;
+				actionState = 2;
+			}
+		}
+		else if (actionState == 2) {
+			GetCharacterMovement()->Launch(FVector(800, 0, 0));
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				LocToDoMoves.X += 600;
+				actionState = 3;
+			}
+		}
+		else if (actionState == 3) {
+			GetCharacterMovement()->Launch(FVector(800, 0, -500));
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				actionState = 4;
+			}
+		}
+		else if (actionState == 4) {
+			resetRunningState();
+		}
+
+
+	}
+	//action 23==============================================================================
+	else if (ActionIndex == 23) {
+		if (actionState == 1) {
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				GetCharacterMovement()->Launch(FVector(0, 0, 2000));
+				//actionState = 2;
+				//LocToDoMoves.X += 300;
+			}
+		}
+		if (actionState == 2) {
+			GetCharacterMovement()->Launch(FVector(900, 0, 0));
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				//resetRunningState();
+				GetCharacterMovement()->Launch(FVector(0, 0, 2000));
+			}
+		}
+	}
+
+
 }
 
 
@@ -215,25 +278,10 @@ void Amain::ActionPerformed() {
 			//======================== long if for tasks===========================
 			actionTrigger = true;
 			ActionIndex = gameInstance->sensorsClassQueue.front().task;
-			
-			if (gameInstance->sensorsClassQueue.front().task == 21) {
-				//GetCharacterMovement()->Launch(FVector(0, 0, 220));
-				LocToDoMoves = FVector();
-			
-			}
-
 			///==================================long if end here======================================
 		}
 	}
-	/*
-	task encyclopedia 
-		block		|		tasks
-		=====		|		=====
-		  1			|		 11
-		  2			|		 21
-		  2
-
-	*/
+	
 
 
 	//UE_LOG(LogTemp, Warning, TEXT("==========================Chal raha h================================"));
