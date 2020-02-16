@@ -80,6 +80,9 @@ public:
 	//action manager
 	void ManageAction();
 
+	//running essential
+	void runCharacter();
+
 	//overlapping events
 	//UFUNCTION()
 	//void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
