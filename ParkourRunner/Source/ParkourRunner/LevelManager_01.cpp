@@ -730,7 +730,9 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 	else if (type == 2) {
 		//sensorClassObj.task = 21;
 		//sensorClassObj.task = 22;
-		sensorClassObj.task = 23;
+		//sensorClassObj.task = 23;
+		sensorClassObj.task = 24;
+
 	
 	}
 	//=============================================

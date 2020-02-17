@@ -97,8 +97,9 @@ void Amain::Tick(float DeltaTime)
 				LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 300,
 					GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
 			}
-			//action 23================================================================
-			if (gameInstance->sensorsClassQueue.front().task == 23) {
+			//action 23 && 24================================================================
+			if (gameInstance->sensorsClassQueue.front().task == 23 ||
+				gameInstance->sensorsClassQueue.front().task == 24) {
 				GetCharacterMovement()->GravityScale = 1;
 				GetCharacterMovement()->JumpZVelocity = 300;
 				Jump();
@@ -209,6 +210,34 @@ void Amain :: ManageAction() {
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
 				//resetRunningState();
 				//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
+				actionState = 3;
+			}
+		}
+		else if (actionState == 3) {
+			//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
+			resetRunningState();
+		}
+	}
+	//action 24==============================================================================
+	else if (ActionIndex == 24) {
+		if (actionState == 1) {
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X && GetCharacterMovement()->Velocity.Z == 0) {
+				//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
+				actionState = 2;
+				LocToDoMoves.X += 600;
+				GetCharacterMovement()->GravityScale = 1;
+				GetCharacterMovement()->MaxWalkSpeed = 900;
+				GetCharacterMovement()->MaxAcceleration = 200;
+				GetCharacterMovement()->JumpZVelocity = 300.0f;
+				Jump();
+			}
+		}
+		else if (actionState == 2) {
+			runCharacter();
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				//resetRunningState();
+				//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
+				GetCharacterMovement()->MaxAcceleration = 2048;
 				actionState = 3;
 			}
 		}
