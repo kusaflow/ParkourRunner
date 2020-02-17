@@ -226,18 +226,19 @@ void Amain :: ManageAction() {
 				actionState = 2;
 				LocToDoMoves.X += 600;
 				GetCharacterMovement()->GravityScale = 1;
+				GetCharacterMovement()->Velocity.X = 200;
 				GetCharacterMovement()->MaxWalkSpeed = 900;
-				GetCharacterMovement()->MaxAcceleration = 200;
-				GetCharacterMovement()->JumpZVelocity = 300.0f;
+				GetCharacterMovement()->JumpZVelocity = 600;
 				Jump();
 			}
 		}
 		else if (actionState == 2) {
 			runCharacter();
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				//LocToDoMoves.X += 0;
 				//resetRunningState();
 				//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
-				GetCharacterMovement()->MaxAcceleration = 2048;
+				//Jump();
 				actionState = 3;
 			}
 		}
