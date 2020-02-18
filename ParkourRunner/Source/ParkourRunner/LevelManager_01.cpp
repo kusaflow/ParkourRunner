@@ -700,35 +700,6 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 
 	//SIZE of sensor for now is 200x200x200
 	UmyGameInstance::sensorClass sensorClassObj;
-
-	if (world && sensorMesh) {
-		if (type == 1) {
-			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX+400, 0, 90), FRotator(0), spawnPara);	
-			taskSensorsActor.push(actor);
-			sensorClassObj.x = posX + 400;
-			sensorClassObj.y = 90;
-		}
-		else if (type == 2) {
-			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + 1500, 0, 70), FRotator(0), spawnPara);
-			taskSensorsActor.push(actor);
-			sensorClassObj.x = posX + 1500;
-			sensorClassObj.y = 70;
-		}
-		else if (type == 3) {
-			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + 100, 0, 69), FRotator(0), spawnPara);
-			taskSensorsActor.push(actor);
-			sensorClassObj.x = posX + 100;
-			sensorClassObj.y = 69;
-		}
-
-
-	}
-
-	if (type <= 3) {
-		sensorClassObj.sizeX = 100;
-		sensorClassObj.sizeY = 100;
-	}
-
 	//pushing the task or action here--------------
 	if (type == 1) {
 		sensorClassObj.task = 11;
@@ -745,12 +716,46 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 		else if (x == 2) {
 			sensorClassObj.task = 24;
 		}
-	
+
 	}
 	else if (type == 3) {
 		sensorClassObj.task = 31;
 	}
 	//=============================================
+
+	int incVal = 0;
+
+	if (world && sensorMesh) {
+		if (type == 1) {
+			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX+400, 0, 90), FRotator(0), spawnPara);	
+			taskSensorsActor.push(actor);
+			sensorClassObj.x = posX + 400;
+			sensorClassObj.y = 90;
+		}
+		else if (type == 2) {
+			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + 1500, 0, 70), FRotator(0), spawnPara);
+			taskSensorsActor.push(actor);
+			sensorClassObj.x = posX + 1500;
+			sensorClassObj.y = 70;
+		}
+		else if (type == 3) {
+			if (sensorClassObj.task == 31)
+				incVal = 50;
+
+			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + incVal, 0, 69), FRotator(0), spawnPara);
+			taskSensorsActor.push(actor);
+			sensorClassObj.x = posX + incVal;
+			sensorClassObj.y = 69;
+		}
+
+
+	}
+
+	if (type <= 3) {
+		sensorClassObj.sizeX = 100;
+		sensorClassObj.sizeY = 100;
+	}
+
 	
 	gameInstance->sensorsClassQueue.push(sensorClassObj);
 }

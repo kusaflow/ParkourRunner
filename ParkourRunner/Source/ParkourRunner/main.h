@@ -51,6 +51,9 @@ public:
 	UPROPERTY()
 	FVector LocToDoMoves;
 
+	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category="KusaVar")
+	float TimeCounter = 0;
+
 
 
 protected:
@@ -71,7 +74,7 @@ public:
 	//action
 	void PerformAction();
 	// action init state
-	void ActionInitState();
+	void ActionInitState(float dt);
 
 
 	void NormalJump();
@@ -80,7 +83,7 @@ public:
 	void resetRunningState();
 
 	//action manager
-	void ManageAction();
+	void ManageAction(float dt);
 
 	//running essential
 	void runCharacter();
