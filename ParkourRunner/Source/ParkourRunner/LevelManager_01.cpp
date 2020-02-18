@@ -187,7 +187,7 @@ void ALevelManager_01::Tick(float DeltaTime)
 	}
 
 	//removing actor that has no need in the scene
-	if ((float)(gameInstance->sensorsClassQueue.front().x + gameInstance->sensorsClassQueue.front().sizeX) + 10 <=
+	if ((float)(gameInstance->sensorsClassQueue.front().x + gameInstance->sensorsClassQueue.front().sizeX) + 2 <=
 		gameInstance->MainActorLocation.X) {
 		//--------------------------------------
 		if (!gameInstance->sensorsClassQueue.empty() && !taskSensorsActor.empty()) {
@@ -556,9 +556,9 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 4;
 
 	
-	return 2 ;
+	return 3;
 	
-	int x = (int)FMath::FRandRange(1, 9);
+	int x = (int)FMath::FRandRange(1, 10);
 
 	return x;
 	//return 1;
@@ -714,11 +714,17 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 			sensorClassObj.x = posX + 1500;
 			sensorClassObj.y = 70;
 		}
+		else if (type == 3) {
+			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + 100, 0, 69), FRotator(0), spawnPara);
+			taskSensorsActor.push(actor);
+			sensorClassObj.x = posX + 100;
+			sensorClassObj.y = 69;
+		}
 
 
 	}
 
-	if (type == 1 || type == 2) {
+	if (type <= 3) {
 		sensorClassObj.sizeX = 100;
 		sensorClassObj.sizeY = 100;
 	}
@@ -731,9 +737,18 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 		//sensorClassObj.task = 21;
 		//sensorClassObj.task = 22;
 		//sensorClassObj.task = 23;
-		sensorClassObj.task = 24;
-
+		//sensorClassObj.task = 24;
+		int x = (int)FMath::FRandRange(1, 3);
+		if (x == 1) {
+			sensorClassObj.task = 23;
+		}
+		else if (x == 2) {
+			sensorClassObj.task = 24;
+		}
 	
+	}
+	else if (type == 3) {
+		sensorClassObj.task = 31;
 	}
 	//=============================================
 	

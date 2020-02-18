@@ -69,7 +69,9 @@ public:
 	void Walk(float value);
 
 	//action
-	void ActionPerformed();
+	void PerformAction();
+	// action init state
+	void ActionInitState();
 
 
 	void NormalJump();
@@ -82,6 +84,8 @@ public:
 
 	//running essential
 	void runCharacter();
+
+	
 
 	//overlapping events
 	//UFUNCTION()

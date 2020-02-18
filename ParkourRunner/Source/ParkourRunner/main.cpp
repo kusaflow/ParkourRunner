@@ -9,6 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "AnimInstance_MainChar.h"
 #include "Animation/AnimInstance.h"
+#include "Math/UnrealMathUtility.h"
 #include "myGameInstance.h"
 
 // Sets default values
@@ -22,7 +23,7 @@ Amain::Amain()
 	cameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	cameraBoom->SetupAttachment(GetRootComponent());
 	cameraBoom->bDoCollisionTest = false;
-	cameraBoom->TargetArmLength = 450.f;
+	cameraBoom->TargetArmLength = 1500;
 	cameraBoom->SocketOffset = FVector(0.f, 0.f, 0.f);
 	cameraBoom->RelativeRotation = (FRotator(-15.f, 300.f, 0.f));
 	//cameraBoom->RelativeRotation = FRotator(0.f, 0.f, 0.f);
@@ -80,33 +81,7 @@ void Amain::Tick(float DeltaTime)
 			///oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 		}
 		else {
-			actionTrigger = false;
-			PerformingAction = true;
-			speed = 0;
-			GetCharacterMovement()->MaxWalkSpeed = speed;
-			GetCharacterMovement()->GravityScale = 0;
-			actionState = 1;
-
-			//action 21================================================================
-			if (gameInstance->sensorsClassQueue.front().task == 21) {
-				LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 200,
-					GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
-			}
-			//action 22================================================================
-			if (gameInstance->sensorsClassQueue.front().task == 22) {
-				LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 300,
-					GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
-			}
-			//action 23 && 24================================================================
-			if (gameInstance->sensorsClassQueue.front().task == 23 ||
-				gameInstance->sensorsClassQueue.front().task == 24) {
-				GetCharacterMovement()->GravityScale = 1;
-				GetCharacterMovement()->JumpZVelocity = 300;
-				Jump();
-				LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 1030,
-					GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
-			}
-			//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+			ActionInitState();
 		}
 	}
 
@@ -122,6 +97,61 @@ void Amain::Tick(float DeltaTime)
 	
 
 
+}
+
+void Amain :: ActionInitState() {
+	actionTrigger = false;
+	PerformingAction = true;
+	actionState = 1;
+
+	//action 21================================================================
+	if (gameInstance->sensorsClassQueue.front().task == 21) {
+		speed = 0;
+		GetCharacterMovement()->MaxWalkSpeed = speed;
+		GetCharacterMovement()->GravityScale = 0;
+
+		LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 200,
+			GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
+	}
+	//action 22================================================================
+	else if (gameInstance->sensorsClassQueue.front().task == 22) {
+		speed = 0;
+		GetCharacterMovement()->MaxWalkSpeed = speed;
+		GetCharacterMovement()->GravityScale = 0;
+
+		LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 300,
+			GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
+	}
+	//action 23 && 24================================================================
+	else if (gameInstance->sensorsClassQueue.front().task == 23 ||
+		gameInstance->sensorsClassQueue.front().task == 24) {
+		speed = 0;
+		GetCharacterMovement()->MaxWalkSpeed = speed;
+		GetCharacterMovement()->GravityScale = 0;
+
+		GetCharacterMovement()->GravityScale = 1;
+		GetCharacterMovement()->JumpZVelocity = 300;
+		Jump();
+		LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 1030,
+			GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
+	}
+
+	//
+	//
+	//===================================For 3===============================================================
+	//
+	//
+	//action 31================================================================
+	else if (gameInstance->sensorsClassQueue.front().task == 31) {
+		speed = 600;
+		GetCharacterMovement()->MaxWalkSpeed = speed;
+		
+		LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 100,
+			GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
+		GetCharacterMovement()->Velocity.X = 600;
+	}
+
+	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
 void Amain :: runCharacter() {
@@ -247,6 +277,40 @@ void Amain :: ManageAction() {
 			resetRunningState();
 		}
 	}
+	//
+	//
+	// for 3
+	//
+	//
+	else if (ActionIndex == 31) {
+		if (actionState == 1) {
+			runCharacter();
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				LocToDoMoves.X += 150;
+				actionState = 2;
+				GetCharacterMovement()->JumpZVelocity = 400;
+				Jump();
+
+			}
+		}
+		else if (actionState == 2) {
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				//LocToDoMoves.X += 0;
+				//resetRunningState();
+				//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
+				//Jump();
+				actionState = 3;
+			}
+			//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
+		}
+		else if (actionState == 3) {
+			resetRunningState();
+		}
+	}
+
+
+
+
 
 
 }
@@ -258,7 +322,7 @@ void Amain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent); 
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction("Action", IE_Pressed, this, &Amain::ActionPerformed);
+	PlayerInputComponent->BindAction("Action", IE_Pressed, this, &Amain::PerformAction);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &Amain::NormalJump);
 
 	//PlayerInputComponent->BindAction("jumping", IE_Released, this, &Amain::StartJump);
@@ -308,7 +372,7 @@ void Amain::Walk(float value) {
 	}
 }
 
-void Amain::ActionPerformed() {
+void Amain::PerformAction() {
 	//PerformingAction = !PerformingAction;
 	//speed = 0;
 	//GetCharacterMovement()->MaxWalkSpeed = speed;
