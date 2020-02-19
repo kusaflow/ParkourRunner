@@ -291,15 +291,17 @@ void Amain :: ManageAction(float dt) {
 	//
 	else if (ActionIndex == 31) {
 		if (actionState == 1) {
+			//small jump
 			if (GetCharacterMovement()->Velocity.Z == 0) {
 				TimeCounter = 0;
 				actionState = 2;
 			}  
 		}
+		//wait a bit
 		else if (actionState == 2) {
 			TimeCounter += 60 * dt;
 			if (TimeCounter >= 20) {
-				LocToDoMoves.X += 380;
+				LocToDoMoves.X += 390;
 				actionState = 3;
 				GetCharacterMovement()->JumpZVelocity = 600;
 				GetCharacterMovement()->Velocity.X = 500;
@@ -307,12 +309,36 @@ void Amain :: ManageAction(float dt) {
 			}
 			//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
 		}
+		//jump and to the clif
 		else if (actionState == 3) {
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				LocToDoMoves.Z= GetRootComponent()->GetRelativeLocation().Z;
+				LocToDoMoves.Z -= 50;
+				actionState = 4;
+			}
+			//resetRunningState();
+		}
+		//
+		else if (actionState == 4) {
+			GetCharacterMovement()->Velocity.Z = -200;
+			if (GetRootComponent()->GetRelativeLocation().Z <= LocToDoMoves.Z) {
+				LocToDoMoves.Z += 500;
+				actionState = 5;
+			}
+			//resetRunningState();
+		}
+		//
+		else if (actionState == 5) {
+			GetCharacterMovement()->Velocity.Z = 200;
+			if (GetRootComponent()->GetRelativeLocation().Z >= LocToDoMoves.Z) {
+				actionState = 6;
+				GetCharacterMovement()->GravityScale = 0;
 				GetCharacterMovement()->Velocity = FVector(0);
 			}
 			//resetRunningState();
 		}
+
+
 	}
 
 
