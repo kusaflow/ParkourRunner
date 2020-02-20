@@ -157,6 +157,20 @@ void Amain :: ActionInitState(float dt) {
 		GetCharacterMovement()->JumpZVelocity = 120;
 		Jump();
 	}
+	//
+	//
+	//===================================For 4===============================================================
+	//
+	//
+	//action 41================================================================
+	else if (gameInstance->sensorsClassQueue.front().task == 41) {
+		GetCharacterMovement()->MaxWalkSpeed = 600;
+		LocToDoMoves = GetRootComponent()->GetRelativeLocation();
+		LocToDoMoves.X += 200;
+		GetCharacterMovement()->Velocity.X = 500;
+		GetCharacterMovement()->JumpZVelocity = 600;
+		Jump();
+	}
 
 	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
@@ -346,6 +360,21 @@ void Amain :: ManageAction(float dt) {
 		}
 
 
+	}
+
+	//
+	//
+	// for 4
+	//
+	//
+	else if (ActionIndex == 41) {
+		if (actionState == 1) {
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				actionState = 2;
+				GetCharacterMovement()->GravityScale = 0;
+				GetCharacterMovement()->Velocity = FVector(0);
+			}
+		}
 	}
 
 
