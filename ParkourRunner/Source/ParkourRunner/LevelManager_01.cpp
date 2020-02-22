@@ -556,7 +556,7 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 4;
 
 	
-	return 4;
+	return 2;
 	
 	int x = (int)FMath::FRandRange(1, 10);
 
@@ -737,10 +737,9 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 			}
 		}
 		else if (type == 2) {
-			if (sensorClassObj.task == 31) {
-				incValX = 1500;
-				valY = 69;
-			}
+			incValX = 1500;
+			valY = 69;
+			
 		}
 		else if (type == 3) {
 			if (sensorClassObj.task == 31) {

@@ -166,7 +166,7 @@ void Amain :: ActionInitState(float dt) {
 	else if (gameInstance->sensorsClassQueue.front().task == 41) {
 		GetCharacterMovement()->MaxWalkSpeed = 600;
 		LocToDoMoves = GetRootComponent()->GetRelativeLocation();
-		LocToDoMoves.X += 200;
+		LocToDoMoves.X += 400;
 		GetCharacterMovement()->Velocity.X = 500;
 		GetCharacterMovement()->JumpZVelocity = 600;
 		Jump();
@@ -368,9 +368,21 @@ void Amain :: ManageAction(float dt) {
 	//
 	//
 	else if (ActionIndex == 41) {
-		if (actionState == 1) {
+		if (actionState == 1) {//here character will jump untill x+400
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
 				actionState = 2;
+				LocToDoMoves.Z = GetRootComponent()->GetRelativeLocation().Z;
+				LocToDoMoves.Z -= 70;
+			}
+		}
+		else if (actionState == 2) {//here char go down gor 200 units
+			if (GetRootComponent()->GetRelativeLocation().Z <= LocToDoMoves.Z) {
+				actionState = 3;
+			}
+		}
+		else if (actionState == 3) {
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				actionState = 4;
 				GetCharacterMovement()->GravityScale = 0;
 				GetCharacterMovement()->Velocity = FVector(0);
 			}
