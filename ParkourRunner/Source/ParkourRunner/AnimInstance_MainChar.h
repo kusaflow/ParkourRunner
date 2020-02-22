@@ -7,7 +7,7 @@
 #include "AnimInstance_MainChar.generated.h"
 
 /**
- * 
+ * char anim mul by 0.4f
  */
 UCLASS()
 class PARKOURRUNNER_API UAnimInstance_MainChar : public UAnimInstance
