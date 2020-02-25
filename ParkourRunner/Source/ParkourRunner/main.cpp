@@ -488,7 +488,7 @@ void Amain::NormalJump() {
 void Amain :: resetRunningState() {
 	PerformingAction = false;
 	actionTrigger = false;
-	speed = 700;
+	speed = 800;
 	GetCharacterMovement()->MaxWalkSpeed = speed;
 	GetCharacterMovement()->GravityScale = 1;
 	//GetCharacterMovement()->JumpZVelocity = 820.0f;
