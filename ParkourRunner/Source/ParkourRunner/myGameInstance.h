@@ -27,6 +27,13 @@ public:
 	UPROPERTY()
 	int ActorsToDrawAtATime = 40;
 
+	UPROPERTY()
+	bool performingAction = false;
+	UPROPERTY()
+	unsigned int ActionIndex = 0, actionState = 0;
+
+
+
 	//classes
 	class sensorClass {
 	public:

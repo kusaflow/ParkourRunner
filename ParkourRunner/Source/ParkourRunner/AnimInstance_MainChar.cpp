@@ -33,6 +33,9 @@ void UAnimInstance_MainChar :: update () {
 
 		if (gameInstance) {
 			bjumpAnticipation = gameInstance->anticipateForJump;
+			performingAction = gameInstance->performingAction;
+			ActionIndex = gameInstance->ActionIndex;
+			actionState = gameInstance->actionState;
 		}
 
 		

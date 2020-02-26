@@ -64,6 +64,10 @@ void Amain::Tick(float DeltaTime)
 
 	gameInstance = Cast<UmyGameInstance>(GetGameInstance());
 
+	gameInstance->performingAction = PerformingAction;
+	gameInstance->ActionIndex = ActionIndex;
+	gameInstance->actionState = actionState;
+
 	gameInstance->MainActorLocation = GetRootComponent()->GetRelativeLocation();
 
 	//int x = gameInstance->tasks.front();

@@ -36,6 +36,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "GameInstance")
 	class UmyGameInstance* gameInstance;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Action")
+	bool performingAction = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Action")
+	unsigned int ActionIndex = 0, actionState = 0;
+
+
 
 private:
 
