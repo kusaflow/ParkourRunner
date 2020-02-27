@@ -36,6 +36,12 @@ void UAnimInstance_MainChar :: update () {
 			performingAction = gameInstance->performingAction;
 			ActionIndex = gameInstance->ActionIndex;
 			actionState = gameInstance->actionState;
+
+			//update Notify
+			if (waitingForNotify) {
+				gameInstance->waitingForNotify = waitingForNotify;
+			}
+			waitingForNotify = false;
 		}
 
 		

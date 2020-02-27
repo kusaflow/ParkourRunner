@@ -29,8 +29,15 @@ public:
 
 	UPROPERTY()
 	bool performingAction = false;
+	
 	UPROPERTY()
-	unsigned int ActionIndex = 0, actionState = 0;
+	unsigned int ActionIndex = 0;
+	
+	UPROPERTY()
+	unsigned int actionState = 0;
+	
+	UPROPERTY()
+	bool waitingForNotify = false;
 
 
 

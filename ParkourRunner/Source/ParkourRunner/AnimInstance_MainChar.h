@@ -40,8 +40,13 @@ public:
 	bool performingAction = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Action")
-	unsigned int ActionIndex = 0, actionState = 0;
+	int ActionIndex = 0;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Action")
+	int actionState = 0;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Action")
+	bool waitingForNotify = false;
 
 
 private:
