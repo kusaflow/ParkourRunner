@@ -320,15 +320,23 @@ void Amain :: ManageAction(float dt) {
 			Jump();
 			actionState = 3;
 			LocToDoMoves = GetRootComponent()->GetRelativeLocation();
-			LocToDoMoves.X += 1000;
+			LocToDoMoves.X += 950;
 		}
 		else if (actionState == 3) {
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
 				actionState = 4;
+				gameInstance->waitingForNotify = false;
 			}
 		}
 		else if (actionState == 4) {
-			//GetCharacterMovement()->Launch(FVector(0,0,2000));
+			if (gameInstance->waitingForNotify) {
+				actionState = 5;
+				GetCharacterMovement()->MaxWalkSpeed = 400;
+			}
+		}
+		else if (actionState == 5) {
+			runCharacter();
+			//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
 		}
 
 

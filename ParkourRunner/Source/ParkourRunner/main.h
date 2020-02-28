@@ -48,7 +48,7 @@ public:
 	UPROPERTY()
 	unsigned int ActionIndex = 0,actionState = 0;
 	//fVector to the location of the actor to perform all the moves
-	UPROPERTY()
+	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "KusaVar")
 	FVector LocToDoMoves;
 
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category="KusaVar")
