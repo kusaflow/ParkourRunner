@@ -73,13 +73,6 @@ void Amain::Tick(float DeltaTime)
 	//int x = gameInstance->tasks.front();
 
 	
-	if (gameInstance->waitingForNotify) {
-		UE_LOG(LogTemp, Warning, TEXT("true"));
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("false"));
-	}
-	
 	//UE_LOG(LogTemp, Warning, TEXT("%f"),GetCharacterMovement()->MaxWalkSpeed);
 
 	//here we check for action trigger and if its true theh the perform action 
@@ -118,8 +111,8 @@ void Amain :: ActionInitState(float dt) {
 	//action 21================================================================
 	if (gameInstance->sensorsClassQueue.front().task == 21) {
 		gameInstance->waitingForNotify = false;
-		GetCharacterMovement()->MaxWalkSpeed = 200;
-		//GetCharacterMovement()->Velocity = FVector(0);
+		GetCharacterMovement()->MaxWalkSpeed = 0;
+		GetCharacterMovement()->Velocity = FVector(0);
 	}
 
 	//
@@ -176,29 +169,29 @@ void Amain :: ManageAction(float dt) {
 			}
 		}
 		else if (actionState == 2) {
-			GetCharacterMovement()->Velocity.X = 700;
-			GetCharacterMovement()->JumpZVelocity = 500;
+			GetCharacterMovement()->Velocity.X = 800;
+			GetCharacterMovement()->JumpZVelocity = 570;
 			Jump();
 			actionState = 3;
 			LocToDoMoves = GetRootComponent()->GetRelativeLocation();
-			LocToDoMoves.X += 950;
+			LocToDoMoves.X += 1280;
 		}
 		else if (actionState == 3) {
+			//UE_LOG(LogTemp, Warning, TEXT("%f"), GetRootComponent()->GetRelativeLocation().X - LocToDoMoves.X);
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
 				actionState = 4;
 				gameInstance->waitingForNotify = false;
 			}
 		}
 		else if (actionState == 4) {
+			//GetCharacterMovement()->Launch(FVector(0,0,3000));
 			if (gameInstance->waitingForNotify) {
 				actionState = 5;
 			}
 		}
 		else if (actionState == 5) {
-			resetRunningState();
+			resetRunningState(800);
 		}
-
-
 	}
 	//
 	//
@@ -256,7 +249,7 @@ void Amain :: ManageAction(float dt) {
 		else if (actionState == 6) {
 			GetCharacterMovement()->Velocity = FVector(300, 0, 0);
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
-				resetRunningState();
+				resetRunningState(800);
 			}
 			//resetRunningState();
 		}
@@ -387,10 +380,10 @@ void Amain::NormalJump() {
 	Jump();
 }
 
-void Amain :: resetRunningState() {
+void Amain :: resetRunningState(float s) {
 	PerformingAction = false;
 	actionTrigger = false;
-	speed = 800;
+	speed = s;
 	GetCharacterMovement()->MaxWalkSpeed = speed;
 	GetCharacterMovement()->GravityScale = 1;
 	//GetCharacterMovement()->JumpZVelocity = 820.0f;

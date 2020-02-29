@@ -80,7 +80,7 @@ public:
 	void NormalJump();
 
 	//reset all values to running state
-	void resetRunningState();
+	void resetRunningState(float s);
 
 	//action manager
 	void ManageAction(float dt);
