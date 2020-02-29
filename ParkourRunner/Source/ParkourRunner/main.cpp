@@ -73,13 +73,12 @@ void Amain::Tick(float DeltaTime)
 	//int x = gameInstance->tasks.front();
 
 	
-	/*if (TimeCounter >= 60) {
-		UE_LOG(LogTemp, Warning, TEXT("Nice"));
-		TimeCounter = 0;
+	if (gameInstance->waitingForNotify) {
+		UE_LOG(LogTemp, Warning, TEXT("true"));
 	}
 	else {
-		TimeCounter += 60*DeltaTime;
-	}*/
+		UE_LOG(LogTemp, Warning, TEXT("false"));
+	}
 	
 	//UE_LOG(LogTemp, Warning, TEXT("%f"),GetCharacterMovement()->MaxWalkSpeed);
 
@@ -118,36 +117,6 @@ void Amain :: ActionInitState(float dt) {
 
 	//action 21================================================================
 	if (gameInstance->sensorsClassQueue.front().task == 21) {
-		speed = 0;
-		GetCharacterMovement()->MaxWalkSpeed = speed;
-		GetCharacterMovement()->GravityScale = 0;
-
-		LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 200,
-			GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
-	}
-	//action 22================================================================
-	else if (gameInstance->sensorsClassQueue.front().task == 22) {
-		speed = 0;
-		GetCharacterMovement()->MaxWalkSpeed = speed;
-		GetCharacterMovement()->GravityScale = 0;
-
-		LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 300,
-			GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
-	}
-	//action 23 && 24================================================================
-	else if (gameInstance->sensorsClassQueue.front().task == 23 ||
-		gameInstance->sensorsClassQueue.front().task == 24 ) {
-		//;;--------------
-		speed = 0;
-		GetCharacterMovement()->MaxWalkSpeed = speed;
-		
-		GetCharacterMovement()->GravityScale = 1;
-		GetCharacterMovement()->JumpZVelocity = 300;
-		Jump();
-		LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 1030,
-			GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
-	}
-	else if (gameInstance->sensorsClassQueue.front().task == 25) {
 		gameInstance->waitingForNotify = false;
 		GetCharacterMovement()->MaxWalkSpeed = 200;
 		//GetCharacterMovement()->Velocity = FVector(0);
@@ -199,116 +168,8 @@ void Amain :: runCharacter() {
 
 
 void Amain :: ManageAction(float dt) {
-	//----------------------------------------------------------------
+	//21----------------------------------------------------------------
 	if (ActionIndex == 21) {
-		if (actionState == 1) {
-			GetCharacterMovement()->Launch(FVector(900, 0, 0));
-			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
-				LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 900,
-					GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
-				actionState = 2;
-				//GetCharacterMovement()->GravityScale = 1;
-			}
-		}
-		else if (actionState == 2) {
-			GetCharacterMovement()->Launch(FVector(900, 0, -320));
-			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
-				LocToDoMoves = FVector(GetRootComponent()->GetRelativeLocation().X + 100,
-					GetRootComponent()->GetRelativeLocation().Y, GetRootComponent()->GetRelativeLocation().Z);
-				actionState = 3;
-			}
-		}
-		else if (actionState == 3) {
-			//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
-			resetRunningState();
-		}
-		//resetRunningState();
-	}
-	//action 22==============================================================================
-    else if (ActionIndex == 22) {
-		if (actionState == 1) {
-			GetCharacterMovement()->Launch(FVector(900, 0, 500));
-			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
-				LocToDoMoves.X += 130;
-				actionState = 2;
-			}
-		}
-		else if (actionState == 2) {
-			GetCharacterMovement()->Launch(FVector(800, 0, 0));
-			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
-				LocToDoMoves.X += 600;
-				actionState = 3;
-			}
-		}
-		else if (actionState == 3) {
-			GetCharacterMovement()->Launch(FVector(800, 0, -500));
-			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
-				actionState = 4;
-			}
-		}
-		else if (actionState == 4) {
-			resetRunningState();
-		}
-
-
-	}
-	//action 23==============================================================================
-	else if (ActionIndex == 23) {
-		if (actionState == 1) {
-			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X && GetCharacterMovement()->Velocity.Z == 0) {
-				//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
-				actionState = 2;
-				LocToDoMoves.X += 600;
-				GetCharacterMovement()->GravityScale = 1;
-				GetCharacterMovement()->MaxWalkSpeed = 1000;
-				GetCharacterMovement()->JumpZVelocity = 300.0f;
-				Jump();
-			}
-		}
-		else if (actionState == 2) {
-			runCharacter();
-			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
-				//resetRunningState();
-				//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
-				actionState = 3;
-			}
-		}
-		else if (actionState == 3) {
-			//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
-			resetRunningState();
-		}
-	}
-	//action 24==============================================================================
-	else if (ActionIndex == 24) {
-		if (actionState == 1) {
-			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X && GetCharacterMovement()->Velocity.Z == 0) {
-				//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
-				actionState = 2;
-				LocToDoMoves.X += 600;
-				GetCharacterMovement()->GravityScale = 1;
-				GetCharacterMovement()->Velocity.X = 200;
-				GetCharacterMovement()->MaxWalkSpeed = 900;
-				GetCharacterMovement()->JumpZVelocity = 600;
-				Jump();
-			}
-		}
-		else if (actionState == 2) {
-			runCharacter();
-			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
-				//LocToDoMoves.X += 0;
-				//resetRunningState();
-				//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
-				//Jump();
-				actionState = 3;
-			}
-		}
-		else if (actionState == 3) {
-			//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
-			resetRunningState();
-		}
-	}
-	//action 25==============================================================================
-	else if (ActionIndex == 25) {
 		if(actionState == 1) {
 			if (gameInstance->waitingForNotify) {
 				actionState = 2;
@@ -331,12 +192,10 @@ void Amain :: ManageAction(float dt) {
 		else if (actionState == 4) {
 			if (gameInstance->waitingForNotify) {
 				actionState = 5;
-				GetCharacterMovement()->MaxWalkSpeed = 400;
 			}
 		}
 		else if (actionState == 5) {
-			runCharacter();
-			//GetCharacterMovement()->Launch(FVector(0, 0, 2000));
+			resetRunningState();
 		}
 
 
@@ -537,6 +396,10 @@ void Amain :: resetRunningState() {
 	//GetCharacterMovement()->JumpZVelocity = 820.0f;
 	ActionIndex = 0;
 	actionState = 0;
+
+	gameInstance->performingAction = PerformingAction;
+	gameInstance->ActionIndex = ActionIndex;
+	gameInstance->actionState = actionState;
 }
 
 ////onoverlap begin

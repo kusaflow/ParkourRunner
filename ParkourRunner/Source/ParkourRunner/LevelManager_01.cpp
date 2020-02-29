@@ -711,17 +711,17 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 		//sensorClassObj.task = 24;
 		int x = (int)FMath::FRandRange(1, 4);
 		if (x == 1) {
-			sensorClassObj.task = 23;
+			sensorClassObj.task = 21;
 		}
 		else if (x == 2) {
-			sensorClassObj.task = 24;
+			sensorClassObj.task = 22;
 		}
 		else if (x == 3) {
-			sensorClassObj.task = 25;
+			sensorClassObj.task = 23;
 		}
 
 		//testing
-		sensorClassObj.task = 25;
+		sensorClassObj.task = 21;
 
 
 	}
@@ -744,12 +744,9 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 			}
 		}
 		else if (type == 2) {
-			incValX = 1500;
+			incValX = 1400;
 			valY = 69;
-			if (sensorClassObj.task == 25) {
-				incValX = 1400;
-				valY = 69;
-			}
+			
 			
 		}
 		else if (type == 3) {
