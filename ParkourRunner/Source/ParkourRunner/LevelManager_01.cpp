@@ -721,7 +721,7 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 		}
 
 		//testing
-		sensorClassObj.task = 21;
+		sensorClassObj.task = 22;
 
 
 	}
