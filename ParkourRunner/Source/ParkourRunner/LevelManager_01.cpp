@@ -746,6 +746,10 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 		else if (type == 2) {
 			incValX = 1400;
 			valY = 69;
+			if (sensorClassObj.task == 22) {
+				incValX = 1000;
+				valY = 69;
+			}
 			
 			
 		}
