@@ -210,7 +210,7 @@ void Amain :: ManageAction(float dt) {
 				GetCharacterMovement()->JumpZVelocity = 420;
 				Jump();
 				LocToDoMoves = GetRootComponent()->GetRelativeLocation();
-				LocToDoMoves.X += 1050;
+				LocToDoMoves.X += 1000;
 			}
 		}
 		else if (actionState == 2) {
@@ -230,10 +230,12 @@ void Amain :: ManageAction(float dt) {
 			}
 		}
 		else if (actionState == 4) {
+			//GetRootComponent()->AddLocalRotation(FRotator(50*dt,0,0));
+			GetRootComponent()->AddRelativeRotation(FRotator(0, 0, 50));
 			if (gameInstance->waitingForNotify) {
-				actionState = 5;
+				//actionState = 5;
 				gameInstance->waitingForNotify = false;
-				resetRunningState(800);
+				//resetRunningState(800);
 			}
 		}
 		else if (actionState == 5) {
