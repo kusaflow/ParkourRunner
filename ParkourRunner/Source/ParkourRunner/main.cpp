@@ -206,8 +206,8 @@ void Amain :: ManageAction(float dt) {
 		if (actionState == 1) {
 			if (gameInstance->waitingForNotify) {
 				actionState = 2;
-				GetCharacterMovement()->Velocity.X = 800;
-				GetCharacterMovement()->JumpZVelocity = 420;
+				GetCharacterMovement()->Velocity.X = 820;
+				GetCharacterMovement()->JumpZVelocity = 450;
 				Jump();
 				LocToDoMoves = GetRootComponent()->GetRelativeLocation();
 				LocToDoMoves.X += 1000;
@@ -217,30 +217,25 @@ void Amain :: ManageAction(float dt) {
 			//UE_LOG(LogTemp, Warning, TEXT("%f"), GetRootComponent()->GetRelativeLocation().X - LocToDoMoves.X);
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
 				actionState = 3;
+				//GetCharacterMovement()->Velocity = FVector(0,0,2000);
 				gameInstance->waitingForNotify = false;
 			}
 		}
 		else if (actionState == 3) {
 			if (gameInstance->waitingForNotify) {
-				GetCharacterMovement()->Velocity = FVector(200, 0, 0);
-				GetCharacterMovement()->JumpZVelocity = 700;
+				GetCharacterMovement()->Velocity = FVector(300, 0, 0);
+				GetCharacterMovement()->JumpZVelocity = 400;
 				gameInstance->waitingForNotify = false;
 				Jump();
 				actionState = 4;
 			}
 		}
 		else if (actionState == 4) {
-			//GetRootComponent()->AddLocalRotation(FRotator(50*dt,0,0));
-			GetRootComponent()->AddRelativeRotation(FRotator(0, 0, 50));
+			// GetCharacterMovement()->Velocity = FVector(50, 0, 0);
 			if (gameInstance->waitingForNotify) {
-				//actionState = 5;
+				actionState = 5;
 				gameInstance->waitingForNotify = false;
-				//resetRunningState(800);
-			}
-		}
-		else if (actionState == 5) {
-			if (gameInstance->waitingForNotify) {
-				resetRunningState(800);
+				resetRunningState(100);
 			}
 		}
 
