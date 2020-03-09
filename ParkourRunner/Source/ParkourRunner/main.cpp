@@ -115,7 +115,7 @@ void Amain :: ActionInitState(float dt) {
 		GetCharacterMovement()->Velocity = FVector(0);
 	}
 	//action 22================================================================
-	if (gameInstance->sensorsClassQueue.front().task == 22) {
+	else if (gameInstance->sensorsClassQueue.front().task == 22 || gameInstance->sensorsClassQueue.front().task == 23) {
 		gameInstance->waitingForNotify = false;
 		//GetCharacterMovement()->MaxWalkSpeed = 700;
 		GetCharacterMovement()->JumpZVelocity = 200;
@@ -199,7 +199,7 @@ void Amain :: ManageAction(float dt) {
 		}
 	}
 	//22----------------------------------------------------------------
-	if (ActionIndex == 22) {
+	else if (ActionIndex == 22) {
 		if (actionState == 1) {
 			if (gameInstance->waitingForNotify) {
 				actionState = 2;
@@ -235,6 +235,54 @@ void Amain :: ManageAction(float dt) {
 				resetRunningState(800);
 			}
 		}
+
+
+	}
+	//23----------------------------------------------------------------
+	else if (ActionIndex == 23) {
+		if (actionState == 1) {
+			if (gameInstance->waitingForNotify) {
+				actionState = 2;
+				GetCharacterMovement()->Velocity.X = 750;
+				GetCharacterMovement()->JumpZVelocity = 500;
+				Jump();
+				LocToDoMoves = GetRootComponent()->GetRelativeLocation();
+				LocToDoMoves.X += 1000;
+			}
+		}
+		else if (actionState == 2) {
+			//UE_LOG(LogTemp, Warning, TEXT("%f"), GetRootComponent()->GetRelativeLocation().X - LocToDoMoves.X);
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				actionState = 3;
+				//GetCharacterMovement()->Velocity = FVector(0,0,2000);
+				gameInstance->waitingForNotify = false;
+			}
+		}
+		else if (actionState == 3) {
+			if (gameInstance->waitingForNotify) {
+				GetCharacterMovement()->Velocity = FVector(300, 0, 0);
+				GetCharacterMovement()->JumpZVelocity = 400;
+				gameInstance->waitingForNotify = false;
+				Jump();
+				actionState = 4;
+			}
+		}
+		else if (actionState == 4) {
+			//GetCharacterMovement()->Velocity = FVector(700, 0, 0);
+			if (gameInstance->waitingForNotify) {
+				actionState = 5;
+				gameInstance->waitingForNotify = false;
+			}
+		}
+		else if (actionState == 5) {
+			GetCharacterMovement()->Velocity = FVector(700, 0, 0);
+			if (gameInstance->waitingForNotify) {
+				actionState = 6;
+				gameInstance->waitingForNotify = false;
+				resetRunningState(800);
+			}
+		}
+		
 
 
 	}
