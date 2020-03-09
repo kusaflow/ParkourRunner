@@ -182,7 +182,7 @@ void Amain :: ManageAction(float dt) {
 			Jump();
 			actionState = 3;
 			LocToDoMoves = GetRootComponent()->GetRelativeLocation();
-			LocToDoMoves.X += 1280;
+			LocToDoMoves.X += 1200;
 		}
 		else if (actionState == 3) {
 			//UE_LOG(LogTemp, Warning, TEXT("%f"), GetRootComponent()->GetRelativeLocation().X - LocToDoMoves.X);
@@ -194,11 +194,8 @@ void Amain :: ManageAction(float dt) {
 		else if (actionState == 4) {
 			//GetCharacterMovement()->Launch(FVector(0,0,3000));
 			if (gameInstance->waitingForNotify) {
-				actionState = 5;
+				resetRunningState(800);
 			}
-		}
-		else if (actionState == 5) {
-			resetRunningState(800);
 		}
 	}
 	//22----------------------------------------------------------------
@@ -235,7 +232,7 @@ void Amain :: ManageAction(float dt) {
 			if (gameInstance->waitingForNotify) {
 				actionState = 5;
 				gameInstance->waitingForNotify = false;
-				resetRunningState(100);
+				resetRunningState(800);
 			}
 		}
 
