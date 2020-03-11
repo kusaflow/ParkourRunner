@@ -358,6 +358,13 @@ void ALevelManager_01::createTheBlock(const int type) {
 				actor->SetActorScale3D(FVector(2, 1.4f, 1.5f));
 				insertActor(actor);
 				locationToDrawblock_X += 200;
+				//block3
+				RandomBlock();
+				locationToDrawblock_X += 200;
+				actor = world->SpawnActor<ALevelCreationBase>(Block, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(2, 1.4f, 1.2f));
+				insertActor(actor);
+				locationToDrawblock_X += 200;
 			}
 			else if (type == 5) {
 				//block 1
@@ -556,7 +563,7 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 4;
 
 	
-	return 2;
+	return 4;
 	
 	int x = (int)FMath::FRandRange(1, 10);
 
