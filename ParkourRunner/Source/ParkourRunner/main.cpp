@@ -25,7 +25,7 @@ Amain::Amain()
 	cameraBoom->bDoCollisionTest = false;
 	cameraBoom->TargetArmLength = 1500;
 	cameraBoom->SocketOffset = FVector(0.f, 0.f, 0.f);
-	cameraBoom->RelativeRotation = (FRotator(-15.f, 300.f, 0.f));
+	cameraBoom->RelativeRotation = (FRotator(-20, -90, 0.f));
 	//cameraBoom->RelativeRotation = FRotator(0.f, 0.f, 0.f);
 	cameraBoom->bUsePawnControlRotation = false;
 
@@ -145,10 +145,8 @@ void Amain :: ActionInitState(float dt) {
 	else if (gameInstance->sensorsClassQueue.front().task == 41) {
 		GetCharacterMovement()->MaxWalkSpeed = 600;
 		LocToDoMoves = GetRootComponent()->GetRelativeLocation();
-		LocToDoMoves.X += 400;
-		GetCharacterMovement()->Velocity.X = 500;
-		GetCharacterMovement()->JumpZVelocity = 600;
-		Jump();
+		GetCharacterMovement()->Velocity.X = 0;
+		gameInstance->waitingForNotify = false;
 	}
 
 	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -348,10 +346,7 @@ void Amain :: ManageAction(float dt) {
 			}
 			//resetRunningState();
 		}
-
-
 	}
-
 	//
 	//
 	// for 4
@@ -359,20 +354,35 @@ void Amain :: ManageAction(float dt) {
 	//
 	else if (ActionIndex == 41) {
 		if (actionState == 1) {//here character will jump untill x+400
-			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+			if (gameInstance->waitingForNotify) {
+				GetCharacterMovement()->MaxWalkSpeed = 600;
+				LocToDoMoves = GetRootComponent()->GetRelativeLocation();
+				GetCharacterMovement()->Velocity.X = 5
+					00;
+				GetCharacterMovement()->JumpZVelocity = 700;
+				LocToDoMoves.X += 480;
+				Jump();
 				actionState = 2;
+			}
+		}
+		else if (actionState == 2) {
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				GetCharacterMovement()->Velocity = FVector(0);
+				GetCharacterMovement()->GravityScale = 0;
+
+				//actionState = 3;
 				LocToDoMoves.Z = GetRootComponent()->GetRelativeLocation().Z;
 				LocToDoMoves.Z -= 70;
 			}
 		}
-		else if (actionState == 2) {//here char go down gor 200 units
+		else if (actionState == 3) {//here char go down gor 200 units
 			if (GetRootComponent()->GetRelativeLocation().Z <= LocToDoMoves.Z) {
-				actionState = 3;
+				actionState = 4;
 			}
 		}
-		else if (actionState == 3) {
+		else if (actionState == 4) {
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
-				actionState = 4;
+				actionState = 5;
 				GetCharacterMovement()->GravityScale = 0;
 				GetCharacterMovement()->Velocity = FVector(0);
 			}
