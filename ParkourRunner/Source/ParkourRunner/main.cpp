@@ -357,9 +357,8 @@ void Amain :: ManageAction(float dt) {
 			if (gameInstance->waitingForNotify) {
 				GetCharacterMovement()->MaxWalkSpeed = 600;
 				LocToDoMoves = GetRootComponent()->GetRelativeLocation();
-				GetCharacterMovement()->Velocity.X = 5
-					00;
-				GetCharacterMovement()->JumpZVelocity = 700;
+				GetCharacterMovement()->Velocity.X = 500;
+				GetCharacterMovement()->JumpZVelocity = 600;
 				LocToDoMoves.X += 480;
 				Jump();
 				actionState = 2;
