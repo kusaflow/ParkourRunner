@@ -704,6 +704,10 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 	AActor* actor;
 	FActorSpawnParameters spawnPara;
 	spawnPara.Owner = this;
+	int rand;
+
+	bool doneCreatingActor = false;
+
 
 	//SIZE of sensor for now is 200x200x200
 	UmyGameInstance::sensorClass sensorClassObj;
@@ -741,8 +745,13 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 
 	//=============================================
 
-	unsigned int incValX = 0, valY=0;
+	if (type <= 5) {
+		sensorClassObj.sizeX = 100;
+		sensorClassObj.sizeY = 100;
+	}
 
+	unsigned int incValX = 0, valY=0;
+	int temp;
 	if (world && sensorMesh) {
 		if (type == 1) {
 			if (sensorClassObj.task == 31) {
@@ -770,27 +779,52 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 		else if (type == 4) {
 			incValX = 240;
 			valY = 69;
-			
-			
+			doneCreatingActor = true;
+
+			if (sensorClassObj.task == 41) {
+				temp = sensorClassObj.task;
+				rand = (int)FMath::FRandRange(1, 10);
+
+
+				actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + incValX, 0, valY), FRotator(0), spawnPara);
+				taskSensorsActor.push(actor);
+				sensorClassObj.x = posX + incValX;
+				sensorClassObj.y = valY;
+
+				gameInstance->sensorsClassQueue.push(sensorClassObj);
+
+				if (rand % 2 == 0) {
+					//secondary action
+					int rand = (int)FMath::FRandRange(1, 2);
+					if (rand == 1) {
+						incValX = 240+930;
+						valY = 69+300;
+					}
+					sensorClassObj.task = (type * 1000) + rand;
+					actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + incValX, 0, valY), FRotator(0), spawnPara);
+					taskSensorsActor.push(actor);
+					sensorClassObj.x = posX + incValX;
+					sensorClassObj.y = valY;
+
+					gameInstance->sensorsClassQueue.push(sensorClassObj);
+				}
+
+			}
 
 		}
 
-
-		actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + incValX, 0, valY), FRotator(0), spawnPara);
-		taskSensorsActor.push(actor);
-		sensorClassObj.x = posX + incValX;
-		sensorClassObj.y = valY;
+		if (!doneCreatingActor) {
+			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + incValX, 0, valY), FRotator(0), spawnPara);
+			taskSensorsActor.push(actor);
+			sensorClassObj.x = posX + incValX;
+			sensorClassObj.y = valY;
+		}
 
 
 
 	}
 
-	if (type <= 5) {
-		sensorClassObj.sizeX = 100;
-		sensorClassObj.sizeY = 100;
-	}
-
-	
-	gameInstance->sensorsClassQueue.push(sensorClassObj);
+	if(!doneCreatingActor)
+		gameInstance->sensorsClassQueue.push(sensorClassObj);
 }
 
