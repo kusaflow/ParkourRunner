@@ -358,15 +358,15 @@ void Amain :: ManageAction(float dt) {
 				GetCharacterMovement()->MaxWalkSpeed = 600;
 				LocToDoMoves = GetRootComponent()->GetRelativeLocation();
 				GetCharacterMovement()->Velocity.X = 500;
-				GetCharacterMovement()->JumpZVelocity = 650;
-				LocToDoMoves.X += 477 - 120;
+				GetCharacterMovement()->JumpZVelocity = 640;
+				LocToDoMoves.X += 475 - 140;
 				Jump();
 				actionState = 2;
 			}
 		}
 		else if (actionState == 2) {
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
-				LocToDoMoves.X += 120;
+				LocToDoMoves.X += 140;
 				actionState = 3;
 			}
 		}
@@ -374,22 +374,45 @@ void Amain :: ManageAction(float dt) {
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
 				GetCharacterMovement()->GravityScale = 0;
 				GetCharacterMovement()->Velocity = FVector(0);
+				gameInstance->waitingForNotify = false;
 				actionState = 4;
 			}
 		}
 		else if (actionState == 4) {
+			GetCharacterMovement()->Velocity.X = 50;
+			GetCharacterMovement()->Velocity.Z = 150;
 			if (gameInstance->waitingForNotify) {
-				//actionState = 5;
+				actionState = 5;
+				GetCharacterMovement()->Velocity = FVector(0);
+				gameInstance->waitingForNotify = false;
+			}
+		}
+		else if (actionState == 5) {
+			GetCharacterMovement()->Velocity.X = 200;
+			if (gameInstance->waitingForNotify) {
+				actionState = 7;
+				gameInstance->waitingForNotify = false;
 				//GetCharacterMovement()->GravityScale = 0;
 				//GetCharacterMovement()->Velocity = FVector(0);
 			}
 		}
-		else if (actionState == 5) {
-			GetCharacterMovement()->Velocity.Z = 50;
+		else if (actionState == 6) {
+			
+			if (gameInstance->waitingForNotify) {
+				actionState = 7;
+				gameInstance->waitingForNotify = false;
+				//GetCharacterMovement()->GravityScale = 0;
+				//GetCharacterMovement()->Velocity = FVector(0);
+			}
+		}
+		else if (actionState == 7) {//standing up
+			//GetCharacterMovement()->Velocity.Z = 100;
+			resetRunningState(800);
+			GetCharacterMovement()->Velocity = FVector(0);
 			if (gameInstance->waitingForNotify) {
 				//actionState = 5;
 				//GetCharacterMovement()->GravityScale = 0;
-				//GetCharacterMovement()->Velocity = FVector(0);
+				
 			}
 		}
 	}
