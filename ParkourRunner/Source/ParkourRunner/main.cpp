@@ -358,32 +358,38 @@ void Amain :: ManageAction(float dt) {
 				GetCharacterMovement()->MaxWalkSpeed = 600;
 				LocToDoMoves = GetRootComponent()->GetRelativeLocation();
 				GetCharacterMovement()->Velocity.X = 500;
-				GetCharacterMovement()->JumpZVelocity = 600;
-				LocToDoMoves.X += 480;
+				GetCharacterMovement()->JumpZVelocity = 650;
+				LocToDoMoves.X += 477 - 120;
 				Jump();
 				actionState = 2;
 			}
 		}
 		else if (actionState == 2) {
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
-				GetCharacterMovement()->Velocity = FVector(0);
-				GetCharacterMovement()->GravityScale = 0;
-
-				//actionState = 3;
-				LocToDoMoves.Z = GetRootComponent()->GetRelativeLocation().Z;
-				LocToDoMoves.Z -= 70;
+				LocToDoMoves.X += 120;
+				actionState = 3;
 			}
 		}
 		else if (actionState == 3) {//here char go down gor 200 units
-			if (GetRootComponent()->GetRelativeLocation().Z <= LocToDoMoves.Z) {
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				GetCharacterMovement()->GravityScale = 0;
+				GetCharacterMovement()->Velocity = FVector(0);
 				actionState = 4;
 			}
 		}
 		else if (actionState == 4) {
-			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
-				actionState = 5;
-				GetCharacterMovement()->GravityScale = 0;
-				GetCharacterMovement()->Velocity = FVector(0);
+			if (gameInstance->waitingForNotify) {
+				//actionState = 5;
+				//GetCharacterMovement()->GravityScale = 0;
+				//GetCharacterMovement()->Velocity = FVector(0);
+			}
+		}
+		else if (actionState == 5) {
+			GetCharacterMovement()->Velocity.Z = 50;
+			if (gameInstance->waitingForNotify) {
+				//actionState = 5;
+				//GetCharacterMovement()->GravityScale = 0;
+				//GetCharacterMovement()->Velocity = FVector(0);
 			}
 		}
 	}
