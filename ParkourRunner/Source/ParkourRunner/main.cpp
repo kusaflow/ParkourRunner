@@ -352,7 +352,32 @@ void Amain :: ManageAction(float dt) {
 	// for 4
 	//
 	//
+	//41----------------------------------------------------------------
 	else if (ActionIndex == 41) {
+		if (actionState == 1) {
+			//jumping anticipation
+			if (gameInstance->waitingForNotify) {
+				//jump anticipation done now jumping
+				GetCharacterMovement()->MaxWalkSpeed = 600;
+				LocToDoMoves = GetRootComponent()->GetRelativeLocation();
+				GetCharacterMovement()->Velocity.X = 500;
+				GetCharacterMovement()->JumpZVelocity = 640;
+				LocToDoMoves.X += 475;
+				Jump();
+				actionState = 2;
+			}
+		}
+		else if (actionState == 2) {
+			//is air
+			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
+				//touching the clif
+				LocToDoMoves.X += 140;
+				actionState = 3;
+			}
+		}
+
+	}
+	else if (ActionIndex == 4441) {
 		if (actionState == 1) {//here character will jump untill x+400
 			if (gameInstance->waitingForNotify) {
 				GetCharacterMovement()->MaxWalkSpeed = 600;
