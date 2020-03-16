@@ -361,8 +361,8 @@ void Amain :: ManageAction(float dt) {
 				GetCharacterMovement()->MaxWalkSpeed = 600;
 				LocToDoMoves = GetRootComponent()->GetRelativeLocation();
 				GetCharacterMovement()->Velocity.X = 500;
-				GetCharacterMovement()->JumpZVelocity = 640;
-				LocToDoMoves.X += 475;
+				GetCharacterMovement()->JumpZVelocity = 630;
+				LocToDoMoves.X += 475-30;
 				Jump();
 				actionState = 2;
 			}
@@ -370,11 +370,63 @@ void Amain :: ManageAction(float dt) {
 		else if (actionState == 2) {
 			//is air
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
-				//touching the clif
-				LocToDoMoves.X += 140;
+				//-70 unit away from cliff
+				gameInstance->waitingForNotify = false;
+				GetCharacterMovement()->GravityScale = 0;
 				actionState = 3;
 			}
 		}
+		else if (actionState == 3) {
+			//movin in x
+			GetCharacterMovement()->Velocity = FVector(100,0,0);
+			if (gameInstance->waitingForNotify) {//braced hang 1
+				//touching the clif
+				gameInstance->waitingForNotify = false;
+				actionState = 4;
+			}
+		}
+		else if (actionState == 4) {
+			//on cliff
+			//GetCharacterMovement()->Velocity.X = 100;
+			if (gameInstance->waitingForNotify) {//braced hang 2
+				//touching the clif
+				//GetCharacterMovement()->Velocity = FVector(0);
+				gameInstance->waitingForNotify = false;
+				actionState = 5;
+			}
+		}
+		else if (actionState == 5) {
+			//going up
+			GetCharacterMovement()->Velocity = FVector(0, 0, 150);
+			if (gameInstance->waitingForNotify) {//braced hang to crouch 1
+				//on the cliff now go in X
+				GetCharacterMovement()->GravityScale = 1;
+				gameInstance->waitingForNotify = false;
+				actionState = 6;
+			}
+		}
+		else if (actionState == 6) {
+			//going in X
+			GetCharacterMovement()->Velocity = FVector(100, 0, 0);
+			if (gameInstance->waitingForNotify) {//braced hang to crouch 2
+				//now in stiing pose  
+				gameInstance->waitingForNotify = false;
+				actionState = 7;
+			}
+		}
+		else if (actionState == 7) {
+			GetCharacterMovement()->Velocity = FVector(50, 0, 0);
+			if (gameInstance->waitingForNotify) {
+				//actionState = 5;
+				//GetCharacterMovement()->GravityScale = 0;
+				resetRunningState(800);
+			}
+		}
+
+
+
+
+
 
 	}
 	else if (ActionIndex == 4441) {
@@ -432,12 +484,10 @@ void Amain :: ManageAction(float dt) {
 		}
 		else if (actionState == 7) {//standing up
 			//GetCharacterMovement()->Velocity.Z = 100;
-			resetRunningState(800);
-			GetCharacterMovement()->Velocity = FVector(0);
 			if (gameInstance->waitingForNotify) {
 				//actionState = 5;
 				//GetCharacterMovement()->GravityScale = 0;
-				
+				resetRunningState(800);
 			}
 		}
 	}
