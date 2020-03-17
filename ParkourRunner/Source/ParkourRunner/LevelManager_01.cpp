@@ -345,11 +345,11 @@ void ALevelManager_01::createTheBlock(const int type) {
 			else if (type == 4) {
 				//block 1
 				RandomBlock();
-				locationToDrawblock_X += 200;
+				locationToDrawblock_X += 300;
 				actor = world->SpawnActor<ALevelCreationBase>(Block, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
-				actor->SetActorScale3D(FVector(2, 1.4f, 1));
+				actor->SetActorScale3D(FVector(3, 1.4f, 1));
 				insertActor(actor);
-				locationToDrawblock_X += 200;
+				locationToDrawblock_X += 300;
 				//block2
 				RandomBlock();
 				locationToDrawblock_X += 470;
@@ -377,11 +377,11 @@ void ALevelManager_01::createTheBlock(const int type) {
 				//block2
 				RandomBlock();
 				locationToDrawblock_X += 470;
-				locationToDrawblock_X += 200;
+				locationToDrawblock_X += 250;
 				actor = world->SpawnActor<ALevelCreationBase>(Block, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
-				actor->SetActorScale3D(FVector(2, 1.4f, 1.5f));
+				actor->SetActorScale3D(FVector(2.5f, 1.4f, 1.5f));
 				insertActor(actor);
-				locationToDrawblock_X += 200;
+				locationToDrawblock_X += 250;
 				//block3
 				RandomBlock();
 				locationToDrawblock_X += 200;
@@ -563,7 +563,7 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 4;
 
 	
-	return 4;
+	return 5;
 	
 	int x = (int)FMath::FRandRange(1, 10);
 
@@ -742,13 +742,16 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 	else if (type == 4) {
 		sensorClassObj.task = 41;
 	}
+	else if (type == 5) {
+		sensorClassObj.task = 51;
+	}
 
 	//=============================================
 
-	if (type <= 5) {
+	//if (type <= 100) {
 		sensorClassObj.sizeX = 100;
 		sensorClassObj.sizeY = 100;
-	}
+	//}
 
 	unsigned int incValX = 0, valY=0;
 	int temp;
@@ -777,7 +780,7 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 
 		}
 		else if (type == 4) {
-			incValX = 240;
+			incValX = 240+200;
 			valY = 69;
 			doneCreatingActor = true;
 
@@ -797,8 +800,43 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 					//secondary action
 					int rand = (int)FMath::FRandRange(1, 2);
 					if (rand == 1) {
-						incValX = 240+930;
+						incValX+= 930;
 						valY = 69+300;
+					}
+					sensorClassObj.task = (type * 1000) + rand;
+					actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + incValX, 0, valY), FRotator(0), spawnPara);
+					taskSensorsActor.push(actor);
+					sensorClassObj.x = posX + incValX;
+					sensorClassObj.y = valY;
+
+					gameInstance->sensorsClassQueue.push(sensorClassObj);
+				}
+
+			}
+
+		}
+		else if (type == 5) {
+			incValX = 240;
+			valY = 69;
+			doneCreatingActor = true;
+
+			if (sensorClassObj.task == 51) {
+				temp = sensorClassObj.task;
+				rand = (int)FMath::FRandRange(1, 10);
+
+				actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + incValX, 0, valY), FRotator(0), spawnPara);
+				taskSensorsActor.push(actor);
+				sensorClassObj.x = posX + incValX;
+				sensorClassObj.y = valY;
+
+				gameInstance->sensorsClassQueue.push(sensorClassObj);
+
+				if (rand % 2 == 0) {
+					//secondary action
+					int rand = (int)FMath::FRandRange(1, 2);
+					if (rand == 1) {
+						incValX += 930;
+						valY = 69 + 300;
 					}
 					sensorClassObj.task = (type * 1000) + rand;
 					actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + incValX, 0, valY), FRotator(0), spawnPara);
