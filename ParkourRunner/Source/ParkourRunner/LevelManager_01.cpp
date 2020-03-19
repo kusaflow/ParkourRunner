@@ -835,7 +835,7 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 					//secondary action
 					int rand = (int)FMath::FRandRange(1, 2);
 					if (rand == 1) {
-						incValX += 930;
+						incValX += 1030;
 						valY = 69 + 300;
 					}
 					sensorClassObj.task = (type * 1000) + rand;
