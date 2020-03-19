@@ -449,9 +449,9 @@ void Amain :: ManageAction(float dt) {
 				//jump anticipation done now jumping
 				GetCharacterMovement()->MaxWalkSpeed = 600;
 				LocToDoMoves = GetRootComponent()->GetRelativeLocation();
-				GetCharacterMovement()->Velocity.X = 500;
-				GetCharacterMovement()->JumpZVelocity = 630;
-				LocToDoMoves.X += 475 - 30;
+				GetCharacterMovement()->Velocity.X = 700;//500;
+				GetCharacterMovement()->JumpZVelocity = 650;//700;
+				LocToDoMoves.X += 475 - 100;
 				Jump();
 				actionState = 2;
 			}
@@ -461,11 +461,20 @@ void Amain :: ManageAction(float dt) {
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
 				//-70 unit away from cliff
 				gameInstance->waitingForNotify = false;
-				GetCharacterMovement()->GravityScale = 0;
+				GetRootComponent()->AddLocalOffset(FVector(0,0,-50));
 				actionState = 3;
 			}
 			//50 units
 
+		}
+		else if (actionState == 3) {
+			GetCharacterMovement()->GravityScale = 0;
+			GetCharacterMovement()->Velocity = FVector(500,0,0);
+			//is air
+			if (gameInstance->waitingForNotify) {
+				actionState = 4;
+			}
+			//50 units
 		}
 
 	}
