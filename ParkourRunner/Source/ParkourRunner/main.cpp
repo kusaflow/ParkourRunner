@@ -450,7 +450,7 @@ void Amain :: ManageAction(float dt) {
 				GetCharacterMovement()->MaxWalkSpeed = 600;
 				LocToDoMoves = GetRootComponent()->GetRelativeLocation();
 				GetCharacterMovement()->Velocity.X = 700;//500;
-				GetCharacterMovement()->JumpZVelocity = 650;//700;
+				GetCharacterMovement()->JumpZVelocity = 600;//700;
 				LocToDoMoves.X += 475 - 100;
 				Jump();
 				actionState = 2;
@@ -461,7 +461,7 @@ void Amain :: ManageAction(float dt) {
 			if (GetRootComponent()->GetRelativeLocation().X >= LocToDoMoves.X) {
 				//-70 unit away from cliff
 				gameInstance->waitingForNotify = false;
-				GetRootComponent()->AddLocalOffset(FVector(0,0,-50));
+				//GetRootComponent()->AddLocalOffset(FVector(0,0,-50));
 				actionState = 3;
 			}
 			//50 units
@@ -472,10 +472,23 @@ void Amain :: ManageAction(float dt) {
 			GetCharacterMovement()->Velocity = FVector(500,0,0);
 			//is air
 			if (gameInstance->waitingForNotify) {
+				GetCharacterMovement()->Velocity = FVector(0, 0, 0);
+				//GetRootComponent()->AddLocalOffset(FVector(0,0,-50));
+				gameInstance->waitingForNotify = false;
 				actionState = 4;
 			}
-			//50 units
 		}
+		else if (actionState == 4) {
+			GetCharacterMovement()->Velocity = FVector(0, 0, -70);
+			if (gameInstance->waitingForNotify) {
+				//GetRootComponent()->GetChildComponent(1)->AddRelativeLocation(FVector(0, 0, -50));
+				//GetRootComponent()->AddLocalOffset(FVector(0, 0, -50));
+				gameInstance->waitingForNotify = false;
+				GetCharacterMovement()->Velocity = FVector(0, 0, 0);
+				actionState = 5;
+			}
+		}
+		//180z   //70x
 
 	}
 
