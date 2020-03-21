@@ -479,16 +479,26 @@ void Amain :: ManageAction(float dt) {
 			}
 		}
 		else if (actionState == 4) {
-			GetCharacterMovement()->Velocity = FVector(0, 0, -70);
+			GetCharacterMovement()->Velocity = FVector(0, 0, 110);
 			if (gameInstance->waitingForNotify) {
-				//GetRootComponent()->GetChildComponent(1)->AddRelativeLocation(FVector(0, 0, -50));
-				//GetRootComponent()->AddLocalOffset(FVector(0, 0, -50));
-				gameInstance->waitingForNotify = false;
+				//GetRootComponent()->GetChildComponent(1)->AddRelativeLocation(FVector(-70, 0, 0));
 				GetCharacterMovement()->Velocity = FVector(0, 0, 0);
 				actionState = 5;
+				GetRootComponent()->AddLocalOffset(FVector(0, 0, 10));
+				gameInstance->waitingForNotify = false;
 			}
 		}
-		//180z   //70x
+		else if (actionState == 5) {
+			//GetCharacterMovement()->Velocity = FVector(50, 0, 0);
+			GetRootComponent()->AddLocalOffset(FVector(1.7f, 0, 0));
+			GetCharacterMovement()->Velocity = FVector(100, 0, 0);
+			//GetRootComponent()->GetChildComponent(1)->bHiddenInGame = false;
+			//GetRootComponent()->GetChildComponent(1)->AddRelativeLocation(FVector(80, 0, 0));
+			if (gameInstance->waitingForNotify)
+				resetRunningState(300);			
+		}
+
+		//180z   //70x 
 
 	}
 
