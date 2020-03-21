@@ -160,6 +160,12 @@ void Amain :: ActionInitState(float dt) {
 		GetCharacterMovement()->Velocity.X = 0;
 		gameInstance->waitingForNotify = false;
 	}
+	else if (gameInstance->sensorsClassQueue.front().task == 5001) {
+		GetCharacterMovement()->MaxWalkSpeed = 600;
+		LocToDoMoves = GetRootComponent()->GetRelativeLocation();
+		GetCharacterMovement()->Velocity.X = 0;
+		gameInstance->waitingForNotify = false;
+	}
 
 	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
