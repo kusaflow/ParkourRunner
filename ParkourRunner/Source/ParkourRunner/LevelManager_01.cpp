@@ -396,7 +396,7 @@ void ALevelManager_01::createTheBlock(const int type) {
 				actor = world->SpawnActor<ALevelCreationBase>(Block, FVector(locationToDrawblock_X+170, -90, 330.0f), FRotator(0), spawnPara);
 				actor->SetActorScale3D(FVector(0.3f, 0.15f, 0.03f));
 				insertActor(actor);
-				locationToDrawblock_X += 200;
+				locationToDrawblock_X += 200+400;
 
 			}
 			else if (type == 6){
