@@ -510,14 +510,22 @@ void Amain :: ManageAction(float dt) {
 	}
 	else if (ActionIndex == 5001) {
 		if (actionState == 1) {
+			GetCharacterMovement()->Velocity.X = 125;
 			if (gameInstance->waitingForNotify) {
+				gameInstance->waitingForNotify = false;
+				GetCharacterMovement()->GravityScale = 1;
 				actionState = 2;
 			}
 		}
 		else if (actionState == 2) {
-			GetCharacterMovement()->Velocity.X = 50;
-			if (gameInstance->waitingForNotify) {
+			if ((int)(GetCharacterMovement()->Velocity.Z) == 0) {
 				actionState = 3;
+				gameInstance->waitingForNotify = false;
+			}
+		}
+		else if (actionState == 3) {
+			if (gameInstance->waitingForNotify) {
+				resetRunningState(300);
 			}
 		}
 	

@@ -840,7 +840,7 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 
 				gameInstance->sensorsClassQueue.push(sensorClassObj);
 
-				if (rand % 2 == 0) {
+				if (rand >=/*% 3 != */0) {
 					//secondary action
 					int rand = (int)FMath::FRandRange(1, 2);
 					if (rand == 1) {
