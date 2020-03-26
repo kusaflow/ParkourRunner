@@ -165,7 +165,7 @@ void Amain :: ActionInitState(float dt) {
 		LocToDoMoves = GetRootComponent()->GetRelativeLocation();
 		GetCharacterMovement()->Velocity.X = 0;
 		gameInstance->waitingForNotify = false;
-		GetCharacterMovement()->GravityScale = 0;
+		//GetCharacterMovement()->GravityScale = 0;
 	}
 
 	//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -497,7 +497,7 @@ void Amain :: ManageAction(float dt) {
 		}
 		else if (actionState == 5) {
 			//GetCharacterMovement()->Velocity = FVector(50, 0, 0);
-			GetRootComponent()->AddLocalOffset(FVector(1.7f, 0, 0));
+			GetRootComponent()->AddLocalOffset(FVector(1.4f, 0, 0));
 			GetCharacterMovement()->Velocity = FVector(100, 0, 0);
 			//GetRootComponent()->GetChildComponent(1)->bHiddenInGame = false;
 			//GetRootComponent()->GetChildComponent(1)->AddRelativeLocation(FVector(80, 0, 0));
@@ -510,7 +510,7 @@ void Amain :: ManageAction(float dt) {
 	}
 	else if (ActionIndex == 5001) {
 		if (actionState == 1) {
-			GetCharacterMovement()->Velocity.X = 125;
+			GetCharacterMovement()->Velocity.X = 50;
 			if (gameInstance->waitingForNotify) {
 				gameInstance->waitingForNotify = false;
 				GetCharacterMovement()->GravityScale = 1;
