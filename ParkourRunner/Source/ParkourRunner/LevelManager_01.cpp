@@ -572,7 +572,7 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 4;
 
 	
-	return 5;
+	return 6;
 	
 	int x = (int)FMath::FRandRange(1, 10);
 
