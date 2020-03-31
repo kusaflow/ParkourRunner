@@ -572,7 +572,11 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 4;
 
 	
-	return 6;
+	return 5;
+	//report on 31 march
+	//1 - need to add parkour action 
+	//2 - fine with 3 anim
+	//3,4 - waste
 	
 	int x = (int)FMath::FRandRange(1, 10);
 
@@ -720,7 +724,7 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 
 	//SIZE of sensor for now is 200x200x200
 	UmyGameInstance::sensorClass sensorClassObj;
-	//pushing the task or action here--------------
+	//pushing the task or action here-----------------------------------------------------------------------------
 	if (type == 1) {
 		sensorClassObj.task = 11;
 	}
@@ -764,7 +768,7 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 
 	unsigned int incValX = 0, valY=0;
 	int temp;
-	if (world && sensorMesh) {
+	if (world && sensorMesh) {//----------------------------------------------------------------------------------------------------------
 		if (type == 1) {
 			if (sensorClassObj.task == 31) {
 				incValX = 400;
@@ -797,30 +801,29 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 				temp = sensorClassObj.task;
 				rand = (int)FMath::FRandRange(1, 10);
 
-
 				actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + incValX, 0, valY), FRotator(0), spawnPara);
 				taskSensorsActor.push(actor);
 				sensorClassObj.x = posX + incValX;
 				sensorClassObj.y = valY;
 
 				gameInstance->sensorsClassQueue.push(sensorClassObj);
+			}
 
-				if (rand % 2 == 0) {
-					//secondary action
-					int rand = (int)FMath::FRandRange(1, 2);
-					if (rand == 1) {
-						incValX+= 930;
-						valY = 69+300;
-					}
-					sensorClassObj.task = (type * 1000) + rand;
-					actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + incValX, 0, valY), FRotator(0), spawnPara);
-					taskSensorsActor.push(actor);
-					sensorClassObj.x = posX + incValX;
-					sensorClassObj.y = valY;
 
-					gameInstance->sensorsClassQueue.push(sensorClassObj);
+			if (rand % 2 == 0) {
+				//secondary action
+				int rand = (int)FMath::FRandRange(1, 2);
+				if (rand == 1) {
+					incValX += 930;
+					valY = 69 + 300;
 				}
+				sensorClassObj.task = (type * 1000) + rand;
+				actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + incValX, 0, valY), FRotator(0), spawnPara);
+				taskSensorsActor.push(actor);
+				sensorClassObj.x = posX + incValX;
+				sensorClassObj.y = valY;
 
+				gameInstance->sensorsClassQueue.push(sensorClassObj);
 			}
 
 		}
@@ -839,23 +842,20 @@ void ALevelManager_01 :: AddSensors(int type, unsigned int posX, UWorld* world) 
 				sensorClassObj.y = valY;
 
 				gameInstance->sensorsClassQueue.push(sensorClassObj);
-
-				//secondary action
-				int rand = (int)FMath::FRandRange(1, 2);
-				if (rand == 1) {
-					incValX += 1100;
-					valY = 69 + 300;
-				}
-				sensorClassObj.task = (type * 1000) + rand;
-				actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + incValX, 0, valY), FRotator(0), spawnPara);
-				taskSensorsActor.push(actor);
-				sensorClassObj.x = posX + incValX;
-				sensorClassObj.y = valY;
-
-				gameInstance->sensorsClassQueue.push(sensorClassObj);
-				
-
 			}
+			//secondary action
+			int rand = (int)FMath::FRandRange(1, 2);
+			if (rand == 1) {
+				incValX += 1100;
+				valY = 69 + 300;
+			}
+			sensorClassObj.task = (type * 1000) + rand;
+			actor = world->SpawnActor<AActor>(sensorMesh, FVector(posX + incValX, 0, valY), FRotator(0), spawnPara);
+			taskSensorsActor.push(actor);
+			sensorClassObj.x = posX + incValX;
+			sensorClassObj.y = valY;
+
+			gameInstance->sensorsClassQueue.push(sensorClassObj);
 
 		}
 

@@ -486,7 +486,8 @@ void Amain :: ManageAction(float dt) {
 			}
 		}
 		else if (actionState == 4) {
-			GetCharacterMovement()->Velocity = FVector(0, 0, 130);
+			//GetCharacterMovement()->Velocity = FVector(0, 0, 13000*dt);
+			GetRootComponent()->AddLocalOffset(FVector(0, 0, 10));
 			if (gameInstance->waitingForNotify) {
 				//GetRootComponent()->GetChildComponent(1)->AddRelativeLocation(FVector(-70, 0, 0));
 				GetCharacterMovement()->Velocity = FVector(0, 0, 0);
