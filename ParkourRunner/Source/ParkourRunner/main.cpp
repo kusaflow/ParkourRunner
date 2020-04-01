@@ -475,7 +475,6 @@ void Amain :: ManageAction(float dt) {
 
 		}
 		else if (actionState == 3) {
-			 
 			GetCharacterMovement()->Velocity = FVector(500,0,0);
 			//is air
 			if (gameInstance->waitingForNotify) {
@@ -487,12 +486,13 @@ void Amain :: ManageAction(float dt) {
 		}
 		else if (actionState == 4) {
 			//GetCharacterMovement()->Velocity = FVector(0, 0, 13000*dt);
-			GetRootComponent()->AddLocalOffset(FVector(0, 0, 10));
+			//GetRootComponent()->AddLocalOffset(FVector(0, 0, 600*dt));
+			GetRootComponent()->RelativeLocation.Z += 60000 * dt;
 			if (gameInstance->waitingForNotify) {
 				//GetRootComponent()->GetChildComponent(1)->AddRelativeLocation(FVector(-70, 0, 0));
-				GetCharacterMovement()->Velocity = FVector(0, 0, 0);
+				GetCharacterMovement()->Velocity = FVector(20, 0, 0);
 				actionState = 5;
-				GetRootComponent()->AddLocalOffset(FVector(0, 0, 10));
+				//GetRootComponent()->AddLocalOffset(FVector(0, 0, 10));
 				gameInstance->waitingForNotify = false;
 			}
 		}
