@@ -323,25 +323,16 @@ void ALevelManager_01::createTheBlock(const int type) {
 			else if (type == 3) {
 				//block 1
 				RandomBlock();
-				locationToDrawblock_X += 300;
+				locationToDrawblock_X += 1000;
 				actor = world->SpawnActor<ALevelCreationBase>(Block, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
-				actor->SetActorScale3D(FVector(3, YLen, 1));
+				actor->SetActorScale3D(FVector(10, YLen, 1));
 				insertActor(actor);
-				locationToDrawblock_X += 300;
 				//block2
 				RandomBlock();
-				locationToDrawblock_X += 150;
-				actor = world->SpawnActor<ALevelCreationBase>(Block, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(0), spawnPara);
-				actor->SetActorScale3D(FVector(1.5f, YLen, 1.45f));
+				actor = world->SpawnActor<ALevelCreationBase>(Block, FVector(locationToDrawblock_X, 0, 79), FRotator(0), spawnPara);
+				actor->SetActorScale3D(FVector(0.75f, 0.5f, 0.1f));
 				insertActor(actor);
-				locationToDrawblock_X += 150;
-				//block3
-				RandomBlock();
-				locationToDrawblock_X += 640;
-				actor = world->SpawnActor<ALevelCreationBase>(Block, FVector(locationToDrawblock_X, 0, -580.0f), FRotator(-10, 0, 0), spawnPara);
-				actor->SetActorScale3D(FVector(8.0f, YLen, 1.235f));
-				insertActor(actor);
-				locationToDrawblock_X += 740;
+				locationToDrawblock_X += 1000;
 			}
 			else if (type == 4) {
 				//block 1
@@ -572,11 +563,11 @@ int ALevelManager_01::GenerateRandomLevelCreationTypes() {
 	//return 4;
 
 	
-	return 5;
+	return 3;
 	//report on 31 march
 	//1 - need to add parkour action 
 	//2 - fine with 3 anim
-	//3,4 - waste
+	//4 - waste
 	
 	int x = (int)FMath::FRandRange(1, 10);
 
